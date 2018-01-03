@@ -1,0 +1,11 @@
+django-appconf
+Django>=1.10
+djangorestframework
+Sphinx
+djangorestframework-jwt
+django-cors-headers
+django-filter
+gunicorn
+dj-database-url
+whitenoise
+psycopg2
