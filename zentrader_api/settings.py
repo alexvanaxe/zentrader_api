@@ -25,7 +25,7 @@ SECRET_KEY = 'dgqa^31h2g&7yzqp6m!-)f_7cau*9(w0or((@fak639=oo=o53'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["zentraderapi.herokuapp.com"]
 
 
 # Application definition
