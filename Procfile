@@ -1,1 +1,1 @@
-web: gunicorn zentrader.wsgi --log-file -
+web: gunicorn zentrader_api.wsgi --log-file -
