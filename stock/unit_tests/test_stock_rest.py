@@ -22,3 +22,12 @@ class TestStock(StockTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['code'], "XPTO3")
 
+    def test_put(self):
+        """
+        Test the retrieve of a single stock
+        """
+        url = reverse('stock-detail', kwargs={'pk': self.stock.pk})
+        response = self.client.patch(url, {'price': 34})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['price'], "34.00")

@@ -12,7 +12,6 @@ class StockSerializer(serializers.ModelSerializer):
     """
     Serializer for Stock model.
     """
-
     class Meta:
         model = Stock
         fields = ('pk', 'code', 'price')
