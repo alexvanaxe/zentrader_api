@@ -28,6 +28,14 @@ class OperationTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_patch(self):
+        """ Verify that a patch update is possible. """
+        url = reverse('operation-detail', kwargs={'pk': self.operation.pk})
+        response = self.client.patch(url, {"amount":200})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['amount'], "200")
+
     def test_get(self):
         """ Verify that everything is correct in the configuration """
         url = reverse('operation-nested-list')
@@ -58,7 +66,7 @@ class ExperienceDataTest(OperationTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data['operation_gain']), '-10019.99')
 
-    def test_gain(self):
+    def test_gain2(self):
         url = reverse('experience-detail', kwargs={'pk': self.experience.pk})
         response = self.client.get(url)
 

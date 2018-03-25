@@ -22,7 +22,7 @@ class TestStock(StockTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['code'], "XPTO3")
 
-    def test_put(self):
+    def test_patch(self):
         """
         Test the retrieve of a single stock
         """

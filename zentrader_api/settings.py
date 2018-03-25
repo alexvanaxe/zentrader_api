@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
