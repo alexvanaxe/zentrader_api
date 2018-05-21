@@ -16,8 +16,6 @@ import os
 import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -27,9 +25,13 @@ SECRET_KEY = 'dgqa^31h2g&7yzqp6m!-)f_7cau*9(w0or((@fak639=oo=o53'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost","elohfree.sytes.net"]
+
 
 # Application definition
+def teste():
+    print("ola")
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
