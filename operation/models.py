@@ -128,7 +128,7 @@ class ExperienceData(models.Model):
         :rtype: Decimal
 
         """
-        return self.operation.calculate_gain(self.operation.stock.price)
+        return self.operation.calculate_gain(self.target)
 
     def operation_limit(self):
         """

@@ -20,7 +20,7 @@ class ExperienceDataNViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A viewset representing the ExperienceData.
     """
-    queryset = ExperienceData.objects.all()
+    queryset = ExperienceData.objects.all().order_by('pk')
     serializer_class = ExperienceDataNSerializer
 
 

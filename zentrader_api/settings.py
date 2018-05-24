@@ -29,10 +29,6 @@ ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost","elohfree.sytes.net"]
 
 
 # Application definition
-def teste():
-    print("ola")
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +40,6 @@ INSTALLED_APPS = [
     # 3rd Party apps
     'rest_framework',
     'corsheaders',  # A tool to alow ctalls from different servers.
-
     # Myapps
     'stock',
     'operation',
