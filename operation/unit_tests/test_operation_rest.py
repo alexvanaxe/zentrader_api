@@ -44,6 +44,13 @@ class OperationTest(OperationTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]["stock"]['code'], "XPTO3")
 
+    def test_delete(self):
+        """ Verify that a delete is possible. """
+        url = reverse('operation-detail', kwargs={'pk': self.operation.pk})
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
     def test_method_call(self):
         url = reverse('operation-cost', kwargs={'pk': self.operation.pk})
         response = self.client.get(url)
