@@ -12,7 +12,7 @@ class ExperienceDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the ExperienceData.
     """
-    queryset = ExperienceData.objects.all()
+    queryset = ExperienceData.objects.filter(operation__archived=False)
     serializer_class = ExperienceDataSerializer
 
 
@@ -20,7 +20,7 @@ class ExperienceDataNViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A viewset representing the ExperienceData.
     """
-    queryset = ExperienceData.objects.all().order_by('pk')
+    queryset = ExperienceData.objects.filter(operation__archived=False).order_by('pk')
     serializer_class = ExperienceDataNSerializer
 
 
@@ -28,7 +28,7 @@ class BuyDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the BuyData.
     """
-    queryset = BuyData.objects.all()
+    queryset = BuyData.objects.filter(operation__archived=False)
     serializer_class = BuyDataSerializer
 
 
@@ -36,7 +36,7 @@ class BuyDataNViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A viewset representing the Nested BuyData (readonly).
     """
-    queryset = BuyData.objects.all()
+    queryset = BuyData.objects.filter(operation__archived=False)
     serializer_class = BuyDataNSerializer
 
 
@@ -44,7 +44,7 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the SellData.
     """
-    queryset = SellData.objects.all()
+    queryset = SellData.objects.filter(operation__archived=False)
     serializer_class = SellDataSerializer
 
 
@@ -52,7 +52,7 @@ class SellDataNViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A viewset representing the SellData.
     """
-    queryset = SellData.objects.all()
+    queryset = SellData.objects.filter(operation__archived=False)
     serializer_class = SellDataNSerializer
 
 
@@ -60,7 +60,7 @@ class OperationViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the Operation.
     """
-    queryset = Operation.objects.all()
+    queryset = Operation.objects.filter(archived=False)
     serializer_class = OperationSerializer
 
 
@@ -68,9 +68,8 @@ class ROOperationViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A read only viewset, it provides only access to the read methods (get and list), but returns the nested attributes.
     """
-    queryset = Operation.objects.all()
+    queryset = Operation.objects.filter(archived=False)
     serializer_class = OperationNestedSerializer
-
 
 class OperationTypeViewSet(viewsets.ModelViewSet):
     """

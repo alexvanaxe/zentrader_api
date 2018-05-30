@@ -44,6 +44,14 @@ class OperationTest(OperationTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]["stock"]['code'], "XPTO3")
 
+    def test_get_archived(self):
+        """ Verify that the application doesnt return the archived opperations """
+        url = reverse('operation-nested-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(str(response.data[0]["price"]), "30.00")
+
     def test_delete(self):
         """ Verify that a delete is possible. """
         url = reverse('operation-detail', kwargs={'pk': self.operation.pk})
@@ -65,6 +73,13 @@ class ExperienceDataTest(OperationTestCase):
         response = self.client.post(url, {'operation': self.operation.pk, 'target': '40.00'})
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get_archived(self):
+        url = reverse('experience-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[1]['target'], '40.00')
 
     def patch_nested(self):
         """ Test if the patch is possible with a nested operation """
