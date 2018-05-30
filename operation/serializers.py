@@ -17,7 +17,8 @@ class OperationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Operation
-        fields = ('pk', 'amount', 'creation_date', 'date', 'favorite', 'operation_type', 'price', 'stock', 'cost')
+        fields = ('pk', 'amount', 'creation_date', 'date', 'favorite',
+                  'operation_type', 'price', 'stock', 'cost', 'archived')
         read_only_fields = ('creation_date', 'cost')
 
 

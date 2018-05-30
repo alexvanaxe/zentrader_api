@@ -50,6 +50,7 @@ class Operation(models.Model):
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 #    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
+    archived = models.BooleanField(_('archived'), default=False)
 
     favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
 
