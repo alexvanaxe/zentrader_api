@@ -18,7 +18,7 @@ class OperationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Operation
         fields = ('pk', 'amount', 'creation_date', 'date', 'favorite',
-                  'operation_type', 'price', 'stock', 'cost', 'archived')
+                  'operation_type', 'price', 'stock', 'cost','nickname', 'archived')
         read_only_fields = ('creation_date', 'cost')
 
 
@@ -62,7 +62,7 @@ class BuyDataSerializer(serializers.ModelSerializer):
     Serializer for BuyDataSerializer model.
     """
     class Meta:
-        fields = ('pk', 'operation')
+        fields = ('pk', 'operation', 'nickname', 'operation_gain')
         model = BuyData
 
 
@@ -97,6 +97,3 @@ class OperationCostSerializer(serializers.Serializer):
         pass
 
     cost = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=2)
-
-
-

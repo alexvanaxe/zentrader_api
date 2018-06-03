@@ -51,6 +51,8 @@ class Operation(models.Model):
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 #    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
     archived = models.BooleanField(_('archived'), default=False)
+    nickname = models.TextField(_('nickname'), null=True, blank=True,
+                                max_length=100)
 
     favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
 
@@ -157,6 +159,21 @@ class ExperienceData(models.Model):
 
 class BuyData(models.Model):
     operation = models.ForeignKey(Operation)
+    nickname = models.TextField(_('nickname'), null=True, blank=True,
+                                max_length=100)
+
+    def operation_gain(self):
+        """
+        Calculate the gain based in the stock value.
+
+        Make use of the internal _calculate_gain of the operation.
+
+
+        :returns: The gain
+        :rtype: Decimal
+
+        """
+        return self.operation.calculate_gain(self.operation.stock.price)
 
 
 class SellData(models.Model):
