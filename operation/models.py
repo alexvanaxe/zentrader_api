@@ -120,7 +120,7 @@ class ExperienceData(models.Model):
     limit = models.DecimalField(_('limit'), max_digits=6, decimal_places=2, null=True, blank=True)
     action = models.TextField(_('action'), null=True, blank=True, max_length=140)
 
-    def operation_gain(self):
+    def target_gain(self):
         """
         Calculate the gain based in the stock value.
 

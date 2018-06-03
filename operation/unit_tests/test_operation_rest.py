@@ -79,7 +79,7 @@ class ExperienceDataTest(OperationTestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[1]['target'], '40.00')
+        self.assertEqual(str(len(response.data)), '1')
 
     def patch_nested(self):
         """ Test if the patch is possible with a nested operation """
@@ -94,7 +94,7 @@ class ExperienceDataTest(OperationTestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(str(response.data['operation_gain']), '-10019.99')
+        self.assertEqual(str(response.data['target_gain']), '-10019.99')
 
     def test_gain2(self):
         url = reverse('experience-detail', kwargs={'pk': self.experience.pk})

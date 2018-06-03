@@ -45,7 +45,8 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     Serializer for ExperienceData model.
     """
     class Meta:
-        fields = ('pk', 'operation', 'limit', 'stop_gain', 'stop_loss', 'target', 'operation_gain', 'operation_limit')
+        fields = ('pk', 'operation', 'limit', 'stop_gain', 'stop_loss',
+                  'target', 'target_gain', 'operation_limit')
         read_only_fields = ('operation_gain', 'operation_limit')
         model = ExperienceData
 
