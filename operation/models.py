@@ -40,8 +40,8 @@ class Operation(models.Model):
         return str(self.pk)
 
     #transaction = models.ForeignKey('zen_transaction.Transaction', null=False)
-    stock = models.ForeignKey('stock.Stock')
-    operation_type = models.ForeignKey(OperationType)
+    stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
+    operation_type = models.ForeignKey(OperationType, on_delete=models.CASCADE)
     date = models.DateTimeField(_('oparation date'), null=False)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
@@ -113,7 +113,7 @@ class ExperienceData(models.Model):
     def __str__(self):
         return str(self.amount)
 
-    operation = models.ForeignKey(Operation)
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
     target = models.DecimalField(_('target price'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -158,7 +158,7 @@ class ExperienceData(models.Model):
 
 
 class BuyData(models.Model):
-    operation = models.ForeignKey(Operation)
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
     nickname = models.TextField(_('nickname'), null=True, blank=True,
                                 max_length=100)
 
@@ -177,5 +177,5 @@ class BuyData(models.Model):
 
 
 class SellData(models.Model):
-    operation = models.ForeignKey(Operation)
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
     value = models.DecimalField(_('sell value'), max_digits=22, decimal_places=2, null=False, blank=False)

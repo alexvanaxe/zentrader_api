@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from account.unit_tests.account_mocks import create_account
 from stock.unit_tests.stock_mocks import create_stocks
