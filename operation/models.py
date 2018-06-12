@@ -32,8 +32,7 @@ class Operation(models.Model):
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
-    nickname = models.TextField(_('nickname'), null=True, blank=True,
-                                max_length=100)
+    nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
 
     favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
 

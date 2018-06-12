@@ -18,9 +18,12 @@ class Account(models.Model):
     * equity -- The money that I put from my pocket in the broker.
 
     """
-    def __unicode__(self):
+    def __str__(self):
         return self.broker
 
-    broker = models.CharField(_('broker'), null=False, unique=True, max_length=120)
+    next_account = models.ForeignKey('account.Account',
+                                     on_delete=models.CASCADE, null=True,
+                                     blank=True)
+    broker = models.CharField(_('broker'), null=False, max_length=120)
     operation_cost = models.DecimalField(_('operation cost'), max_digits=7, decimal_places=2, null=False)
     equity = models.DecimalField(_('equity'), max_digits=15, decimal_places=2, null=False)
