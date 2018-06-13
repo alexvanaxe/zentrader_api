@@ -107,13 +107,14 @@ class Operation(models.Model):
             return None
 
 
-class ExperienceData(models.Model):
+class ExperienceData(Operation):
     """ Some additional data and functions specifics for the experiments """
 
     def __str__(self):
         return str(self.amount)
 
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
+    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
+                                     parent_link=True)
     target = models.DecimalField(_('target price'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -157,10 +158,9 @@ class ExperienceData(models.Model):
                                                                self.operation.amount))
 
 
-class BuyData(models.Model):
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
-    nickname = models.TextField(_('nickname'), null=True, blank=True,
-                                max_length=100)
+class BuyData(Operation):
+    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
+                                     parent_link=True)
 
     def operation_gain(self):
         """
@@ -176,6 +176,7 @@ class BuyData(models.Model):
         return self.operation.calculate_gain(self.operation.stock.price)
 
 
-class SellData(models.Model):
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE)
+class SellData(Operation):
+    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
+                                     parent_link=True)
     value = models.DecimalField(_('sell value'), max_digits=22, decimal_places=2, null=False, blank=False)
