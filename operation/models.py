@@ -14,17 +14,11 @@ from account.models import Account
 from formulas import support_system_formulas
 
 
-class OperationType(models.Model):
-    """ The type of a operation (ex: buy, sell...)
-    """
-    def __str__(self):
-        return self.name
-
-    name = models.CharField(_('name'), null=False, max_length=120)
-
-
 class Operation(models.Model):
     """ A operation realized in a transaction (ex: buy, sell, experiment...) """
+
+    class Meta:
+        abstract = True
 
     IS_ARCHIVED = (
         ('Y', _('Yes')),
@@ -39,14 +33,12 @@ class Operation(models.Model):
     def __str__(self):
         return str(self.pk)
 
-    #transaction = models.ForeignKey('zen_transaction.Transaction', null=False)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
-    operation_type = models.ForeignKey(OperationType, on_delete=models.CASCADE)
     date = models.DateTimeField(_('oparation date'), null=False)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
-    #The value of the stock at the moment of the operation
+    # The value of the stock at the moment of the operation
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 #    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -112,9 +104,6 @@ class ExperienceData(Operation):
 
     def __str__(self):
         return str(self.amount)
-
-    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
-                                     parent_link=True)
     target = models.DecimalField(_('target price'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -132,7 +121,7 @@ class ExperienceData(Operation):
         :rtype: Decimal
 
         """
-        return self.operation.calculate_gain(self.target)
+        return self.calculate_gain(self.target)
 
     def operation_limit(self):
         """
@@ -155,13 +144,10 @@ class ExperienceData(Operation):
                                                                account.equity,
                                                                account.operation_cost,
                                                                self.stop_loss,
-                                                               self.operation.amount))
+                                                               self.amount))
 
 
 class BuyData(Operation):
-    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
-                                     parent_link=True)
-
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
@@ -173,10 +159,8 @@ class BuyData(Operation):
         :rtype: Decimal
 
         """
-        return self.operation.calculate_gain(self.operation.stock.price)
+        return self.calculate_gain(self.stock.price)
 
 
 class SellData(Operation):
-    operation = models.OneToOneField(Operation, on_delete=models.CASCADE,
-                                     parent_link=True)
     value = models.DecimalField(_('sell value'), max_digits=22, decimal_places=2, null=False, blank=False)

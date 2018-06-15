@@ -30,20 +30,12 @@ router = DefaultRouter()
 
 # Register the viewset
 router.register(r'experience', views.ExperienceDataViewSet, base_name='experience')
-router.register(r'experience-nested', views.ExperienceDataNViewSet, base_name='experience-nested')
 router.register(r'buy', views.BuyDataViewSet, base_name='buy')
-router.register(r'buy-nested', views.BuyDataNViewSet, base_name='buy-nested')
 router.register(r'sell', views.SellDataViewSet, base_name='sell')
-router.register(r'sell-nested', views.SellDataNViewSet, base_name='sell-nested')
-router.register(r'operation-type', views.OperationTypeViewSet, base_name='operationtype')
-router.register(r'operation', views.OperationViewSet)
-router.register(r'operation-nested', views.ROOperationViewSet, base_name='operation-nested')
-
-
 
 # Include the router to the patterns
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
-    url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
+    #  url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
+    #  url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
 ]
