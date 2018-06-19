@@ -14,10 +14,12 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     """
     Serializer for ExperienceData model.
     """
+
+    stock_data = StockSerializer(read_only=True)
     class Meta:
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target','action', 'target_gain', 'operation_limit')
+                  'target', 'stock_data', 'action', 'target_gain', 'operation_limit')
         read_only_fields = ('operation_gain', 'operation_limit')
         model = ExperienceData
 
@@ -26,9 +28,11 @@ class BuyDataSerializer(serializers.ModelSerializer):
     """
     Serializer for BuyDataSerializer model.
     """
+    stock_data = StockSerializer(read_only=True)
+
     class Meta:
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'operation_gain')
+                  'nickname', 'favorite', 'stock_data', 'operation_gain')
         model = BuyData
 
 

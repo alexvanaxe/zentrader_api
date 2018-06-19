@@ -48,6 +48,9 @@ class Operation(models.Model):
 
     favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
 
+    def stock_data(self):
+        return self.stock
+
     def save(self, *args, **kwargs):
         """
         It overrides the django models save.
@@ -163,4 +166,4 @@ class BuyData(Operation):
 
 
 class SellData(Operation):
-    value = models.DecimalField(_('sell value'), max_digits=22, decimal_places=2, null=False, blank=False)
+    pass
