@@ -17,7 +17,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'target_gain', 'operation_limit')
+                  'target','action', 'target_gain', 'operation_limit')
         read_only_fields = ('operation_gain', 'operation_limit')
         model = ExperienceData
 
