@@ -5,7 +5,6 @@ from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
 
-
 # def get_image_path(instance, filename):
 #     """ Get the path where the images are stored in the filesystem """
 #     return os.path.join('charts', str(instance.transaction.id), instance.operation_status.name,
@@ -33,6 +32,7 @@ class Operation(models.Model):
     def __str__(self):
         return str(self.pk)
 
+    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
     date = models.DateTimeField(_('oparation date'), null=False)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
@@ -62,7 +62,43 @@ class Operation(models.Model):
         if not self.creation_date:
             self.creation_date = datetime.now()
 
+        # For now we force an account for speed development. Later we can remove
+        # this and let for the interface manage the account
+        try:
+            self.account
+        except Account.DoesNotExist:
+            self.account = Account.objects.all()[0]
+
         super().save(*args, **kwargs)
+
+    def operation_average_price(self):
+        """
+        This is the price of the stock with all the costs and taxes attributed.
+
+        More information can be found in the `Bussola
+        <http://blog.bussoladoinvestidor.com.br/calculo-do-preco-medio-de-acoes/>`_.
+
+
+        :param reference_date: The date to cut until when the operations will be considered.
+
+        :returns: The average price
+        :rtype: Decimal
+        """
+        return Decimal(support_system_formulas.calculate_average_price(self.amount,
+                                                               self.price,
+                                                               self.account.operation_cost))
+
+    def average_cost(self):
+        """
+        The cost but using the average price
+
+        :returns: The average cost of the operation
+        :rtype: Decimal
+        """
+        return Decimal(support_system_formulas.calculate_price(self.amount,
+                       support_system_formulas.calculate_average_price(self.amount,
+                                                               self.price,
+                                                               self.account.operation_cost)))
 
     def cost(self):
         """
@@ -75,7 +111,19 @@ class Operation(models.Model):
         :returns: The price of the operation
         :rtype: Decimal
         """
-        return support_system_formulas.calculate_price(self.amount, self.price)
+        return Decimal(support_system_formulas.calculate_price(self.amount,
+                                                               self.price))
+
+    def average_stock_cost(self):
+        return Decimal(support_system_formulas.calculate_price(self.amount,
+                       support_system_formulas.calculate_average_price(self.amount,
+                                                               self.stock.price,
+                                                               self.account.operation_cost)))
+
+    def stock_cost(self):
+        return Decimal(support_system_formulas.calculate_price(self.amount,
+                                                               self.stock.price))
+
 
     def calculate_gain(self, stock_sell_price=None):
         """

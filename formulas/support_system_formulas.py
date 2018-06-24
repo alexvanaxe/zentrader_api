@@ -175,7 +175,6 @@ def calculate_average_price(amount, value, operation_cost):
     """
     operation_price = eval(getParsedFormula(OPERATION_PRICE))
 
-
     return eval(getParsedFormula(AVERAGE_PRICE))
 
 

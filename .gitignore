@@ -104,3 +104,4 @@ ENV/
 # The generated staticfiles
 /staticfiles
 Session.vim
+*tags

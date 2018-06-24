@@ -13,8 +13,8 @@ from operation.unit_tests.operation_mocks import create_operations
 class OperationTestCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        create_stocks(cls)
         create_account(cls)
+        create_stocks(cls)
         create_operations(cls, cls.stock)
 
 
