@@ -19,11 +19,6 @@ class Operation(models.Model):
     class Meta:
         abstract = True
 
-    IS_ARCHIVED = (
-        ('Y', _('Yes')),
-        ('N', _('No'))
-    )
-
     FAVORITE = (
         ('Y', _('Yes')),
         ('N', _('No'))
@@ -36,17 +31,17 @@ class Operation(models.Model):
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
     date = models.DateTimeField(_('oparation date'), null=False)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
-#    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
-    # The value of the stock at the moment of the operation
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
-#    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
-#    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
     archived = models.BooleanField(_('archived'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True,
                                 max_length=100)
 
     favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
+
+#    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
+#    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
+#    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 
     def stock_data(self):
         return self.stock
@@ -143,9 +138,9 @@ class Operation(models.Model):
         operation_paid = (Account.objects.all()[0]).operation_cost
 
         try:
-            return Decimal(support_system_formulas.calculate_gain(Decimal(stock_sell_price), self.price, self.amount,
-                                                                  operation_paid)).quantize(
-                Decimal('.05'), rounding=ROUND_DOWN)
+            avg_price = self.operation_average_price()
+            return Decimal(support_system_formulas.calculate_gain(Decimal(stock_sell_price),
+                                                                  avg_price, self.amount, operation_paid)).quantize( Decimal('.05'), rounding=ROUND_DOWN)
         except TypeError:
             return None
 
