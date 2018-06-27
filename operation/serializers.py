@@ -37,7 +37,12 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stock_data', 'operation_gain')
+                  'nickname', 'favorite', 'stock_data', 'operation_gain',
+                  'operation_average_price', 'average_cost',
+                  'average_stock_cost', 'cost')
+        read_only_fields = ('stock_data', 'operation_gain',
+                            'operation_average_price', 'average_cost',
+                            'average_stock_cost', 'cost')
         model = BuyData
 
 
@@ -50,12 +55,3 @@ class SellDataSerializer(serializers.ModelSerializer):
                   'nickname', 'favorite', 'value')
         model = SellData
 
-
-#  class OperationCostSerializer(serializers.Serializer):
-#      def create(self, validated_data):
-#          pass
-#
-#      def update(self, instance, validated_data):
-#          pass
-#
-#      cost = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=2)
