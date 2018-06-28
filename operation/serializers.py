@@ -54,6 +54,6 @@ class SellDataSerializer(serializers.ModelSerializer):
     """
     class Meta:
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'value')
+                  'nickname', 'favorite')
         model = SellData
 

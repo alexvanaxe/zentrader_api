@@ -16,9 +16,6 @@ from formulas import support_system_formulas
 class Operation(models.Model):
     """ A operation realized in a transaction (ex: buy, sell, experiment...) """
 
-    class Meta:
-        abstract = True
-
     FAVORITE = (
         ('Y', _('Yes')),
         ('N', _('No'))
