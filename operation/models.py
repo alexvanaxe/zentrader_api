@@ -169,6 +169,23 @@ class ExperienceData(Operation):
         """
         return self.calculate_gain(self.target)
 
+    def target_gain_percent(self):
+        """
+        Calculate the percentage of the target that we will gain
+
+        :returns: The Percentage of the target gain
+        :rtype: Decimal
+        """
+        # Same as in the buy, hava to inicialize the decimals
+        if self.target:
+            return Decimal(support_system_formulas.calculate_gain_percent(
+                Decimal(self.target),
+                Decimal(self.price),
+                Decimal(self.amount),
+                Decimal(self.account.operation_cost)))
+        else:
+            return None
+
     def operation_limit(self):
         """
          Calculates the limit acceptable to make a buy.
@@ -206,6 +223,22 @@ class BuyData(Operation):
 
         """
         return self.calculate_gain(self.stock.price)
+
+    def operation_gain_percent(self):
+        """
+        Calculate the percentage gain, considering that the stock would be sold
+        by the current stock value.
+
+        :returns: The percentage gain
+        :rtype: Decimal
+        """
+        # This should be returned as decimal, but it is not, so we convert it
+        # here
+        return Decimal(support_system_formulas.calculate_gain_percent(
+            Decimal(self.stock.price),
+            Decimal(self.price),
+            Decimal(self.amount),
+            Decimal(self.account.operation_cost)))
 
 
 class SellData(Operation):

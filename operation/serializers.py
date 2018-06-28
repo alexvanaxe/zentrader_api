@@ -22,10 +22,11 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                   'target', 'stock_data', 'action', 'target_gain',
                   'operation_limit', 'cost', 'stock_cost',
                   'operation_average_price', 'average_cost',
-                  'average_stock_cost')
+                  'average_stock_cost', 'target_gain_percent')
         read_only_fields = ('operation_gain', 'operation_limit', 'cost',
                             'real_cost', 'operation_average_price',
-                            'average_cost', 'average_stock_cost')
+                            'average_cost', 'average_stock_cost',
+                            'target_gain_percent')
         model = ExperienceData
 
 
@@ -39,10 +40,11 @@ class BuyDataSerializer(serializers.ModelSerializer):
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'cost')
+                  'average_stock_cost', 'cost', 'operation_gain_percent')
         read_only_fields = ('stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
-                            'average_stock_cost', 'cost')
+                            'average_stock_cost', 'cost',
+                            'operation_gain_percent')
         model = BuyData
 
 

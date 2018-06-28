@@ -9,11 +9,11 @@ import parser
 from decimal import Decimal, ROUND_DOWN
 
 # Imposts and taxes constants
-EMOLUMENTOS=0.0050
-LIQUIDACAO=0.0275
-IR_PERCENTAGE=15
-PIRANHA_LIMIT=3
-SHARK_LIMIT=10
+EMOLUMENTOS=Decimal(0.0050)
+LIQUIDACAO=Decimal(0.0275)
+IR_PERCENTAGE=Decimal(15)
+PIRANHA_LIMIT=Decimal(3)
+SHARK_LIMIT=Decimal(10)
 
 GRADE = "((gain * Decimal('100'))/((top - bottom) * Decimal('100')))"
 
@@ -146,7 +146,8 @@ def calculate_gain_percent(sell_value, buy_value, amount, operation_cost):
       Formula: (((sell_value * amount - operation_cost) - (buy_value * amount + operation_cost)) * 100)/(buy_value * amount + operation_cost)
 
     """
-    total_gain = calculate_gain(sell_value, buy_value, amount, operation_cost)
+    total_gain = calculate_gain(sell_value, buy_value,
+                                amount, operation_cost)
 
     return eval(getParsedFormula(GAIN_PERCENT))
 
