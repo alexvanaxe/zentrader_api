@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 
 from decimal import Decimal, ROUND_DOWN
 from django.db import models
@@ -39,6 +40,27 @@ class Operation(models.Model):
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 #    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
+    class Kind(Enum):
+        EXPERIMENT = 1
+        BUY = 2
+        SELL = 3
+
+    def kind(self):
+        try:
+            self.experiencedata
+            return self.Kind.EXPERIMENT
+        except self.DoesNotExist:
+            pass
+        try:
+            self.buydata
+            return self.Kind.BUY
+        except self.DoesNotExist:
+            pass
+        try:
+            self.selldata
+            return self.Kind.SELL
+        except self.DoesNotExist:
+            pass
 
     def stock_data(self):
         return self.stock
@@ -115,7 +137,6 @@ class Operation(models.Model):
     def stock_cost(self):
         return Decimal(support_system_formulas.calculate_price(self.amount,
                                                                self.stock.price))
-
 
     def calculate_gain(self, stock_sell_price=None):
         """

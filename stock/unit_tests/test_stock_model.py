@@ -17,6 +17,10 @@ class StockTestCase(StockModelTestCase):
     def test_owned(self):
         self.assertEqual(str(self.stock.owned()), str(200))
 
+    def test_average_price(self):
+        self.assertEqual('{0:.2f}'.format(self.stock.average_price()),
+                         "19.29")
+
 
 class StockEmptyTestCase(TestCase):
     @classmethod
