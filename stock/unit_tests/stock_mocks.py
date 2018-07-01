@@ -8,3 +8,5 @@ def create_stocks(cls):
     :return:
     """
     cls.stock = Stock.objects.create(code="XPTO3", price=20.00)
+    cls.stock2 = Stock.objects.create(code="XPTO2", price=20.00)
+

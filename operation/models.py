@@ -260,4 +260,5 @@ class BuyData(Operation):
 
 
 class SellData(Operation):
-    pass
+    def result(self):
+        return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.account.operation_cost, self.amount))
