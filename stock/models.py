@@ -23,14 +23,12 @@ class Stock(models.Model):
         :returns: The amount owned
         :rtype: Decimal
         """
-        sells = Operation.objects.filter(stock=self).aggregate(Sum('selldata__amount'))['selldata__amount__sum']
+        sells = Operation.objects.filter(stock=self).aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
 
-        buys = Operation.objects.filter(stock=self).aggregate(Sum('buydata__amount'))['buydata__amount__sum']
+        buys = Operation.objects.filter(stock=self).aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
 
-        if sells is not None and buys is not None:
-            return  buys - sells
-        else:
-            return Decimal(0)
+        return  buys - sells
+
 
     def average_price(self, date__gte=None, date__lte=datetime.now()):
         """

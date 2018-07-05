@@ -50,6 +50,12 @@ def create_operations(cls, stock):
                                                            amount=100, price=23)
 
 
+def create_only_buy(cls, stock):
+    cls.buy1 = BuyData.objects.create(stock=stock, account=Account.objects.all()[0],
+                                      date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                      amount=100, price=20)
+
+
 def create_ir_operations(cls, stock):
     cls.buy1 = BuyData.objects.create(stock=stock, account=Account.objects.all()[0],
                                       date=datetime.strptime('2017-06-11T15:52:30', '%Y-%m-%dT%H:%M:%S'),
