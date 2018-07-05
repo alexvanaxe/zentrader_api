@@ -2,7 +2,7 @@ from django.test.testcases import TestCase
 
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import create_operations
+from operation.unit_tests.operation_mocks import create_operations, create_only_buy
 
 
 class StockModelTestCase(TestCase):
@@ -29,4 +29,8 @@ class StockEmptyTestCase(TestCase):
         create_stocks(cls)
 
     def test_owned_empty(self):
-        self.assertEqual(str(self.stock.owned()), str(0))
+        self.assertEqual(str(self.stock.owned()), "0")
+
+    def test_one_buy(self):
+        create_only_buy(self, self.stock)
+        self.assertEqual(str(self.stock.owned()), "100")
