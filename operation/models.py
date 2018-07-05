@@ -80,7 +80,7 @@ class Operation(models.Model):
         try:
             self.account
         except Account.DoesNotExist:
-            self.account = Account.objects.all()[0]
+            self.account = Account.objects.all().order_by('-pk')[0]
 
         super().save(*args, **kwargs)
 
