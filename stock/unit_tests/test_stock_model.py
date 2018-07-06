@@ -19,7 +19,7 @@ class StockTestCase(StockModelTestCase):
 
     def test_average_price(self):
         self.assertEqual('{0:.2f}'.format(self.stock.average_price()),
-                         "19.29")
+                         "19.27")
 
 
 class StockEmptyTestCase(TestCase):

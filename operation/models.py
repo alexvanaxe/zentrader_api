@@ -161,6 +161,9 @@ class Operation(models.Model):
             return None
 
     def operation_cost(self):
+        if self.amount % 100 == 0:
+            return self.account.operation_cost_fraction
+
         return self.account.operation_cost_position
 
 

@@ -39,7 +39,7 @@ class OperationModelTest(OperationModelTestCase):
                                                   amount=1000, price=30,
                                                   target=35.34)
 
-        self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.73')
+        self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.75')
 
     def test_gain_percent(self):
         operation = BuyData.objects.create(stock=self.stock,
@@ -47,4 +47,4 @@ class OperationModelTest(OperationModelTestCase):
                                                   date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                   amount=1000, price=30)
 
-        self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.39')
+        self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.37')
