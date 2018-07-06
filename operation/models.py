@@ -99,7 +99,7 @@ class Operation(models.Model):
         """
         return Decimal(support_system_formulas.calculate_average_price(self.amount,
                                                                self.price,
-                                                               self.account.operation_cost))
+                                                               self.operation_cost()))
 
     def average_cost(self):
         """
@@ -111,7 +111,7 @@ class Operation(models.Model):
         return Decimal(support_system_formulas.calculate_price(self.amount,
                        support_system_formulas.calculate_average_price(self.amount,
                                                                self.price,
-                                                               self.account.operation_cost)))
+                                                               self.operation_cost())))
 
     def cost(self):
         """
@@ -131,7 +131,7 @@ class Operation(models.Model):
         return Decimal(support_system_formulas.calculate_price(self.amount,
                        support_system_formulas.calculate_average_price(self.amount,
                                                                self.stock.price,
-                                                               self.account.operation_cost)))
+                                                               self.operation_cost())))
 
     def stock_cost(self):
         return Decimal(support_system_formulas.calculate_price(self.amount,
@@ -152,14 +152,16 @@ class Operation(models.Model):
         :rtype: Decimal
 
         """
-        operation_paid = (Account.objects.all()[0]).operation_cost
 
         try:
             avg_price = self.operation_average_price()
             return Decimal(support_system_formulas.calculate_gain(Decimal(stock_sell_price),
-                                                                  avg_price, self.amount, operation_paid)).quantize( Decimal('.05'), rounding=ROUND_DOWN)
+                                                                  avg_price, self.amount, self.operation_cost())).quantize( Decimal('.05'), rounding=ROUND_DOWN)
         except TypeError:
             return None
+
+    def operation_cost(self):
+        return self.account.operation_cost_position
 
 
 class ExperienceData(Operation):
@@ -199,7 +201,7 @@ class ExperienceData(Operation):
                 Decimal(self.target),
                 Decimal(self.price),
                 Decimal(self.amount),
-                Decimal(self.account.operation_cost)))
+                Decimal(self.operation_cost())))
         else:
             return None
 
@@ -222,7 +224,7 @@ class ExperienceData(Operation):
         account = (Account.objects.all()[0])
         return Decimal(support_system_formulas.calculate_limit(support_system_formulas.PIRANHA_LIMIT,
                                                                account.equity,
-                                                               account.operation_cost,
+                                                               self.operation_cost(),
                                                                self.stop_loss,
                                                                self.amount))
 
@@ -255,9 +257,9 @@ class BuyData(Operation):
             Decimal(self.stock.price),
             Decimal(self.price),
             Decimal(self.amount),
-            Decimal(self.account.operation_cost)))
+            Decimal(self.operation_cost())))
 
 
 class SellData(Operation):
     def result(self):
-        return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.account.operation_cost, self.amount))
+        return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.operation_cost(), self.amount))

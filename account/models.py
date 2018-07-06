@@ -25,5 +25,7 @@ class Account(models.Model):
                                      on_delete=models.CASCADE, null=True,
                                      blank=True)
     broker = models.CharField(_('broker'), null=False, max_length=120)
-    operation_cost = models.DecimalField(_('operation cost'), max_digits=7, decimal_places=2, null=False)
+    operation_cost_day_trade = models.DecimalField(_('operation cost'), max_digits=7, decimal_places=2, null=False)
+    operation_cost_fraction = models.DecimalField(_('operation cost'), max_digits=7, decimal_places=2, null=False)
+    operation_cost_position = models.DecimalField(_('operation cost'), max_digits=7, decimal_places=2, null=False)
     equity = models.DecimalField(_('equity'), max_digits=15, decimal_places=2, null=False)

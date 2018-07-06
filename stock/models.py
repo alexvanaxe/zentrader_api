@@ -61,7 +61,7 @@ class Stock(models.Model):
             if operation.kind() == Operation.Kind.BUY:
                 operation_average_price = support_system_formulas.calculate_average_price(operation.amount,
                                                                 operation.price,
-                                                                operation.account.operation_cost)
+                                                                operation.operation_cost())
 
                 actual_average_price = ((actual_average_price * net_amount) + (operation_average_price * operation.amount))/(net_amount + operation.amount)
                 net_amount += operation.amount
