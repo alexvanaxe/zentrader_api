@@ -20,7 +20,8 @@ class IRTest(IRTestCase):
 
     def test_ir_valued(self):
         create_ir_operations(self, self.stock2)
-        self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'))), "17271.50")
+        self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
+                                                                                      '%Y-%m-%dT%H:%M:%S'))), "17273.84")
 
     def test_calculate_results(self):
         create_ir_operations(self, self.stock2)

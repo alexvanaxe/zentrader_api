@@ -6,6 +6,8 @@ from operation.models import ExperienceData, BuyData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
+from operation.unit_tests.operation_mocks import create_day_trades
+
 
 class OperationModelTestCase(TestCase):
     @classmethod
@@ -43,8 +45,13 @@ class OperationModelTest(OperationModelTestCase):
 
     def test_gain_percent(self):
         operation = BuyData.objects.create(stock=self.stock,
-                                                  account=Account.objects.all()[0],
-                                                  date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                  amount=1000, price=30)
+                                           account=Account.objects.all()[0],
+                                           date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                           amount=1000, price=30)
 
         self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.37')
+
+    def test_is_day_trade(self):
+        create_day_trades(self, self.stock)
+
+        self.assertTrue(self.sell_dt1.is_daytrade())

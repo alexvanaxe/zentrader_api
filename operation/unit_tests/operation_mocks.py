@@ -68,3 +68,13 @@ def create_ir_operations(cls, stock):
     cls.sell1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
                                         date=datetime.strptime('2017-06-25T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                         amount=1500, price=30)
+
+
+def create_day_trades(cls, stock):
+    cls.buy_dt1 = BuyData.objects.create(stock=stock, account=Account.objects.all()[0],
+                                         date=datetime.strptime('2017-06-29T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                         amount=1000, price=20)
+
+    cls.sell_dt1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
+                                           date=datetime.strptime('2017-06-29T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                           amount=800, price=30)

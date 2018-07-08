@@ -164,7 +164,23 @@ class Operation(models.Model):
         if self.amount % 100 == 0:
             return self.account.operation_cost_fraction
 
+        if self.is_daytrade():
+            return self.account.operation_cost_day_trade
+
         return self.account.operation_cost_position
+
+    def is_daytrade(self):
+        """
+        When there is an operation of sell occurring in the same
+        day of an operation of buy in the same account, this is a daytrade
+        operation.
+
+        TODO: We are based on the sell because for now we dont work with rent
+        trade.
+        """
+        day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
+
+        return len(day_buys) > 0
 
 
 class ExperienceData(Operation):
