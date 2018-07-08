@@ -33,8 +33,9 @@ def separate_months(sell_operations):
 
     def _iter_sells(sell_operations, index, separated_sells):
         if (len(sell_operations) > index):
-            separated_sells = _separate_sell(sell_operations[index], separated_sells)
-            _iter_sells(sell_operations, index + 1, separated_sells)
+            if not sell_operations[index].is_daytrade():
+                separated_sells = _separate_sell(sell_operations[index], separated_sells)
+                _iter_sells(sell_operations, index + 1, separated_sells)
 
         return separated_sells
 
@@ -123,6 +124,7 @@ def calculate_ir_base_value(reference_date=datetime.today()):
     # SEE: bussola do investidor, http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/
     sell_operations = SellData.objects.filter(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d')).order_by('date')
     negative_balance = calculate_negative_balance(sell_operations)
+    # Excludes the sells of the previous months, since the logic here is to get the ir per month
     sell_operation_query = SellData.objects.filter(date__lte=reference_date).exclude(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
     results = calculate_results(sell_operation_query)
     try:

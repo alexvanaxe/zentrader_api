@@ -6,7 +6,7 @@ from operation.models import ExperienceData, BuyData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import create_day_trades
+from operation.unit_tests.operation_mocks import *
 
 
 class OperationModelTestCase(TestCase):
@@ -55,3 +55,9 @@ class OperationModelTest(OperationModelTestCase):
         create_day_trades(self, self.stock)
 
         self.assertTrue(self.sell_dt1.is_daytrade())
+
+
+    def test_is_day_trade_false(self):
+        create_ir_operations(self, self.stock)
+
+        self.assertFalse(self.sell1.is_daytrade())
