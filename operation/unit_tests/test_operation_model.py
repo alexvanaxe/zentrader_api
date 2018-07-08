@@ -55,6 +55,7 @@ class OperationModelTest(OperationModelTestCase):
         create_day_trades(self, self.stock)
 
         self.assertTrue(self.sell_dt1.is_daytrade())
+        self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())), "23985.20")
 
 
     def test_is_day_trade_false(self):

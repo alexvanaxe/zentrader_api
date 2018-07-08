@@ -281,4 +281,7 @@ class BuyData(Operation):
 
 class SellData(Operation):
     def result(self):
-        return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.operation_cost(), self.amount))
+        if not self.is_daytrade():
+            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.operation_cost(), self.amount))
+        else:
+            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__gte=self.date, date__lte=self.date), self.operation_cost(), self.amount))

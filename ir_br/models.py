@@ -6,6 +6,32 @@ from operation.models import SellData
 
 from formulas import support_system_formulas
 
+def _separate_sell(sell, separated_sells, separated_daytrade):
+    try:
+        if sell.is_daytrade():
+            # import pdb
+            # pdb.set_trace()
+            separated_daytrade[(sell.date.month, sell.date.year)].append(sell)
+        else:
+            separated_sells[(sell.date.month, sell.date.year)].append(sell)
+    except KeyError:
+        if sell.is_daytrade():
+            # import pdb
+            # pdb.set_trace()
+            separated_daytrade[(sell.date.month, sell.date.year)] = [sell]
+        else:
+            separated_sells[(sell.date.month, sell.date.year)] = [sell]
+    return (separated_sells, separated_daytrade)
+
+def _iter_sells(sell_operations, index, separated_sells, separated_daytrade):
+    if (len(sell_operations) > index):
+        (separated_sells, separated_daytrade) = _separate_sell(sell_operations[index], separated_sells, separated_daytrade)
+        _iter_sells(sell_operations, index + 1, separated_sells, separated_daytrade)
+
+    return (separated_sells, separated_daytrade)
+
+
+
 def separate_months(sell_operations):
     """
     Separate the sells in months
@@ -23,24 +49,9 @@ def separate_months(sell_operations):
 
     """
     separated_sells = OrderedDict()
+    separated_daytrade = OrderedDict()
 
-    def _separate_sell(sell, separated_sells):
-        try:
-            separated_sells[(sell.date.month, sell.date.year)].append(sell)
-        except KeyError:
-            separated_sells[(sell.date.month, sell.date.year)] = [sell]
-        return separated_sells
-
-    def _iter_sells(sell_operations, index, separated_sells):
-        if (len(sell_operations) > index):
-            if not sell_operations[index].is_daytrade():
-                separated_sells = _separate_sell(sell_operations[index], separated_sells)
-                _iter_sells(sell_operations, index + 1, separated_sells)
-
-        return separated_sells
-
-    return _iter_sells(sell_operations, 0, separated_sells)
-
+    return _iter_sells(sell_operations, 0, separated_sells, separated_daytrade)
 
 def calculate_results(sell_operations):
     """
@@ -64,10 +75,10 @@ def calculate_results(sell_operations):
     def _calculate_sum_months(separated_sells):
         return (_calculate_sum_month(sells) for sells in separated_sells)
 
-    return _calculate_sum_months(separated_sells.values())
+    return (_calculate_sum_months(separated_sells[0].values()), _calculate_sum_months(separated_sells[1].values()))
 
 
-def calculate_negative_balance(sell_operations):
+def calculate_negative_balance(results):
     """
     Calculate how much can be discounted in the month
 
@@ -80,9 +91,6 @@ def calculate_negative_balance(sell_operations):
     .. seealso:: `Bussola do investidor <http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/>`_
 
     """
-
-    results = calculate_results(sell_operations)
-
     def _process_negative_balance(results, result, negative_balance):
         if result[0] < 0:
             negative_balance = result[0] + negative_balance
@@ -123,12 +131,19 @@ def calculate_ir_base_value(reference_date=datetime.today()):
     """
     # SEE: bussola do investidor, http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/
     sell_operations = SellData.objects.filter(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d')).order_by('date')
-    negative_balance = calculate_negative_balance(sell_operations)
+    negative_balance = calculate_negative_balance(calculate_results(sell_operations)[0])
+    negative_balance_dt = calculate_negative_balance(calculate_results(sell_operations)[1])
     # Excludes the sells of the previous months, since the logic here is to get the ir per month
     sell_operation_query = SellData.objects.filter(date__lte=reference_date).exclude(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
-    results = calculate_results(sell_operation_query)
+    results = calculate_results(sell_operation_query)[0]
+    results_dt = calculate_results(sell_operation_query)[1]
+
+
     try:
         result = next(results)
+        result_dt = next(results_dt)
+
+        value_to_pay_dt = result_dt[0] + negative_balance_dt
     except StopIteration:
         return Decimal(0)
 
@@ -137,7 +152,12 @@ def calculate_ir_base_value(reference_date=datetime.today()):
     else:
         value_to_pay = result[0] + negative_balance
 
-    return value_to_pay.quantize(Decimal('.05'), rounding=ROUND_DOWN)
+
+
+    import pdb
+    pdb.set_trace()
+
+    return (value_to_pay.quantize(Decimal('.05'), rounding=ROUND_DOWN), value_to_pay_dt.quantize(Decimal('.05')))
 
 
 def calculate_impost_to_pay(reference_date=datetime.today()):
@@ -151,6 +171,7 @@ def calculate_impost_to_pay(reference_date=datetime.today()):
     :param reference_date: The reference date from where the impost will be calculated.
 
     """
-    ir = calculate_ir_base_value(reference_date)
+    ir = calculate_ir_base_value(reference_date)[0]
+    ir_dt = calculate_ir_base_value(reference_date)[1]
 
-    return support_system_formulas.calculate_ir(ir).quantize(Decimal('.05'), rounding=ROUND_DOWN)
+    return (support_system_formulas.calculate_ir(ir).quantize(Decimal('.05'), rounding=ROUND_DOWN), support_system_formulas.calculate_ir(ir_dt).quantize(Decimal('.05'), rounding=ROUND_DOWN))
