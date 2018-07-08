@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.test.testcases import TestCase
-from formulas.ir import calculate_ir_base_value, calculate_results
 
+from ir_br.models import *
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
 from operation.models import SellData
