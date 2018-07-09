@@ -12,6 +12,7 @@ from decimal import Decimal, ROUND_DOWN
 EMOLUMENTOS=Decimal(0.0050)
 LIQUIDACAO=Decimal(0.0275)
 IR_PERCENTAGE=Decimal(15)
+IR_DT_PERCENTAGE=Decimal(20)
 PIRANHA_LIMIT=Decimal(3)
 SHARK_LIMIT=Decimal(10)
 
@@ -28,6 +29,8 @@ STOP_LOSS_PRICE = "(((value - stop_loss) * amount)) + (operation_cost * 2)"
 LIMIT = "((piranha * total_money) - (Decimal(operation_cost) * Decimal(200)) + (stop_loss * amount * 100)) / (amount * 100)"
 
 IR_FORMULA = "month * %s / 100" % IR_PERCENTAGE
+
+IR_DT_FORMULA = "month * %s / 100" % IR_DT_PERCENTAGE
 
 EMOLUMENTOS_FORMULA = "(Decimal(%s) * operation_price) / 100" % EMOLUMENTOS
 
@@ -209,6 +212,20 @@ def calculate_ir(month):
 
     """
     return eval(getParsedFormula(IR_FORMULA))
+
+
+def calculate_ir_daytrade(month):
+    """
+    Applies the formula of the ir for the daytrade
+
+    This formula is used on IR of the daytrade mode.
+
+    ::
+
+      Formula: month * 20 / 100
+
+    """
+    return eval(getParsedFormula(IR_DT_FORMULA))
 
 
 def calculate_emolumentos(operation_price):

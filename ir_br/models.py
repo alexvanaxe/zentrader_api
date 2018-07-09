@@ -140,22 +140,22 @@ def calculate_ir_base_value(reference_date=datetime.today()):
 
 
     try:
-        result = next(results)
         result_dt = next(results_dt)
 
         value_to_pay_dt = result_dt[0] + negative_balance_dt
     except StopIteration:
-        return Decimal(0)
-
-    if result[1] <= 20000:
-        return Decimal(0)
-    else:
-        value_to_pay = result[0] + negative_balance
+        value_to_pay_dt = Decimal(0)
 
 
+    try:
+        result = next(results)
 
-    import pdb
-    pdb.set_trace()
+        if result[1] <= 20000:
+            value_to_pay = Decimal(0)
+        else:
+            value_to_pay = result[0] + negative_balance
+    except StopIteration:
+        value_to_pay = Decimal(0)
 
     return (value_to_pay.quantize(Decimal('.05'), rounding=ROUND_DOWN), value_to_pay_dt.quantize(Decimal('.05')))
 
@@ -174,4 +174,4 @@ def calculate_impost_to_pay(reference_date=datetime.today()):
     ir = calculate_ir_base_value(reference_date)[0]
     ir_dt = calculate_ir_base_value(reference_date)[1]
 
-    return (support_system_formulas.calculate_ir(ir).quantize(Decimal('.05'), rounding=ROUND_DOWN), support_system_formulas.calculate_ir(ir_dt).quantize(Decimal('.05'), rounding=ROUND_DOWN))
+    return (support_system_formulas.calculate_ir(ir).quantize(Decimal('.05'), rounding=ROUND_DOWN), support_system_formulas.calculate_ir_daytrade(ir_dt).quantize(Decimal('.05'), rounding=ROUND_DOWN))
