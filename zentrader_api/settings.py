@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     # Myapps
     'stock',
     'operation',
-    'account'
+    'account',
+    'ir_br'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

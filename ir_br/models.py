@@ -170,3 +170,16 @@ def calculate_impost_to_pay(reference_date=datetime.today()):
     ir_dt = calculate_ir_base_value(reference_date)[1]
 
     return (support_system_formulas.calculate_ir(ir).quantize(Decimal('.05'), rounding=ROUND_DOWN), support_system_formulas.calculate_ir_daytrade(ir_dt).quantize(Decimal('.05'), rounding=ROUND_DOWN))
+
+
+class IrBr():
+    def __init__(self, ir, ir_daytrade):
+        self.ir = ir
+        self.ir_daytrade = ir_daytrade
+
+
+class IrBrManager():
+    def retrieveIr(self, reference_date=datetime.today()):
+        ir_to_pay = calculate_impost_to_pay(reference_date)
+        return IrBr(ir_to_pay[0], ir_to_pay[1])
+
