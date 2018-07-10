@@ -30,7 +30,11 @@ def _iter_sells(sell_operations, index, separated_sells, separated_daytrade):
 
     return (separated_sells, separated_daytrade)
 
+def _calculate_sum_month(sells):
+    return sum((sell.result() for sell in sells)), sum((sell.cost() for sell in sells)), sells[0].date
 
+def _calculate_sum_months(separated_sells):
+    return (_calculate_sum_month(sells) for sells in separated_sells)
 
 def separate_months(sell_operations):
     """
@@ -68,15 +72,7 @@ def calculate_results(sell_operations):
 
     """
     separated_sells = separate_months(sell_operations)
-
-    def _calculate_sum_month(sells):
-        return sum((sell.result() for sell in sells)), sum((sell.cost() for sell in sells)), sells[0].date
-
-    def _calculate_sum_months(separated_sells):
-        return (_calculate_sum_month(sells) for sells in separated_sells)
-
     return (_calculate_sum_months(separated_sells[0].values()), _calculate_sum_months(separated_sells[1].values()))
-
 
 def calculate_negative_balance(results):
     """
@@ -112,7 +108,6 @@ def calculate_negative_balance(results):
     except StopIteration:
         return 0
 
-
 def calculate_ir_base_value(reference_date=datetime.today()):
     """
     Calculates the base value where the tax will be taken.
@@ -139,6 +134,7 @@ def calculate_ir_base_value(reference_date=datetime.today()):
     results_dt = calculate_results(sell_operation_query)[1]
 
 
+    # Process the daytrade value
     try:
         result_dt = next(results_dt)
 
@@ -146,7 +142,7 @@ def calculate_ir_base_value(reference_date=datetime.today()):
     except StopIteration:
         value_to_pay_dt = Decimal(0)
 
-
+    # Process the normal ir to pay
     try:
         result = next(results)
 
@@ -158,7 +154,6 @@ def calculate_ir_base_value(reference_date=datetime.today()):
         value_to_pay = Decimal(0)
 
     return (value_to_pay.quantize(Decimal('.05'), rounding=ROUND_DOWN), value_to_pay_dt.quantize(Decimal('.05')))
-
 
 def calculate_impost_to_pay(reference_date=datetime.today()):
     """
