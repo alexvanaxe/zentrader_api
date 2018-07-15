@@ -5,7 +5,6 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from operation.models import Operation
-from account.models import Account
 from formulas import support_system_formulas
 
 class Stock(models.Model):
@@ -56,6 +55,7 @@ class Stock(models.Model):
 
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')
+        operation_average_price = Decimal('0')
 
         for operation in operations:
             if operation.kind() == Operation.Kind.BUY:
@@ -64,9 +64,9 @@ class Stock(models.Model):
                                                                 operation.operation_cost())
 
                 net_amount += operation.amount
+                actual_average_price = ((actual_average_price * net_amount) + (operation_average_price * operation.amount))/(net_amount + operation.amount)
+
             if operation.kind() == Operation.Kind.SELL:
                 net_amount = net_amount - operation.amount
-
-            actual_average_price = ((actual_average_price * net_amount) + (operation_average_price * operation.amount))/(net_amount + operation.amount)
 
         return actual_average_price
