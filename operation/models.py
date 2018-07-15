@@ -267,6 +267,9 @@ class ExperienceData(Operation):
 
 
 class BuyData(Operation):
+    stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
+    stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
+
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
