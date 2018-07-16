@@ -2,12 +2,13 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 from django.urls import reverse
-from account.unit_tests.account_mocks import create_account
+from account.unit_tests.account_mocks import create_account, create_second_account
 
 class AccountTestCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
         create_account(cls)
+        create_second_account(cls)
 
 
 class TestAccount(AccountTestCase):
@@ -19,4 +20,5 @@ class TestAccount(AccountTestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]['broker'], "test")
+        self.assertEqual(str(response.data[0]['operation_cost_position']), "15.00")
+        self.assertEqual(str(len(response.data)), "1")

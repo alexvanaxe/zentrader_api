@@ -12,8 +12,12 @@ def create_second_account(cls):
     if not cls.account:
         create_account(cls)
 
-    cls.account2 = Account.objects.create(next_account=cls.account,
-                                          broker="test",
+
+    cls.account2 = Account.objects.create(broker="test",
                                           operation_cost_position=15,
                                           operation_cost_day_trade=10,
                                           operation_cost_fraction=6, equity=10000)
+
+
+    cls.account.next_account = cls.account2
+    cls.account.save()

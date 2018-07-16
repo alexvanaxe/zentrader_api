@@ -8,5 +8,5 @@ class AccountViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the account.
     """
-    queryset = Account.objects.all()
+    queryset = Account.objects.filter(next_account__isnull=True)
     serializer_class = AccountSerializer
