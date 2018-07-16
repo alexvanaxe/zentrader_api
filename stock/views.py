@@ -11,4 +11,3 @@ class StockViewSet(viewsets.ModelViewSet):
     """
     queryset = Stock.objects.all().order_by('code')
     serializer_class = StockSerializer
-    Account.objects.all()
