@@ -193,7 +193,6 @@ def calculate_average_gain(sell_value, average_buy_price, operation_cost, amount
       Formula: ((sell_value * amount) - operation_cost) - (average_buy_price * amount)
 
     """
-
     value = sell_value
     operation_price = eval(getParsedFormula(OPERATION_PRICE))
 

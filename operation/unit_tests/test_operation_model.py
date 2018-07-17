@@ -6,7 +6,7 @@ from operation.models import ExperienceData, BuyData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import *
+from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations
 
 
 class OperationModelTestCase(TestCase):
@@ -62,3 +62,10 @@ class OperationModelTest(OperationModelTestCase):
         create_ir_operations(self, self.stock)
 
         self.assertFalse(self.sell1.is_daytrade())
+
+class SellDataModelTest(OperationModelTestCase):
+    def test_sell_result(self):
+        create_operations(self, self.stock)
+
+        self.assertEqual("{0:.2f}".format(self.sell1.result()), "146.94")
+
