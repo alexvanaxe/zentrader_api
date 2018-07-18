@@ -1,4 +1,9 @@
-""" An utility module, with the purpose of calculate and work with information regarding the Brazilian IR """
+""" An utility module, with the purpose of calculate and work with information regarding the Brazilian IR
+
+    TODO: Existem potenciais problemas e questoes:
+    * No calculo apenas consideramos vendas.
+    * O que acontece quando uma compra eh daytrade?
+"""
 from collections import OrderedDict
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
@@ -6,22 +11,20 @@ from operation.models import SellData
 
 from formulas import support_system_formulas
 
+
 def _separate_sell(sell, separated_sells, separated_daytrade):
     try:
         if sell.is_daytrade():
-            # import pdb
-            # pdb.set_trace()
             separated_daytrade[(sell.date.month, sell.date.year)].append(sell)
         else:
             separated_sells[(sell.date.month, sell.date.year)].append(sell)
     except KeyError:
         if sell.is_daytrade():
-            # import pdb
-            # pdb.set_trace()
             separated_daytrade[(sell.date.month, sell.date.year)] = [sell]
         else:
             separated_sells[(sell.date.month, sell.date.year)] = [sell]
     return (separated_sells, separated_daytrade)
+
 
 def _iter_sells(sell_operations, index, separated_sells, separated_daytrade):
     if (len(sell_operations) > index):

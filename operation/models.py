@@ -45,21 +45,31 @@ class Operation(models.Model):
         SELL = 3
 
     def kind(self):
-        try:
-            self.experiencedata
+        if isinstance(self, ExperienceData):
             return self.Kind.EXPERIMENT
-        except self.DoesNotExist:
-            pass
-        try:
-            self.buydata
+
+        if isinstance(self, BuyData):
             return self.Kind.BUY
-        except self.DoesNotExist:
-            pass
-        try:
-            self.selldata
+
+        if isinstance(self, SellData):
             return self.Kind.SELL
-        except self.DoesNotExist:
-            pass
+
+        if isinstance(self, Operation):
+            try:
+                self.experiencedata
+                return self.Kind.EXPERIMENT
+            except self.DoesNotExist:
+                pass
+            try:
+                self.buydata
+                return self.Kind.BUY
+            except self.DoesNotExist:
+                pass
+            try:
+                self.selldata
+                return self.Kind.SELL
+            except self.DoesNotExist:
+                pass
 
     def stock_data(self):
         return self.stock
@@ -178,9 +188,17 @@ class Operation(models.Model):
         TODO: We are based on the sell because for now we dont work with rent
         trade.
         """
-        day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
+        if self.kind() is self.Kind.SELL:
+            day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
 
-        return len(day_buys) > 0
+            return len(day_buys) > 0
+
+        if self.kind() is self.Kind.BUY:
+            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
+
+            return len(day_sells) > 0
+
+        return False
 
 
 class ExperienceData(Operation):
@@ -249,6 +267,9 @@ class ExperienceData(Operation):
 
 
 class BuyData(Operation):
+    stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
+    stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
+
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
