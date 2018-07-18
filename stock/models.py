@@ -56,7 +56,6 @@ class Stock(models.Model):
 
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')
-        operation_average_price = Decimal('0')
 
         for operation in operations:
             if operation.kind() == Operation.Kind.BUY:

@@ -68,5 +68,5 @@ class SellDataModelTest(OperationModelTestCase):
     def test_sell_result(self):
         create_operations(self, self.stock)
 
-        self.assertEqual("{0:.2f}".format(self.sell1.result()), "146.94")
+        self.assertEqual("{0:.2f}".format(self.sell1.result()), "145.94")
 
