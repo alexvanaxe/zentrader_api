@@ -39,7 +39,7 @@ class AccountModelTest(AccountModelTestCase):
         create_stocks(self)
         create_buys(self, self.stock)
 
-        self.assertEqual("{0:.2f}".format(self.buy1.account.equity), "7992.35")
+        self.assertEqual("{0:.2f}".format(self.buy1.account.equity), "7989.35")
 
     def test_update_equity_on_sell(self):
         create_stocks(self)

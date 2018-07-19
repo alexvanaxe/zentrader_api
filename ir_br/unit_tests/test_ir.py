@@ -21,25 +21,25 @@ class IRTest(IRTestCase):
     def test_ir_valued(self):
         create_ir_operations(self, self.stock2)
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "17271.50")
+                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "17263.90")
 
     def test_day_trade(self):
         create_ir_operations(self, self.stock2)
         create_day_trades(self, self.stock2)
 
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "17271.50")
+                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "17263.90")
 
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                       '%Y-%m-%dT%H:%M:%S'))[1]), "23985.20")
+                                                                                       '%Y-%m-%dT%H:%M:%S'))[1]), "23987.20")
 
     def test_calculate_import_to_pay(self):
         create_ir_operations(self, self.stock2)
         create_day_trades(self, self.stock2)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "2590.72")
+                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "2589.58")
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[1]), "4797.04")
+                                                                                      '%Y-%m-%dT%H:%M:%S'))[1]), "4797.44")
 
 
     def test_calculate_results(self):

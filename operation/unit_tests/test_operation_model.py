@@ -41,7 +41,7 @@ class OperationModelTest(OperationModelTestCase):
                                                   amount=1000, price=30,
                                                   target=35.34)
 
-        self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.75')
+        self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.73')
 
     def test_gain_percent(self):
         operation = BuyData.objects.create(stock=self.stock,
@@ -49,14 +49,14 @@ class OperationModelTest(OperationModelTestCase):
                                            date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                            amount=1000, price=30)
 
-        self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.37')
+        self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.39')
 
     def test_is_day_trade(self):
         create_day_trades(self, self.stock)
 
         self.assertTrue(self.sell_dt1.is_daytrade())
         self.assertFalse(self.buy_dt1.is_daytrade())
-        self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())), "23985.20")
+        self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())), "23987.20")
 
 
     def test_is_day_trade_false(self):
@@ -68,5 +68,5 @@ class SellDataModelTest(OperationModelTestCase):
     def test_sell_result(self):
         create_operations(self, self.stock)
 
-        self.assertEqual("{0:.2f}".format(self.sell1.result()), "145.94")
+        self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
 
