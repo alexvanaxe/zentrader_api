@@ -176,7 +176,7 @@ class Operation(models.Model):
             return None
 
     def operation_cost(self):
-        if self.amount % 100 == 0:
+        if self.amount % 100 != 0:
             return self.account.operation_cost_fraction
 
         if self.is_daytrade():
@@ -311,3 +311,6 @@ class SellData(Operation):
             return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.operation_cost(), self.amount))
         else:
             return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__gte=self.date, date__lte=self.date), self.operation_cost(), self.amount))
+
+    def sell_value(self):
+        return Decimal(support_system_formulas.calculate_sell(self.amount, self.price, self.operation_cost()))
