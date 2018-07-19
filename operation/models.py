@@ -165,8 +165,13 @@ class Operation(models.Model):
 
         try:
             avg_price = self.operation_average_price()
+            if not stock_sell_price:
+                stock_sell_price = self.price
+
             return Decimal(support_system_formulas.calculate_gain(Decimal(stock_sell_price),
-                                                                  avg_price, self.amount, self.operation_cost())).quantize( Decimal('.05'), rounding=ROUND_DOWN)
+                                                                  avg_price, self.amount,
+                                                                  self.operation_cost())).quantize( Decimal('.05'),
+                                                                                                   rounding=ROUND_DOWN)
         except TypeError:
             return None
 
