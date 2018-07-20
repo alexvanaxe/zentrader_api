@@ -46,7 +46,7 @@ BUY_TOTAL_COST = "(buy_value * amount + operation_cost)"
 
 GAIN_PERCENT = "((total_gain) * 100)/(buy_value * amount + operation_cost)"
 
-GAIN = "(((sell_value * amount) - operation_cost) - ((Decimal(%s) * sell_value) / 100) - ((Decimal(%s) * sell_value) / 100)) - ((avg_buy_value * amount + operation_cost)) + ((Decimal(%s) * avg_buy_value) / 100) + ((Decimal(%s) * avg_buy_value) / 100)" % (EMOLUMENTOS, LIQUIDACAO, EMOLUMENTOS, LIQUIDACAO)
+GAIN = "(((sell_value * amount) - operation_cost) - ((Decimal(%s) * sell_value) / 100) - ((Decimal(%s) * sell_value) / 100)) - (((avg_buy_value * amount + operation_cost)) + ((Decimal(%s) * avg_buy_value) / 100) + ((Decimal(%s) * avg_buy_value) / 100))" % (EMOLUMENTOS, LIQUIDACAO, EMOLUMENTOS, LIQUIDACAO)
 
 
 

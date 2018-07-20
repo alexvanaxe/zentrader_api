@@ -22,11 +22,13 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                   'target', 'stock_data', 'action', 'target_gain',
                   'operation_limit', 'cost', 'stock_cost',
                   'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'target_gain_percent')
+                  'average_stock_cost', 'target_gain_percent',
+                  'experience_gain', 'experience_gain_percent')
         read_only_fields = ('operation_gain', 'operation_limit', 'cost',
                             'real_cost', 'operation_average_price',
                             'average_cost', 'average_stock_cost',
-                            'target_gain_percent')
+                            'target_gain_percent', 'experience_gain',
+                            'experience_gain_percent')
         model = ExperienceData
 
 

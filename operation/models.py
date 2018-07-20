@@ -94,7 +94,7 @@ class Operation(models.Model):
 
         super().save(*args, **kwargs)
 
-    def operation_average_price(self):
+    def operation_average_price(self, price=None):
         """
         This is the price of the stock with all the costs and taxes attributed.
 
@@ -107,8 +107,11 @@ class Operation(models.Model):
         :returns: The average price
         :rtype: Decimal
         """
+        if not price:
+            price = self.price
+
         return Decimal(support_system_formulas.calculate_average_price(self.amount,
-                                                               self.price,
+                                                               price,
                                                                self.operation_cost()))
 
     def average_cost(self):
@@ -118,10 +121,7 @@ class Operation(models.Model):
         :returns: The average cost of the operation
         :rtype: Decimal
         """
-        return Decimal(support_system_formulas.calculate_price(self.amount,
-                       support_system_formulas.calculate_average_price(self.amount,
-                                                               self.price,
-                                                               self.operation_cost())))
+        return Decimal(support_system_formulas.calculate_price(self.amount, self.operation_average_price()))
 
     def cost(self):
         """
@@ -138,20 +138,16 @@ class Operation(models.Model):
                                                                self.price))
 
     def average_stock_cost(self):
-        return Decimal(support_system_formulas.calculate_price(self.amount,
-                       support_system_formulas.calculate_average_price(self.amount,
-                                                               self.stock.price,
-                                                               self.operation_cost())))
+        return Decimal(support_system_formulas.calculate_price(self.amount, self.operation_average_price(self.stock.price)))
 
     def stock_cost(self):
-        return Decimal(support_system_formulas.calculate_price(self.amount,
-                                                               self.stock.price))
+        return Decimal(support_system_formulas.calculate_price(self.amount, self.stock.price))
 
-    def calculate_gain(self, stock_sell_price=None):
+    def calculate_gain(self, sell_price=None):
         """
         Internal method that calculates the gain based of any sell price
 
-        In the calculations must be considered the cost of the operations, as well as the other tributes.
+        In the calculations must be considered the cost of the operations, as well as all the other tributes.
 
         Arguments:
 
@@ -162,18 +158,26 @@ class Operation(models.Model):
         :rtype: Decimal
 
         """
-
         try:
-            avg_price = self.operation_average_price()
-            if not stock_sell_price:
-                stock_sell_price = self.price
+            if not sell_price:
+                sell_price = self.stock.price
 
-            return Decimal(support_system_formulas.calculate_gain(Decimal(stock_sell_price),
-                                                                  avg_price, self.amount,
+            return Decimal(support_system_formulas.calculate_gain(Decimal(sell_price),
+                                                                  self.price, self.amount,
                                                                   self.operation_cost())).quantize( Decimal('.05'),
                                                                                                    rounding=ROUND_DOWN)
         except TypeError:
             return None
+
+    def calculate_gain_percent(self, sell_price=None):
+        if not sell_price:
+            sell_price = self.stock.price
+
+        return Decimal(support_system_formulas.calculate_gain_percent(
+            Decimal(sell_price),
+            Decimal(self.price),
+            Decimal(self.amount),
+            Decimal(self.operation_cost())))
 
     def operation_cost(self):
         if self.amount % 100 != 0:
@@ -217,6 +221,17 @@ class ExperienceData(Operation):
     limit = models.DecimalField(_('limit'), max_digits=6, decimal_places=2, null=True, blank=True)
     action = models.TextField(_('action'), null=True, blank=True, max_length=140)
 
+    def experience_gain(self):
+        """
+        Return how would be the gain if the sell price of the operation was now.
+
+        We consider that the price is the price bought and the sell is the actual stock value
+        """
+        return self.calculate_gain()
+
+    def experience_gain_percent(self):
+        return self.calculate_gain_percent()
+
     def target_gain(self):
         """
         Calculate the gain based in the stock value.
@@ -228,7 +243,8 @@ class ExperienceData(Operation):
         :rtype: Decimal
 
         """
-        return self.calculate_gain(self.target)
+        if self.target:
+            return self.calculate_gain(self.target)
 
     def target_gain_percent(self):
         """
@@ -238,14 +254,7 @@ class ExperienceData(Operation):
         :rtype: Decimal
         """
         # Same as in the buy, hava to inicialize the decimals
-        if self.target:
-            return Decimal(support_system_formulas.calculate_gain_percent(
-                Decimal(self.target),
-                Decimal(self.price),
-                Decimal(self.amount),
-                Decimal(self.operation_cost())))
-        else:
-            return None
+        return self.calculate_gain_percent(self.target)
 
     def operation_limit(self):
         """
