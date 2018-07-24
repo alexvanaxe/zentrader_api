@@ -34,7 +34,7 @@ class Operation(models.Model):
     archived = models.BooleanField(_('archived'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
 
-    favorite = models.CharField(_('favorite'), max_length=1, choices=FAVORITE, default='N')
+    favorite = models.BooleanField(_('favorite'), default=False)
 
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)

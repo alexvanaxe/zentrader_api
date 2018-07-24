@@ -11,7 +11,7 @@ class ExperienceDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the ExperienceData.
     """
-    queryset = ExperienceData.objects.filter(archived=False).order_by('creation_date')
+    queryset = ExperienceData.objects.filter(archived=False).order_by('-favorite', 'creation_date')
     serializer_class = ExperienceDataSerializer
 
 
