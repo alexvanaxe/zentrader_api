@@ -3,6 +3,7 @@ from enum import Enum
 
 from decimal import Decimal, ROUND_DOWN
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -320,6 +321,16 @@ class BuyData(Operation):
             Decimal(self.price),
             Decimal(self.amount),
             Decimal(self.operation_cost())))
+
+    def clean(self, *args, **kwargs):
+        if self.cost() > self.account.equity:
+            raise ValidationError('Not enough money to make this transaction')
+
+        super(BuyData, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(BuyData, self).save(*args, **kwargs)
 
 
 class SellData(Operation):

@@ -88,3 +88,8 @@ def create_sells(cls, stock):
     cls.sell1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
                                                            date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                            amount=100, price=22)
+
+def create_super_buy(cls, stock, account):
+    cls.super_buy = BuyData.objects.create(stock=stock, account=account,
+                                      date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                      amount=10000, price=200)

@@ -1,12 +1,14 @@
 from datetime import datetime
 
 from django.test.testcases import TestCase
+from django.core.exceptions import ValidationError
 
 from operation.models import ExperienceData, BuyData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
-from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations
+from account.unit_tests.account_mocks import create_account, create_third_account
+from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy
+
 
 
 class OperationModelTestCase(TestCase):
@@ -69,4 +71,11 @@ class SellDataModelTest(OperationModelTestCase):
         create_operations(self, self.stock)
 
         self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
+
+class BuyDataModelTest(OperationModelTestCase):
+    def test_buy_not_alowed(self):
+       create_third_account(self)
+       with self.assertRaises(ValidationError):
+           create_super_buy(self, self.stock, self.account3)
+
 
