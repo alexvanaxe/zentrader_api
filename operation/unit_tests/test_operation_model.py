@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from django.test.testcases import TestCase
 from django.core.exceptions import ValidationError
@@ -41,7 +42,7 @@ class OperationModelTest(OperationModelTestCase):
                                                   account=Account.objects.all()[0],
                                                   date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                   amount=1000, price=30,
-                                                  target=35.34)
+                                                  target=Decimal("35.34"))
 
         self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.73')
 
