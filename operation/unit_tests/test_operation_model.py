@@ -78,5 +78,6 @@ class BuyDataModelTest(OperationModelTestCase):
        create_third_account(self)
        with self.assertRaises(ValidationError):
            create_super_buy(self, self.stock, self.account3)
+           self.super_buy.clean()
 
 

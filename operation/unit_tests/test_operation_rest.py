@@ -101,3 +101,14 @@ class ExperienceDataTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data['operation_limit']), '30.8795813')
+
+class BuyDataTest(OperationTestCase):
+    def test_validation_buy(self):
+        url = reverse('buy-list')
+        response = self.client.post(url, {'stock': self.stock.pk,
+                                          'date': datetime.now(),
+                                          'amount': '200000',
+                                          'price': '1000',
+                                          'target': '40.00'})
+
+        self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)

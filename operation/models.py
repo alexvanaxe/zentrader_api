@@ -76,13 +76,6 @@ class Operation(models.Model):
         return self.stock
 
     def clean(self, *args, **kwargs):
-        # For now we force an account for speed development. Later we can remove
-        # this and let for the interface manage the account
-        try:
-            self.account
-        except Account.DoesNotExist:
-            self.account = Account.objects.all().order_by('-pk')[0]
-
         super().clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
@@ -93,10 +86,17 @@ class Operation(models.Model):
           So it will not be changed on updates.
 
         """
-        self.clean()
+        # For now we force an account for speed development. Later we can remove
+        # this and let for the interface manage the account
+        try:
+            self.account
+        except Account.DoesNotExist:
+            self.account = Account.objects.all().order_by('-pk')[0]
+
         if not self.creation_date:
             self.creation_date = datetime.now()
 
+        #  self.clean()
 
         super().save(*args, **kwargs)
 
@@ -335,7 +335,7 @@ class BuyData(Operation):
 
 
     def save(self, *args, **kwargs):
-        self.clean()
+        #   self.clean()
         super().save(*args, **kwargs)
 
 

@@ -7,7 +7,9 @@ incoming data.
 from rest_framework import serializers
 
 from operation.models import ExperienceData, BuyData, SellData
+from account.models import Account
 from stock.serializers import StockSerializer
+from operation.exceptions import NotEnough
 
 
 class ExperienceDataSerializer(serializers.ModelSerializer):
@@ -32,6 +34,25 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
         model = ExperienceData
 
 
+class MoneyValidator(object):
+    def __init__(self, queryset, fields):
+        self.account = queryset
+
+    def __call__(self, value):
+        cost = value['amount'] * value['price']
+        account_selected = self.account.order_by('-pk')[0]
+        if cost > account_selected.equity:
+            raise NotEnough()
+
+    def set_context(self, serializer):
+        """
+        This hook is called by the serializer instance,
+        prior to the validation call being made.
+        """
+        # Determine the existing instance, if this is an update operation.
+        self.instance = getattr(serializer, 'instance', None)
+
+
 class BuyDataSerializer(serializers.ModelSerializer):
     """
     Serializer for BuyDataSerializer model.
@@ -48,6 +69,8 @@ class BuyDataSerializer(serializers.ModelSerializer):
                             'average_stock_cost', 'cost',
                             'operation_gain_percent')
         model = BuyData
+
+        validators = MoneyValidator(queryset=Account.objects.all(), fields=['price', 'amount' ]),
 
 
 class SellDataSerializer(serializers.ModelSerializer):

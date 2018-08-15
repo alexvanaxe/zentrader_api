@@ -29,16 +29,3 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     queryset = SellData.objects.filter(archived=False)
     serializer_class = SellDataSerializer
-
-
-# class OperationCostView(views.APIView):
-#     def get_object(self, pk):
-#         try:
-#             return Operation.objects.get(pk=pk)
-#         except(Operation.DoesNotExist):
-#             raise Http404
-#
-#     def get(self, request, pk, format=None):
-#         operation = self.get_object(pk)
-#         serializer = OperationCostSerializer(operation)
-#         return response.Response(serializer.data)
