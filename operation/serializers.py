@@ -8,8 +8,9 @@ from rest_framework import serializers
 
 from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
+from stock.models import Stock
 from stock.serializers import StockSerializer
-from operation.exceptions import NotEnough
+from operation.exceptions import NotEnoughMoney, NotEnoughStocks
 
 
 class ExperienceDataSerializer(serializers.ModelSerializer):
@@ -42,7 +43,7 @@ class MoneyValidator(object):
         cost = value['amount'] * value['price']
         account_selected = self.account.order_by('-pk')[0]
         if cost > account_selected.equity:
-            raise NotEnough()
+            raise NotEnoughMoney()
 
     def set_context(self, serializer):
         """
@@ -72,6 +73,16 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
         validators = MoneyValidator(queryset=Account.objects.all(), fields=['price', 'amount' ]),
 
+class SellValidator(object):
+    def __init__(self):
+        pass
+
+    def __call__(self, value):
+        amount = value['amount']
+        stocks = value['stock'].owned()
+
+        if stocks < amount:
+            raise NotEnoughStocks()
 
 class SellDataSerializer(serializers.ModelSerializer):
     """
@@ -81,4 +92,7 @@ class SellDataSerializer(serializers.ModelSerializer):
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
                   'nickname', 'favorite')
         model = SellData
+
+        validators = SellValidator(),
+
 

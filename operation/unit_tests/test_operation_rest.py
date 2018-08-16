@@ -112,3 +112,17 @@ class BuyDataTest(OperationTestCase):
                                           'target': '40.00'})
 
         self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+
+
+class SellDataTest(OperationTestCase):
+    def test_validation_buy(self):
+        url = reverse('sell-list')
+        response = self.client.post(url, {'stock': self.stock.pk,
+                                          'date': datetime.now(),
+                                          'amount': '200000',
+                                          'price': '1000',
+                                          'target': '40.00'})
+
+        self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+
+
