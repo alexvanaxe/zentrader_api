@@ -233,7 +233,7 @@ class ExperienceData(Operation):
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
     limit = models.DecimalField(_('limit'), max_digits=6, decimal_places=2, null=True, blank=True)
     action = models.TextField(_('action'), null=True, blank=True, max_length=140)
-    intent = models.CharField(max_length=1, choices=INTENTION, default=BUY)
+    intent = models.CharField(max_length=1, null=True, blank=True, choices=INTENTION, default=BUY)
 
     def experience_gain(self):
         """

@@ -105,3 +105,4 @@ ENV/
 /staticfiles
 Session.vim
 *tags
+cscope.files
