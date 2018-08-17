@@ -150,11 +150,11 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/home/alexvanaxe/Documents/development/projects/zentrader/source/zentrader-web/log/api.log',
-        },
+        #  'file': {
+        #      'level': 'DEBUG',
+        #      'class': 'logging.FileHandler',
+        #      'filename': '/home/alexvanaxe/Documents/development/projects/zentrader/source/zentrader-web/log/api.log',
+        #  },
         'console': {
             'class': 'logging.StreamHandler',
         },
