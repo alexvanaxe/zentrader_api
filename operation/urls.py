@@ -36,6 +36,7 @@ router.register(r'sell', views.SellDataViewSet, base_name='sell')
 # Include the router to the patterns
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'^risk\.(?P<format>[a-z0-9]+)/', views.RiskDataApiView.as_view(), name="risk_data")
     #  url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
     #  url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
 ]

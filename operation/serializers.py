@@ -95,4 +95,7 @@ class SellDataSerializer(serializers.ModelSerializer):
 
         validators = SellValidator(),
 
+class RiskDataSerializer(serializers.Serializer):
+    shark = serializers.DecimalField(max_digits=22, decimal_places=2)
+
 

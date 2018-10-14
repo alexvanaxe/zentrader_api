@@ -11,7 +11,6 @@ from account.unit_tests.account_mocks import create_account, create_third_accoun
 from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy
 
 
-
 class OperationModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -79,5 +78,9 @@ class BuyDataModelTest(OperationModelTestCase):
        with self.assertRaises(ValidationError):
            create_super_buy(self, self.stock, self.account3)
            self.super_buy.clean()
+
+    def test_shark(self):
+        create_operations(self, self.stock)
+        self.assertEqual('1.12', str(BuyData.boughts.shark().shark))
 
 

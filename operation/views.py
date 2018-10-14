@@ -4,7 +4,7 @@ from rest_framework import viewsets, views, response
 
 from operation.models import ExperienceData, BuyData, SellData
 from operation.serializers import ExperienceDataSerializer, \
-    BuyDataSerializer, SellDataSerializer
+    BuyDataSerializer, SellDataSerializer, RiskDataSerializer
 
 
 class ExperienceDataViewSet(viewsets.ModelViewSet):
@@ -29,3 +29,11 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     queryset = SellData.objects.filter(archived=False)
     serializer_class = SellDataSerializer
+
+class RiskDataApiView(views.APIView):
+    """
+    View to get the risk, it returns the shark for the current buy
+    """
+    def get(self, request, format=None):
+        serializer = RiskDataSerializer(BuyData.boughts.shark())
+        return response.Response(serializer.data)

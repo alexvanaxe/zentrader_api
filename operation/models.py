@@ -294,9 +294,31 @@ class ExperienceData(Operation):
                                                                self.amount))
 
 
+class RiskData(object):
+    def __init__(self, shark):
+        self.shark = shark
+
+
+class BuyDataManager(models.Manager):
+    def shark(self):
+        boughts = BuyData.objects.filter(archived=False)
+        shark = 0
+
+        for buy in boughts:
+            if buy.stop_loss:
+                gain_percent = buy.calculate_gain(buy.stop_loss)
+                if gain_percent < 0:
+                    shark = (support_system_formulas.calculate_piranha(gain_percent, buy.account.equity) * -1) + shark
+
+        risk_data = RiskData(round(shark, 2))
+        return risk_data
+
+
 class BuyData(Operation):
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
+
+    boughts = BuyDataManager()
 
     def operation_gain(self):
         """
