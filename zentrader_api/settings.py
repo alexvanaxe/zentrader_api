@@ -90,8 +90,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'zentrader',
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'zen',
+        'PASSWORD': 'senha123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
