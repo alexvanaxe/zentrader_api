@@ -270,6 +270,20 @@ class ExperienceData(Operation):
         # Same as in the buy, hava to inicialize the decimals
         return self.calculate_gain_percent(self.target)
 
+    def stop_loss_result(self):
+        """
+        Calculate the operation result case the stop is hit.
+        """
+        if self.stop_loss:
+            return self.calculate_gain(self.stop_loss)
+
+    def stop_loss_percent(self):
+       """
+       Calculates the percentage result of the stop loss if it is hit.
+       """
+       if self.stop_loss:
+           return self.calculate_gain_percent(self.stop_loss)
+
     def operation_limit(self):
         """
          Calculates the limit acceptable to make a buy.
