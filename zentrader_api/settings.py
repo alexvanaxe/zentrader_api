@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'stock',
     'operation',
     'account',
-    'ir_br'
+    'ir_br',
+    'notes'
+
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

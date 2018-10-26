@@ -21,8 +21,9 @@ Examples:
 """
 
 from django.conf.urls import url, include
-from stock import views
 from rest_framework.routers import DefaultRouter
+
+from stock import views
 
 #Create a router
 router = DefaultRouter()
