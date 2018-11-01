@@ -42,10 +42,11 @@ class MoneyValidator(object):
         self.account = queryset
 
     def __call__(self, value):
-        cost = value['amount'] * value['price']
-        account_selected = self.account.order_by('-pk')[0]
-        if cost > account_selected.equity:
-            raise NotEnoughMoney()
+        if not self.instance.pk:
+            cost = value['amount'] * value['price']
+            account_selected = self.account.order_by('-pk')[0]
+            if cost > account_selected.equity:
+                raise NotEnoughMoney()
 
     def set_context(self, serializer):
         """
@@ -73,7 +74,8 @@ class BuyDataSerializer(serializers.ModelSerializer):
                             'operation_gain_percent')
         model = BuyData
 
-        validators = MoneyValidator(queryset=Account.objects.all(), fields=['price', 'amount' ]),
+        validators = MoneyValidator(queryset=Account.objects.all(),
+                                    fields=['pk', 'price', 'amount', ]),
 
 class SellValidator(object):
     def __init__(self):
