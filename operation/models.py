@@ -165,8 +165,8 @@ class Operation(models.Model):
 
         """
         try:
-            if not sell_price:
-                sell_price = self.stock.price
+            if sell_price is None:
+                return None
 
             return Decimal(support_system_formulas.calculate_gain(Decimal(sell_price),
                                                                   self.price, self.amount,
@@ -241,10 +241,10 @@ class ExperienceData(Operation):
 
         We consider that the price is the price bought and the sell is the actual stock value
         """
-        return self.calculate_gain()
+        return self.calculate_gain(self.stock.price)
 
     def experience_gain_percent(self):
-        return self.calculate_gain_percent()
+        return self.calculate_gain_percent(self.stock.price)
 
     def target_gain(self):
         """
