@@ -176,8 +176,8 @@ class Operation(models.Model):
             return None
 
     def calculate_gain_percent(self, sell_price=None):
-        if not sell_price:
-            sell_price = self.stock.price
+        if sell_price is None:
+            return None
 
         return Decimal(support_system_formulas.calculate_gain_percent(
             Decimal(sell_price),

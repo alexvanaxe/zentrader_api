@@ -83,4 +83,7 @@ class BuyDataModelTest(OperationModelTestCase):
         create_operations(self, self.stock)
         self.assertEqual('1.12', str(BuyData.boughts.shark().shark))
 
-
+class ExperimentDataModelTest(OperationModelTestCase):
+    def test_experiment_default(self):
+        create_operations(self, self.stock)
+        self.assertEqual('None', str(self.operation.target_gain_percent()))

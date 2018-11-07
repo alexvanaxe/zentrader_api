@@ -42,7 +42,7 @@ class MoneyValidator(object):
         self.account = queryset
 
     def __call__(self, value):
-        if not self.instance.pk:
+        if self.instance is None or not self.instance.pk:
             cost = value['amount'] * value['price']
             account_selected = self.account.order_by('-pk')[0]
             if cost > account_selected.equity:
