@@ -32,5 +32,9 @@ router = DefaultRouter()
 router.register(r'account', views.AccountViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^account/default\.(?P<format>[a-z0-9]+)/?$',
+        views.AccountDefault.as_view(), name="account_default"),
+    url(r'^account/default/$',
+        views.AccountDefault.as_view(), name="account_default"),
+    url(r'^', include(router.urls))
 ]
