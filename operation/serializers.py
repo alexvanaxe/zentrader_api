@@ -67,11 +67,14 @@ class BuyDataSerializer(serializers.ModelSerializer):
         fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stop_gain', 'stop_loss', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'cost', 'operation_gain_percent')
+                  'average_stock_cost', 'cost', 'operation_gain_percent',
+                  'stop_loss_result','stop_loss_percent',
+                  'stop_gain_result','stop_gain_percent')
         read_only_fields = ('stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
-                            'operation_gain_percent')
+                            'operation_gain_percent', 'stop_loss_result',
+                            'stop_loss_percent', 'stop_gain_result','stop_gain_percent')
         model = BuyData
 
         validators = MoneyValidator(queryset=Account.objects.all(),

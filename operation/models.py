@@ -334,6 +334,34 @@ class BuyData(Operation):
 
     boughts = BuyDataManager()
 
+    def stop_gain_result(self):
+        """
+        Calculate the operation result case the stop is hit.
+        """
+        if self.stop_loss:
+            return self.calculate_gain(self.stop_gain)
+
+    def stop_gain_percent(self):
+       """
+       Calculates the percentage result of the stop gain if it is hit.
+       """
+       if self.stop_gain:
+           return self.calculate_gain_percent(self.stop_gain)
+
+    def stop_loss_result(self):
+        """
+        Calculate the operation result case the stop is hit.
+        """
+        if self.stop_loss:
+            return self.calculate_gain(self.stop_loss)
+
+    def stop_loss_percent(self):
+       """
+       Calculates the percentage result of the stop loss if it is hit.
+       """
+       if self.stop_loss:
+           return self.calculate_gain_percent(self.stop_loss)
+
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
