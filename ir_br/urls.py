@@ -31,9 +31,6 @@ from ir_br import views
 urlpatterns = [
     url(r'^ir_br/$', views.IrBrApiView.as_view(), name="ir_br"),
     url(r'^ir_br/(?P<date>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/$', views.IrBrApiGetView.as_view(), name="ir_br_date"),
-
-    #  url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
-    #  url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

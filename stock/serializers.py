@@ -16,3 +16,14 @@ class StockSerializer(serializers.ModelSerializer):
         model = Stock
         fields = ('pk', 'code', 'price', 'owned')
         read_only_fields = ('owned', )
+
+class OwnedStocksSerializer(serializers.Serializer):
+    """
+    The aggregation of the owned stocks. It contains the average price, which
+    is used to know the total patrimonium.
+    """
+    code = serializers.CharField(max_length=5)
+    price = serializers.DecimalField(decimal_places=2, label='Stock value', max_digits=22)
+    owned = serializers.ReadOnlyField(read_only=True)
+    average_price = serializers.DecimalField(decimal_places=2, label='Average Price', max_digits=22)
+    stock_value = serializers.DecimalField(decimal_places=2, label='Stock Value', max_digits=22)

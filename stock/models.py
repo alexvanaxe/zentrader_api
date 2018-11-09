@@ -15,7 +15,7 @@ class Stock(models.Model):
     def __str__(self):
         return self.code
 
-    def owned(self):
+    def owned(self, date__gte=None, date__lte=datetime.now()):
         """
         Quantify the amount of stock that is owned at the moment (it is the
         quantity available to sell).
@@ -23,9 +23,19 @@ class Stock(models.Model):
         :returns: The amount owned
         :rtype: Decimal
         """
-        sells = Operation.objects.filter(stock=self).aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
 
-        buys = Operation.objects.filter(stock=self).aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
+
+        sells_q = Operation.objects.filter(stock=self)
+        buys_q = Operation.objects.filter(stock=self)
+        if date__gte:
+            sells_q = sells_q.filter(creation_date__gte=date__gte)
+            buys_q = buys_q.filter(creation_date__gte=date__gte)
+        if date__lte:
+           sells_q =  sells_q.filter(creation_date__lt=date__lte)
+           buys_q = buys_q.filter(creation_date__lt=date__lte)
+
+        sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
+        buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
 
         return  buys - sells
 
@@ -46,13 +56,13 @@ class Stock(models.Model):
         :returns: The average price
         :rtype: Decimal
         """
-        operations = Operation.objects.filter(stock=self).order_by('date')
+        operations = Operation.objects.filter(stock=self).order_by('creation_date')
 
         if date__gte:
-            operations = operations .filter(date__gte=date__gte)
+            operations = operations .filter(creation_date__gte=date__gte)
 
         if date__lte:
-            operations = operations .filter(date__lt=date__lte)
+            operations = operations .filter(creation_date__lt=date__lte)
 
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')
@@ -70,4 +80,7 @@ class Stock(models.Model):
                 net_amount = net_amount - operation.amount
 
 
-        return actual_average_price
+        return Decimal(actual_average_price)
+
+    def stock_value(self):
+        return Decimal(self.owned()) * Decimal(self.average_price())
