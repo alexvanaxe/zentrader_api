@@ -27,7 +27,7 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the SellData.
     """
-    queryset = SellData.objects.filter(archived=False)
+    queryset = SellData.objects.filter()
     serializer_class = SellDataSerializer
 
 class RiskDataApiView(views.APIView):
