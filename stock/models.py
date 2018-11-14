@@ -31,8 +31,8 @@ class Stock(models.Model):
             sells_q = sells_q.filter(creation_date__gte=date__gte)
             buys_q = buys_q.filter(creation_date__gte=date__gte)
         if date__lte:
-           sells_q =  sells_q.filter(creation_date__lt=date__lte)
-           buys_q = buys_q.filter(creation_date__lt=date__lte)
+           sells_q =  sells_q.filter(creation_date__lte=date__lte)
+           buys_q = buys_q.filter(creation_date__lte=date__lte)
 
         sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
         buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
@@ -62,7 +62,7 @@ class Stock(models.Model):
             operations = operations .filter(creation_date__gte=date__gte)
 
         if date__lte:
-            operations = operations .filter(creation_date__lt=date__lte)
+            operations = operations .filter(creation_date__lte=date__lte)
 
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')

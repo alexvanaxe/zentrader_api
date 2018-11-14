@@ -1,4 +1,5 @@
 from django.test.testcases import TestCase
+from datetime import datetime
 
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
@@ -14,6 +15,12 @@ class StockModelTestCase(TestCase):
 
 
 class StockTestCase(StockModelTestCase):
+    def test_owned_margin(self):
+        self.assertEqual(str(self.stock.owned(datetime.strptime('2017-06-10T15:52:30',
+                                                                '%Y-%m-%dT%H:%M:%S'),
+                                              datetime.strptime('2017-06-25T15:52:30',
+                                                                '%Y-%m-%dT%H:%M:%S'))), str(300))
+
     def test_owned(self):
         self.assertEqual(str(self.stock.owned()), str(200))
 
