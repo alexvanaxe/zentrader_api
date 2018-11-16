@@ -27,3 +27,7 @@ class OwnedStocksSerializer(serializers.Serializer):
     owned = serializers.ReadOnlyField(read_only=True)
     average_price = serializers.DecimalField(decimal_places=2, label='Average Price', max_digits=22)
     stock_value = serializers.DecimalField(decimal_places=2, label='Stock Value', max_digits=22)
+    stock_result = serializers.DecimalField(decimal_places=2, label='Stock Result', max_digits=22)
+    stock_result_percent = serializers.DecimalField(decimal_places=2,
+                                                    label='Stock Result Percent', max_digits=22)
+

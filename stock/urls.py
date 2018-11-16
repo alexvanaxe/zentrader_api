@@ -32,9 +32,10 @@ router = DefaultRouter()
 #Register the viewset
 router.register(r'stock', views.StockViewSet)
 
+#TODO: Maybe create a new app "Portfolio" for this resume?
 urlpatterns = [
-    url(r'^owned_stocks/$', views.OwnedStocksAPIView.as_view(),
-        name="owned_stocks")
+    url(r'^stock/resume/$', views.OwnedStocksAPIView.as_view(),
+        name="resume")
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

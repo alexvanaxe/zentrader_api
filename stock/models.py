@@ -84,3 +84,28 @@ class Stock(models.Model):
 
     def stock_value(self):
         return Decimal(self.owned()) * Decimal(self.average_price())
+
+    def stock_result(self):
+        """Returns the result of the stock. It is considered as operation cost
+        the wrost case scenario, that is of the position.
+        TODO: The way it is used in the system now it is garanteed that it has
+        some owned and some average price. But in the future errors might
+        occur.
+        :returns: Decimal
+        """
+        operation_cost = Account.objects.filter(next_account__isnull=True)[0]
+
+        return Decimal(support_system_formulas.calculate_gain(self.price,
+                                                              self.average_price(),
+                                                              self.owned(),
+                                                              operation_cost.operation_cost_position))
+
+    def stock_result_percent(self):
+        """ This has the same logic that stock_result, and returns the
+        variation from the actual stock price.
+        :returns: TODO
+        """
+        operation_cost = Account.objects.filter(next_account__isnull=True)[0]
+
+        return Decimal(support_system_formulas.calculate_gain_percent(
+            self.price, self.average_price(), self.owned(), operation_cost.operation_cost_position))
