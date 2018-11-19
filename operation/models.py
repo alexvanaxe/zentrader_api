@@ -28,7 +28,6 @@ class Operation(models.Model):
 
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
-    date = models.DateTimeField(_('oparation date'), null=False)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
@@ -204,12 +203,15 @@ class Operation(models.Model):
         trade.
         """
         if self.kind() is self.Kind.SELL:
-            day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
+            day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
 
             return len(day_buys) > 0
 
         if self.kind() is self.Kind.BUY:
-            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(date__day=self.date.day, date__month=self.date.month, date__year=self.date.year, date__lte=self.date)
+            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
+                                                                                                                          creation_date__month=self.creation_date.month,
+                                                                                                                          creation_date__year=self.creation_date.year,
+                                                                                                                          creation_date__lte=self.creation_date)
 
             return len(day_sells) > 0
 
@@ -406,9 +408,9 @@ class BuyData(Operation):
 class SellData(Operation):
     def result(self):
         if not self.is_daytrade():
-            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.date), self.operation_cost(), self.amount))
+            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.creation_date), self.operation_cost(), self.amount))
         else:
-            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__gte=self.date, date__lte=self.date), self.operation_cost(), self.amount))
+            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__gte=self.creation_date, date__lte=self.creation_date), self.operation_cost(), self.amount))
 
     def sell_value(self):
         return Decimal(support_system_formulas.calculate_sell(self.amount, self.price, self.operation_cost()))

@@ -20,7 +20,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
 
     stock_data = StockSerializer(read_only=True)
     class Meta:
-        fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
+        fields = ('pk', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'stock_data', 'action', 'target_gain',
                   'operation_limit', 'intent', 'cost', 'stock_cost',
@@ -28,7 +28,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                   'average_stock_cost', 'target_gain_percent',
                   'experience_gain', 'experience_gain_percent', 'favorite',
                   'get_intent_display', 'stop_loss_result','stop_loss_percent')
-        read_only_fields = ('operation_gain', 'operation_limit', 'cost',
+        read_only_fields = ('creation_date', 'operation_gain', 'operation_limit', 'cost',
                             'real_cost', 'operation_average_price',
                             'average_cost', 'average_stock_cost',
                             'target_gain_percent', 'experience_gain',
@@ -64,13 +64,13 @@ class BuyDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
+        fields = ('pk', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stop_gain', 'stop_loss', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost',
                   'average_stock_cost', 'cost', 'operation_gain_percent',
                   'stop_loss_result','stop_loss_percent',
                   'stop_gain_result','stop_gain_percent')
-        read_only_fields = ('stock_data', 'operation_gain',
+        read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
                             'operation_gain_percent', 'stop_loss_result',
@@ -96,7 +96,7 @@ class SellDataSerializer(serializers.ModelSerializer):
     Serializer for SellDataSerializer model.
     """
     class Meta:
-        fields = ('pk', 'stock', 'date', 'amount', 'price', 'archived',
+        fields = ('pk', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite')
         model = SellData
 

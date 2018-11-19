@@ -46,7 +46,7 @@ class IRTest(IRTestCase):
         create_ir_operations(self, self.stock2)
         reference_date = datetime.strptime('2017-06-25T15:52:30',
                                            '%Y-%m-%dT%H:%M:%S')
-        sell_operation_query = SellData.objects.filter(date__lte=reference_date).exclude(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
+        sell_operation_query = SellData.objects.filter(creation_date__lte=reference_date).exclude(creation_date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
         results = calculate_results(sell_operation_query)
 
         try:

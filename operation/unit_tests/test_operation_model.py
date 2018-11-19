@@ -22,7 +22,6 @@ class OperationModelTest(OperationModelTestCase):
     def test_create(self):
         operation = ExperienceData.objects.create(stock=self.stock,
                                                   account=Account.objects.all()[0],
-                                                  date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                   amount=1000, price=30)
 
         self.assertIsNotNone(operation.creation_date)
@@ -30,7 +29,6 @@ class OperationModelTest(OperationModelTestCase):
     def test_real_cost(self):
         operation = ExperienceData.objects.create(stock=self.stock,
                                                   account=Account.objects.all()[0],
-                                                  date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                   amount=1000, price=30)
 
         self.assertEqual(str(operation.stock_cost()), '20000')
@@ -39,7 +37,6 @@ class OperationModelTest(OperationModelTestCase):
     def test_target_percent(self):
         operation = ExperienceData.objects.create(stock=self.stock,
                                                   account=Account.objects.all()[0],
-                                                  date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                   amount=1000, price=30,
                                                   target=Decimal("35.34"))
 
@@ -48,7 +45,6 @@ class OperationModelTest(OperationModelTestCase):
     def test_gain_percent(self):
         operation = BuyData.objects.create(stock=self.stock,
                                            account=Account.objects.all()[0],
-                                           date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                            amount=1000, price=30)
 
         self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.39')

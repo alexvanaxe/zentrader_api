@@ -66,7 +66,6 @@ class ExperienceDataTest(OperationTestCase):
     def test_post(self):
         url = reverse('experience-list')
         response = self.client.post(url, {'stock': self.stock.pk,
-                                          'date': datetime.now(),
                                           'amount': '200',
                                           'price': '10',
                                           'target': '40.00'})
@@ -106,7 +105,6 @@ class BuyDataTest(OperationTestCase):
     def test_validation_buy(self):
         url = reverse('buy-list')
         response = self.client.post(url, {'stock': self.stock.pk,
-                                          'date': datetime.now(),
                                           'amount': '200000',
                                           'price': '1000',
                                           'target': '40.00'})
@@ -118,7 +116,6 @@ class SellDataTest(OperationTestCase):
     def test_validation_buy(self):
         url = reverse('sell-list')
         response = self.client.post(url, {'stock': self.stock.pk,
-                                          'date': datetime.now(),
                                           'amount': '200000',
                                           'price': '1000',
                                           'target': '40.00'})

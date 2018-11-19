@@ -16,17 +16,11 @@ class AccountModelTestCase(TestCase):
 
 class AccountModelTest(AccountModelTestCase):
     def test_create_account(self):
-        operation = ExperienceData.objects.create(stock=self.stock,
-                                                  date=datetime.strptime('2017-06-30T15:52:30',
-                                                                         '%Y-%m-%dT%H:%M:%S'),
-                                                  amount=1000, price=30)
+        operation = ExperienceData.objects.create(stock=self.stock, amount=1000, price=30)
 
         self.assertEqual(str(operation.account.operation_cost_position), "10.00")
         create_second_account(self)
-        operation = ExperienceData.objects.create(stock=self.stock,
-                                                  date=datetime.strptime('2017-06-30T15:52:30',
-                                                                         '%Y-%m-%dT%H:%M:%S'),
-                                                  amount=1000, price=30)
+        operation = ExperienceData.objects.create(stock=self.stock, amount=1000, price=30)
 
         self.assertEqual(str(operation.account.operation_cost_position), "15.00")
 

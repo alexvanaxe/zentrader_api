@@ -15,14 +15,14 @@ from formulas import support_system_formulas
 def _separate_sell(sell, separated_sells, separated_daytrade):
     try:
         if sell.is_daytrade():
-            separated_daytrade[(sell.date.month, sell.date.year)].append(sell)
+            separated_daytrade[(sell.creation_date.month, sell.creation_date.year)].append(sell)
         else:
-            separated_sells[(sell.date.month, sell.date.year)].append(sell)
+            separated_sells[(sell.creation_date.month, sell.creation_date.year)].append(sell)
     except KeyError:
         if sell.is_daytrade():
-            separated_daytrade[(sell.date.month, sell.date.year)] = [sell]
+            separated_daytrade[(sell.creation_date.month, sell.creation_date.year)] = [sell]
         else:
-            separated_sells[(sell.date.month, sell.date.year)] = [sell]
+            separated_sells[(sell.creation_date.month, sell.creation_date.year)] = [sell]
     return (separated_sells, separated_daytrade)
 
 
@@ -34,7 +34,7 @@ def _iter_sells(sell_operations, index, separated_sells, separated_daytrade):
     return (separated_sells, separated_daytrade)
 
 def _calculate_sum_month(sells):
-    return sum((sell.result() for sell in sells)), sum((sell.cost() for sell in sells)), sells[0].date
+    return sum((sell.result() for sell in sells)), sum((sell.cost() for sell in sells)), sells[0].creation_date
 
 def _calculate_sum_months(separated_sells):
     return (_calculate_sum_month(sells) for sells in separated_sells)
@@ -128,11 +128,14 @@ def calculate_ir_base_value(reference_date=datetime.today()):
 
     """
     # SEE: bussola do investidor, http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/
-    sell_operations = SellData.objects.filter(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d')).order_by('date')
+    sell_operations = SellData.objects.filter(creation_date__lte=datetime.strptime('%d-%d-01' %
+                                                                 (reference_date.year,
+                                                                  reference_date.month),
+                                                                 '%Y-%m-%d')).order_by('creation_date')
     negative_balance = calculate_negative_balance(calculate_results(sell_operations)[0])
     negative_balance_dt = calculate_negative_balance(calculate_results(sell_operations)[1])
     # Excludes the sells of the previous months, since the logic here is to get the ir per month
-    sell_operation_query = SellData.objects.filter(date__lte=reference_date).exclude(date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
+    sell_operation_query = SellData.objects.filter(creation_date__lte=reference_date).exclude(creation_date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
     results = calculate_results(sell_operation_query)[0]
     results_dt = calculate_results(sell_operation_query)[1]
 
