@@ -15,7 +15,7 @@ class Stock(models.Model):
     def __str__(self):
         return self.code
 
-    def owned(self, date__gte=None, date__lte=datetime.now()):
+    def owned(self, date__gte=None, date__lte=None):
         """
         Quantify the amount of stock that is owned at the moment (it is the
         quantity available to sell).
@@ -24,6 +24,8 @@ class Stock(models.Model):
         :rtype: Decimal
         """
 
+        if date__lte is None:
+            date__lte = datetime.now()
 
         sells_q = Operation.objects.filter(stock=self)
         buys_q = Operation.objects.filter(stock=self)
@@ -40,7 +42,7 @@ class Stock(models.Model):
         return  buys - sells
 
 
-    def average_price(self, date__gte=None, date__lte=datetime.now()):
+    def average_price(self, date__gte=None, date__lte=None):
         """
         The average price of the stock is a concept used in the calculations of the brazilian ir.
         The main reason of the existence of this value is the fact that we can't choose the action we will sell. So
@@ -56,6 +58,9 @@ class Stock(models.Model):
         :returns: The average price
         :rtype: Decimal
         """
+        if date__lte is None:
+            date__lte = datetime.now()
+
         operations = Operation.objects.filter(stock=self).order_by('creation_date')
 
         if date__gte:

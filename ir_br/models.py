@@ -111,7 +111,7 @@ def calculate_negative_balance(results):
     except StopIteration:
         return 0
 
-def calculate_ir_base_value(reference_date=datetime.today()):
+def calculate_ir_base_value(reference_date=None):
     """
     Calculates the base value where the tax will be taken.
 
@@ -128,6 +128,8 @@ def calculate_ir_base_value(reference_date=datetime.today()):
 
     """
     # SEE: bussola do investidor, http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/
+    if reference_date is None:
+        reference_date = datetime.today()
     sell_operations = SellData.objects.filter(creation_date__lte=datetime.strptime('%d-%d-01' %
                                                                  (reference_date.year,
                                                                   reference_date.month),
@@ -161,7 +163,7 @@ def calculate_ir_base_value(reference_date=datetime.today()):
 
     return (value_to_pay.quantize(Decimal('.05'), rounding=ROUND_DOWN), value_to_pay_dt.quantize(Decimal('.05')))
 
-def calculate_impost_to_pay(reference_date=datetime.today()):
+def calculate_impost_to_pay(reference_date=None):
     """
     Calculates the amount money that will be have to be paid in the ir.
 
@@ -172,6 +174,8 @@ def calculate_impost_to_pay(reference_date=datetime.today()):
     :param reference_date: The reference date from where the impost will be calculated.
 
     """
+    if reference_date is None:
+        reference_date = datetime.today()
     ir = calculate_ir_base_value(reference_date)[0]
     ir_dt = calculate_ir_base_value(reference_date)[1]
 
