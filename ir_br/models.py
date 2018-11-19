@@ -189,7 +189,9 @@ class IrBr():
 
 
 class IrBrManager():
-    def retrieveIr(self, reference_date=datetime.today()):
+    def retrieveIr(self, reference_date=None):
+        if reference_date is None:
+            reference_date = datetime.today()
         ir_to_pay = calculate_impost_to_pay(reference_date)
         return IrBr(ir_to_pay[0], ir_to_pay[1])
 

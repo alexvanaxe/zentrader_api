@@ -20,7 +20,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
 
     stock_data = StockSerializer(read_only=True)
     class Meta:
-        fields = ('pk', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'stock_data', 'action', 'target_gain',
                   'operation_limit', 'intent', 'cost', 'stock_cost',
@@ -64,7 +64,7 @@ class BuyDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stop_gain', 'stop_loss', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost',
                   'average_stock_cost', 'cost', 'operation_gain_percent',
