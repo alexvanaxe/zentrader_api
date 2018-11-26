@@ -14,7 +14,7 @@ class StockSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Stock
-        fields = ('pk', 'code', 'price', 'owned')
+        fields = ('pk', 'code', 'name', 'sector', 'subsector', 'price', 'owned')
         read_only_fields = ('owned', )
 
 class OwnedStocksSerializer(serializers.Serializer):
@@ -23,11 +23,12 @@ class OwnedStocksSerializer(serializers.Serializer):
     is used to know the total patrimonium.
     """
     code = serializers.CharField(max_length=5)
+    name = serializers.CharField(label='Name', max_length=140)
+    sector = serializers.CharField(label='Sector', max_length=140)
+    subsector = serializers.CharField(label='Subsector', max_length=140)
     price = serializers.DecimalField(decimal_places=2, label='Stock value', max_digits=22)
     owned = serializers.ReadOnlyField(read_only=True)
     average_price = serializers.DecimalField(decimal_places=2, label='Average Price', max_digits=22)
     stock_value = serializers.DecimalField(decimal_places=2, label='Stock Value', max_digits=22)
     stock_result = serializers.DecimalField(decimal_places=2, label='Stock Result', max_digits=22)
-    stock_result_percent = serializers.DecimalField(decimal_places=2,
-                                                    label='Stock Result Percent', max_digits=22)
-
+    stock_result_percent = serializers.DecimalField(decimal_places=2, label='Stock Result Percent', max_digits=22)

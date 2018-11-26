@@ -8,8 +8,12 @@ from operation.models import Operation
 from account.models import Account
 from formulas import support_system_formulas
 
+
 class Stock(models.Model):
-    code = models.CharField(_('Code'), max_length=5)
+    code = models.CharField(_('Code'), max_length=10)
+    name = models.CharField(_('Name'), max_length=140)
+    sector = models.CharField(_('Sector'), null=True, blank=True, max_length=140)
+    subsector = models.CharField(_('Subsector'), null=True, blank=True, max_length=140)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
 
     def __str__(self):
