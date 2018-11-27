@@ -113,7 +113,7 @@ class BuyDataTest(OperationTestCase):
 
 
 class SellDataTest(OperationTestCase):
-    def test_validation_buy(self):
+    def test_validation_amount_before_execution(self):
         url = reverse('sell-list')
         response = self.client.post(url, {'stock': self.stock.pk,
                                           'amount': '200000',

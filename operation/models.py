@@ -15,6 +15,14 @@ from account.models import Account
 from formulas import support_system_formulas
 
 
+class OperationManager(models.Manager):
+
+    """ A manager for the operation. It is used to provide a shortcut for the
+    operations that were executed. """
+    def get_queryset(self):
+        return super().get_queryset().filter(executed=True)
+
+
 class Operation(models.Model):
     """ A operation realized in a transaction (ex: buy, sell, experiment...) """
 
@@ -32,9 +40,14 @@ class Operation(models.Model):
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
+    executed = models.BooleanField(_('executed'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
 
     favorite = models.BooleanField(_('favorite'), default=False)
+
+    # DEFINE THE MANAGERS
+    objects = models.Manager() # The default manager
+    executions = OperationManager() # The executed manager
 
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)

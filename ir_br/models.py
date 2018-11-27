@@ -130,14 +130,14 @@ def calculate_ir_base_value(reference_date=None):
     # SEE: bussola do investidor, http://blog.bussoladoinvestidor.com.br/imposto-de-renda-em-acoes/
     if reference_date is None:
         reference_date = datetime.today()
-    sell_operations = SellData.objects.filter(creation_date__lte=datetime.strptime('%d-%d-01' %
+    sell_operations = SellData.executions.filter(creation_date__lte=datetime.strptime('%d-%d-01' %
                                                                  (reference_date.year,
                                                                   reference_date.month),
                                                                  '%Y-%m-%d')).order_by('creation_date')
     negative_balance = calculate_negative_balance(calculate_results(sell_operations)[0])
     negative_balance_dt = calculate_negative_balance(calculate_results(sell_operations)[1])
     # Excludes the sells of the previous months, since the logic here is to get the ir per month
-    sell_operation_query = SellData.objects.filter(creation_date__lte=reference_date).exclude(creation_date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
+    sell_operation_query = SellData.executions.filter(creation_date__lte=reference_date).exclude(creation_date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))
     results = calculate_results(sell_operation_query)[0]
     results_dt = calculate_results(sell_operation_query)[1]
 

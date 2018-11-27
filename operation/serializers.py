@@ -96,7 +96,7 @@ class SellDataSerializer(serializers.ModelSerializer):
     Serializer for SellDataSerializer model.
     """
     class Meta:
-        fields = ('pk', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'executed', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite')
         model = SellData
 
@@ -104,5 +104,3 @@ class SellDataSerializer(serializers.ModelSerializer):
 
 class RiskDataSerializer(serializers.Serializer):
     shark = serializers.DecimalField(max_digits=22, decimal_places=2)
-
-

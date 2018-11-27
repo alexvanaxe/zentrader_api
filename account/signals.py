@@ -13,7 +13,7 @@ def debit_account(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=SellData)
 def credit_account(sender, instance, created, **kwargs):
-    if created:
+    if instance.executed:
        account = instance.account
        account.equity = account.equity + instance.sell_value()
        account.save()
