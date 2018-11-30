@@ -129,8 +129,8 @@ class Operation(models.Model):
             price = self.price
 
         return Decimal(support_system_formulas.calculate_average_price(self.amount,
-                                                               price,
-                                                               self.operation_cost()))
+                                                                       price,
+                                                                       self.operation_cost()))
 
     def average_cost(self):
         """
@@ -163,7 +163,7 @@ class Operation(models.Model):
 
     def calculate_gain(self, sell_price=None):
         """
-        Internal method that calculates the gain based of any sell price
+        Internal method that calculates the gain based on any sell price
 
         In the calculations must be considered the cost of the operations, as well as all the other tributes.
 
@@ -222,9 +222,9 @@ class Operation(models.Model):
 
         if self.kind() is self.Kind.BUY:
             day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
-                                                                                                                          creation_date__month=self.creation_date.month,
-                                                                                                                          creation_date__year=self.creation_date.year,
-                                                                                                                          creation_date__lte=self.creation_date)
+                                                                                                                                      creation_date__month=self.creation_date.month,
+                                                                                                                                      creation_date__year=self.creation_date.year,
+                                                                                                                                      creation_date__lte=self.creation_date)
 
             return len(day_sells) > 0
 
@@ -293,15 +293,15 @@ class ExperienceData(Operation):
             return self.calculate_gain(self.stop_loss)
 
     def stop_loss_percent(self):
-       """
-       Calculates the percentage result of the stop loss if it is hit.
-       """
-       if self.stop_loss:
-           return self.calculate_gain_percent(self.stop_loss)
+        """
+        Calculates the percentage result of the stop loss if it is hit.
+        """
+        if self.stop_loss:
+            return self.calculate_gain_percent(self.stop_loss)
 
     def operation_limit(self):
         """
-         Calculates the limit acceptable to make a buy.
+        Calculates the limit acceptable to make a buy.
 
          The idea is to first define a stop, then we can get how much is the value of the stock will represent the percentage
           limitation of the piranha.
@@ -323,60 +323,7 @@ class ExperienceData(Operation):
                                                                self.amount))
 
 
-class RiskData(object):
-    def __init__(self, shark):
-        self.shark = shark
-
-
-class BuyDataManager(models.Manager):
-    def shark(self):
-        boughts = BuyData.objects.filter(archived=False)
-        shark = 0
-
-        for buy in boughts:
-            if buy.stop_loss:
-                gain_percent = buy.calculate_gain(buy.stop_loss)
-                if gain_percent < 0:
-                    shark = (support_system_formulas.calculate_piranha(gain_percent, buy.account.equity) * -1) + shark
-
-        risk_data = RiskData(round(shark, 2))
-        return risk_data
-
-
 class BuyData(Operation):
-    stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
-    stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
-
-    boughts = BuyDataManager()
-
-    def stop_gain_result(self):
-        """
-        Calculate the operation result case the stop is hit.
-        """
-        if self.stop_loss:
-            return self.calculate_gain(self.stop_gain)
-
-    def stop_gain_percent(self):
-       """
-       Calculates the percentage result of the stop gain if it is hit.
-       """
-       if self.stop_gain:
-           return self.calculate_gain_percent(self.stop_gain)
-
-    def stop_loss_result(self):
-        """
-        Calculate the operation result case the stop is hit.
-        """
-        if self.stop_loss:
-            return self.calculate_gain(self.stop_loss)
-
-    def stop_loss_percent(self):
-       """
-       Calculates the percentage result of the stop loss if it is hit.
-       """
-       if self.stop_loss:
-           return self.calculate_gain_percent(self.stop_loss)
-
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
@@ -412,18 +359,51 @@ class BuyData(Operation):
         if self.cost() > self.account.equity:
             raise ValidationError('Not enough money to make this transaction')
 
-
     def save(self, *args, **kwargs):
-        #   self.clean()
+        self.executed = True
         super().save(*args, **kwargs)
 
 
+class RiskData(object):
+    def __init__(self, shark):
+        self.shark = shark
+
+
+class SellDataManager(models.Manager):
+    def shark(self):
+        sells = SellData.objects.filter(archived=False).filter(executed=False)
+        shark = 0
+
+        for sell in sells:
+            stop_loss = 0
+            if sell.stop_loss:
+               stop_loss = sell.stop_loss
+            gain_percent = sell.calculate_gain(stop_loss)
+            if gain_percent < 0:
+                shark = (support_system_formulas.calculate_piranha(gain_percent, sell.account.equity) * -1) + shark
+
+        risk_data = RiskData(round(shark, 2))
+        return risk_data
+
+
 class SellData(Operation):
+    stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
+    stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
+
+    solds = SellDataManager()
+
     def result(self):
         if not self.is_daytrade():
             return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.creation_date), self.operation_cost(), self.amount))
         else:
             return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
+
+    def gain_percent(self):
+        if not self.is_daytrade():
+            return Decimal(support_system_formulas.calculate_gain_percent(self.price,
+                                                               self.stock.average_price(date__lte=self.creation_date), self.amount, self.operation_cost()))
+        else:
+            return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.amount, self.operation_cost()))
 
     def sell_value(self):
         """
@@ -431,4 +411,37 @@ class SellData(Operation):
         """
         return Decimal(support_system_formulas.calculate_sell(self.amount, self.price, self.operation_cost()))
 
+    def stop_gain_result(self):
+        """
+        Calculate the operation result case the stop is hit.
+        """
+        if self.stop_loss:
+            return self.calculate_gain(self.stop_gain)
 
+    def stop_gain_percent(self):
+        """
+        Calculates the percentage result of the stop gain if it is hit.
+        """
+        if self.stop_gain:
+            return self.calculate_gain_percent(self.stop_gain)
+
+    def stop_loss_result(self):
+        """
+        Calculate the operation result case the stop is hit.
+        """
+        stop_loss = 0
+        if self.stop_loss:
+            stop_loss = self.stop_loss
+
+        return self.calculate_gain(stop_loss)
+
+    def stop_loss_percent(self):
+        """
+        Calculates the percentage result of the stop loss if it is hit.
+        """
+        stop_loss = 0
+
+        if self.stop_loss:
+            stop_loss = self.stop_loss
+
+        return self.calculate_gain_percent(stop_loss)

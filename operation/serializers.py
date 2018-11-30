@@ -64,16 +64,13 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stop_gain', 'stop_loss', 'stock_data', 'operation_gain',
+                  'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'cost', 'operation_gain_percent',
-                  'stop_loss_result','stop_loss_percent',
-                  'stop_gain_result','stop_gain_percent')
+                  'average_stock_cost', 'cost', 'operation_gain_percent')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
-                            'operation_gain_percent', 'stop_loss_result',
-                            'stop_loss_percent', 'stop_gain_result','stop_gain_percent')
+                            'operation_gain_percent')
         model = BuyData
 
         validators = MoneyValidator(queryset=Account.objects.all(),
@@ -106,6 +103,7 @@ class SellValidator(object):
         # Determine the existing instance, if this is an update operation.
         self.instance = getattr(serializer, 'instance', None)
 
+
 class SellDataSerializer(serializers.ModelSerializer):
     """
     Serializer for SellDataSerializer model.
@@ -113,11 +111,17 @@ class SellDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
     class Meta:
         fields = ('pk', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'sell_value', 'result', 'stock_data')
-        read_only_fields = ('stock_data', 'sell_value', 'result', 'creation_date')
+                  'nickname', 'favorite', 'stop_gain', 'stop_loss',
+                  'sell_value', 'result', 'gain_percent', 'stock_data', 'stop_loss_result',
+                  'stop_loss_percent', 'stop_gain_result', 'stop_gain_percent')
+        read_only_fields = ('stock_data', 'sell_value', 'result',
+                            'gain_percent', 'creation_date', 'stop_loss_result',
+                            'stop_loss_percent', 'stop_gain_result', 'stop_gain_percent')
+
         model = SellData
 
         validators = SellValidator(),
+
 
 class RiskDataSerializer(serializers.Serializer):
     shark = serializers.DecimalField(max_digits=22, decimal_places=2)

@@ -38,7 +38,6 @@ LIQUIDACAO_FORMULA = "(Decimal(%s) * operation_price) / 100" % LIQUIDACAO
 
 AVERAGE_PRICE = "(( %s ) + Decimal(operation_cost) + %s + %s)/Decimal(amount)" % (OPERATION_PRICE, EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
-AVERAGE_GAIN = "((sell_value * amount) - operation_cost - (%s) - (%s)) - (average_buy_price * amount)" % (EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
 SELL_TOTAL_COST="((value * amount) - operation_cost - (%s) - (%s))" % (EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
@@ -48,7 +47,7 @@ GAIN_PERCENT = "((total_gain) * 100)/(buy_value * amount + operation_cost)"
 
 GAIN = "(((sell_value * amount) - operation_cost) - ((Decimal(%s) * sell_value) / 100) - ((Decimal(%s) * sell_value) / 100)) - (((avg_buy_value * amount + operation_cost)) + ((Decimal(%s) * avg_buy_value) / 100) + ((Decimal(%s) * avg_buy_value) / 100))" % (EMOLUMENTOS, LIQUIDACAO, EMOLUMENTOS, LIQUIDACAO)
 
-
+AVERAGE_GAIN = "((sell_value * amount) - operation_cost - (%s) - (%s)) - (average_buy_price * amount)" % (EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
 def calculate_price(amount, value):
     """

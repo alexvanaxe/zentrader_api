@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.test.testcases import TestCase
 from django.core.exceptions import ValidationError
 
-from operation.models import ExperienceData, BuyData
+from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account, create_third_account
@@ -63,12 +63,19 @@ class OperationModelTest(OperationModelTestCase):
 
         self.assertFalse(self.sell1.is_daytrade())
 
+
 class SellDataModelTest(OperationModelTestCase):
     def test_sell_fields(self):
         create_operations(self, self.stock)
 
         self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
         self.assertEqual("{0:.2f}".format(self.sell1.sell_value()), "1092.64")
+        self.assertEqual("{0:.2f}".format(self.sell1.gain_percent()), "14.97")
+
+    def test_shark(self):
+        create_operations(self, self.stock)
+        self.assertEqual('-170.01', str(self.sell2.stop_loss_result()))
+        self.assertEqual('1.06', str(SellData.solds.shark().shark))
 
 
 class BuyDataModelTest(OperationModelTestCase):
@@ -77,10 +84,6 @@ class BuyDataModelTest(OperationModelTestCase):
        with self.assertRaises(ValidationError):
            create_super_buy(self, self.stock, self.account3)
            self.super_buy.clean()
-
-    def test_shark(self):
-        create_operations(self, self.stock)
-        self.assertEqual('1.12', str(BuyData.boughts.shark().shark))
 
 
 class ExperimentDataModelTest(OperationModelTestCase):

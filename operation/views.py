@@ -30,10 +30,11 @@ class SellDataViewSet(viewsets.ModelViewSet):
     queryset = SellData.objects.filter().order_by('creation_date')
     serializer_class = SellDataSerializer
 
+
 class RiskDataApiView(views.APIView):
     """
     View to get the risk, it returns the shark for the current buy
     """
     def get(self, request, format=None):
-        serializer = RiskDataSerializer(BuyData.boughts.shark())
+        serializer = RiskDataSerializer(SellData.solds.shark())
         return response.Response(serializer.data)
