@@ -85,13 +85,16 @@ class SellValidator(object):
 
     def __call__(self, value):
         amount = value['amount']
-        stocks = self.instance.stock.owned()
+        if self.instance and self.instance.pk:
+            stocks = self.instance.stock.owned()
+            if self.instance.executed:
+                raise OperationExecuted()
+        else:
+            stocks = value['stock'].owned()
 
         if stocks < amount:
             raise NotEnoughStocks()
 
-        if self.instance.executed:
-            raise OperationExecuted()
 
     def set_context(self, serializer):
         """

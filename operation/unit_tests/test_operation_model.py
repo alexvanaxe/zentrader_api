@@ -70,12 +70,6 @@ class SellDataModelTest(OperationModelTestCase):
         self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
         self.assertEqual("{0:.2f}".format(self.sell1.sell_value()), "1092.64")
 
-    def test_sell_dont_update_executed(self):
-        create_operations(self, self.stock)
-        with self.assertRaises(ValidationError):
-            self.sell2.amount = 400
-            self.sell2.save()
-
 
 class BuyDataModelTest(OperationModelTestCase):
     def test_buy_not_alowed(self):
