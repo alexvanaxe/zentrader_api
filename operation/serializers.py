@@ -8,9 +8,8 @@ from rest_framework import serializers
 
 from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
-from stock.models import Stock
 from stock.serializers import StockSerializer
-from operation.exceptions import NotEnoughMoney, NotEnoughStocks
+from operation.exceptions import NotEnoughMoney, NotEnoughStocks, OperationExecuted
 
 
 class ExperienceDataSerializer(serializers.ModelSerializer):
@@ -86,18 +85,31 @@ class SellValidator(object):
 
     def __call__(self, value):
         amount = value['amount']
-        stocks = value['stock'].owned()
+        stocks = self.instance.stock.owned()
 
         if stocks < amount:
             raise NotEnoughStocks()
+
+        if self.instance.executed:
+            raise OperationExecuted()
+
+    def set_context(self, serializer):
+        """
+        This hook is called by the serializer instance,
+        prior to the validation call being made.
+        """
+        # Determine the existing instance, if this is an update operation.
+        self.instance = getattr(serializer, 'instance', None)
 
 class SellDataSerializer(serializers.ModelSerializer):
     """
     Serializer for SellDataSerializer model.
     """
+    stock_data = StockSerializer(read_only=True)
     class Meta:
-        fields = ('pk', 'executed', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'favorite')
+        fields = ('pk', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
+                  'nickname', 'favorite', 'sell_value', 'result', 'stock_data')
+        read_only_fields = ('stock_data', 'sell_value', 'result', 'creation_date')
         model = SellData
 
         validators = SellValidator(),

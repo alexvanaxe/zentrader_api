@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',  # A tool to alow ctalls from different servers.
+
     # Myapps
     'stock',
     'operation',

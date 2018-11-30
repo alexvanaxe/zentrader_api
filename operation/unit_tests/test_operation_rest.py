@@ -122,4 +122,10 @@ class SellDataTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
 
+    def test_sell_data_update_executed(self):
+        url = reverse('sell-detail', kwargs={'pk': self.sell2.pk})
+        response = self.client.patch(url, {'amount': 200})
+
+        self.assertEqual(response.status_code, status.HTTP_423_LOCKED)
+
 

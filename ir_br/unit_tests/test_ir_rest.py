@@ -33,5 +33,5 @@ class IrBrTest(IrBrTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data["ir"]), "2589.58")
-        self.assertEqual(str(response.data["ir_daytrade"]), "4797.44")
+        self.assertEqual(str(response.data["ir_daytrade"]), "3195.32")
 

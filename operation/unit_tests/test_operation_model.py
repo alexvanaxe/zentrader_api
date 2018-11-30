@@ -54,7 +54,8 @@ class OperationModelTest(OperationModelTestCase):
 
         self.assertTrue(self.sell_dt1.is_daytrade())
         self.assertFalse(self.buy_dt1.is_daytrade())
-        self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())), "23987.20")
+        self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())),
+                         "15976.60")
 
 
     def test_is_day_trade_false(self):
@@ -63,10 +64,18 @@ class OperationModelTest(OperationModelTestCase):
         self.assertFalse(self.sell1.is_daytrade())
 
 class SellDataModelTest(OperationModelTestCase):
-    def test_sell_result(self):
+    def test_sell_fields(self):
         create_operations(self, self.stock)
 
         self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
+        self.assertEqual("{0:.2f}".format(self.sell1.sell_value()), "1092.64")
+
+    def test_sell_dont_update_executed(self):
+        create_operations(self, self.stock)
+        with self.assertRaises(ValidationError):
+            self.sell2.amount = 400
+            self.sell2.save()
+
 
 class BuyDataModelTest(OperationModelTestCase):
     def test_buy_not_alowed(self):
@@ -78,6 +87,7 @@ class BuyDataModelTest(OperationModelTestCase):
     def test_shark(self):
         create_operations(self, self.stock)
         self.assertEqual('1.12', str(BuyData.boughts.shark().shark))
+
 
 class ExperimentDataModelTest(OperationModelTestCase):
     def test_experiment_default(self):

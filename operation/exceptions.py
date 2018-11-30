@@ -15,3 +15,9 @@ class NotEnoughStocks(APIException):
     status_code = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
     default_detail = 'Not enough stocks to make this transaction'
     default_code = 'stocks_unavalable'
+
+
+class OperationExecuted(APIException):
+    status_code = status.HTTP_423_LOCKED
+    default_detail = 'This operation is already executed and can\'t be changed'
+    default_code = 'operation_executed'

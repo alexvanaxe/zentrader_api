@@ -423,7 +423,12 @@ class SellData(Operation):
         if not self.is_daytrade():
             return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.creation_date), self.operation_cost(), self.amount))
         else:
-            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__gte=self.creation_date, date__lte=self.creation_date), self.operation_cost(), self.amount))
+            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
 
     def sell_value(self):
+        """
+        Returns how much money will be aquired with the sell
+        """
         return Decimal(support_system_formulas.calculate_sell(self.amount, self.price, self.operation_cost()))
+
+

@@ -126,7 +126,8 @@ def calculate_sell(amount, value, operation_cost):
 
 def calculate_gain(sell_value, avg_buy_value, amount, operation_cost):
     """
-    Applies the formula of the gain.
+    Applies the formula of the gain. It considers the emolumentos, liquidation
+    for the buy and for the sell and the operation cost.
 
     ::
 
