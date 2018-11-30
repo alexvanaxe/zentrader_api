@@ -79,17 +79,19 @@ class BuyDataSerializer(serializers.ModelSerializer):
         validators = MoneyValidator(queryset=Account.objects.all(),
                                     fields=['pk', 'price', 'amount', ]),
 
+
 class SellValidator(object):
     def __init__(self):
         pass
 
     def __call__(self, value):
-        amount = value['amount']
         if self.instance and self.instance.pk:
+            amount = self.instance.amount
             stocks = self.instance.stock.owned()
             if self.instance.executed:
                 raise OperationExecuted()
         else:
+            amount = value['amount']
             stocks = value['stock'].owned()
 
         if stocks < amount:
