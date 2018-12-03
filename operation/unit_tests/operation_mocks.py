@@ -37,6 +37,7 @@ def create_operations(cls, stock):
                                                            amount=150, price=18)
 
     cls.sell1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
+                                                           buy=cls.buy2,
                                                            creation_date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                            execution_date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                            amount=50, price=22, executed=True, stop_loss=17)

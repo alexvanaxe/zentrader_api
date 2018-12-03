@@ -424,6 +424,24 @@ class SellData(Operation):
         else:
             return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.amount, self.operation_cost()))
 
+    def profit(self):
+        """
+        Return the result of the stock based on the bought price only
+        """
+        if self.buy is not None:
+            return self.calculate_gain(self.price, self.buy.price)
+        else:
+            return 0
+
+    def profit_percent(self):
+        """
+        Return the profit percent result based on the bought price only
+        """
+        if self.buy is not None:
+            return self.calculate_gain_percent(self.price, self.buy.price)
+        else:
+            return 0
+
     def sell_value(self):
         """
         Returns how much money will be aquired with the sell
