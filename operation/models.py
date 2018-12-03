@@ -37,6 +37,7 @@ class Operation(models.Model):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
+    execution_date = models.DateTimeField(_('execution date'), null=True, blank=True)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
@@ -108,6 +109,8 @@ class Operation(models.Model):
         if not self.creation_date:
             self.creation_date = datetime.now()
 
+        if self.executed and not self.execution_date:
+            self.execution_date = datetime.now()
         #  self.clean()
 
         super().save(*args, **kwargs)
@@ -161,7 +164,7 @@ class Operation(models.Model):
     def stock_cost(self):
         return Decimal(support_system_formulas.calculate_price(self.amount, self.stock.price))
 
-    def calculate_gain(self, sell_price=None):
+    def calculate_gain(self, sell_price=None, buy_price=None):
         """
         Internal method that calculates the gain based on any sell price
 
@@ -180,16 +183,22 @@ class Operation(models.Model):
             if sell_price is None:
                 return None
 
+            if buy_price is None:
+                buy_price=self.price
+
             return Decimal(support_system_formulas.calculate_gain(Decimal(sell_price),
-                                                                  self.price, self.amount,
+                                                                  buy_price, self.amount,
                                                                   self.operation_cost())).quantize( Decimal('.05'),
                                                                                                    rounding=ROUND_DOWN)
         except TypeError:
             return None
 
-    def calculate_gain_percent(self, sell_price=None):
+    def calculate_gain_percent(self, sell_price=None, buy_price=None):
         if sell_price is None:
             return None
+
+        if buy_price is None:
+            buy_price = self.price
 
         return Decimal(support_system_formulas.calculate_gain_percent(
             Decimal(sell_price),
@@ -324,6 +333,7 @@ class ExperienceData(Operation):
 
 
 class BuyData(Operation):
+    experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
     def operation_gain(self):
         """
         Calculate the gain based in the stock value.
@@ -387,21 +397,30 @@ class SellDataManager(models.Manager):
 
 
 class SellData(Operation):
+    buy = models.ForeignKey('operation.BuyData', null=True, on_delete=models.CASCADE)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
 
     solds = SellDataManager()
 
-    def result(self):
-        if not self.is_daytrade():
-            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=self.creation_date), self.operation_cost(), self.amount))
+    def _getLteDate(self):
+        if self.executed:
+            return self.execution_date
         else:
-            return Decimal(support_system_formulas.calculate_average_gain(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
+            return None
+
+    def result(self, sell_price=None):
+        if not sell_price:
+            sell_price = self.price
+
+        if not self.is_daytrade():
+                return Decimal(support_system_formulas.calculate_average_gain(sell_price, self.stock.average_price(date__lte=self._getLteDate()), self.operation_cost(), self.amount))
+        else:
+            return Decimal(support_system_formulas.calculate_average_gain(sell_price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
 
     def gain_percent(self):
         if not self.is_daytrade():
-            return Decimal(support_system_formulas.calculate_gain_percent(self.price,
-                                                               self.stock.average_price(date__lte=self.creation_date), self.amount, self.operation_cost()))
+            return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=self._getLteDate()), self.amount, self.operation_cost()))
         else:
             return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.amount, self.operation_cost()))
 
@@ -415,15 +434,27 @@ class SellData(Operation):
         """
         Calculate the operation result case the stop is hit.
         """
-        if self.stop_loss:
-            return self.calculate_gain(self.stop_gain)
+        stop_gain = 0
+        if self.stop_gain:
+            stop_gain = self.stop_gain
+
+        if self.buy is None:
+            return -99999
+
+        return self.calculate_gain(stop_gain, self.buy.price)
 
     def stop_gain_percent(self):
         """
         Calculates the percentage result of the stop gain if it is hit.
         """
+        stop_gain = 0
         if self.stop_gain:
-            return self.calculate_gain_percent(self.stop_gain)
+            stop_gain = self.stop_gain
+
+        if self.buy is None:
+            return -99999
+
+        return self.calculate_gain_percent(stop_gain, self.buy.price)
 
     def stop_loss_result(self):
         """
@@ -433,15 +464,20 @@ class SellData(Operation):
         if self.stop_loss:
             stop_loss = self.stop_loss
 
-        return self.calculate_gain(stop_loss)
+        if self.buy is None:
+            return -99999
+
+        return self.calculate_gain(stop_loss, self.buy.price)
 
     def stop_loss_percent(self):
         """
         Calculates the percentage result of the stop loss if it is hit.
         """
         stop_loss = 0
-
         if self.stop_loss:
             stop_loss = self.stop_loss
 
-        return self.calculate_gain_percent(stop_loss)
+        if self.buy is None:
+            return -99999
+
+        return self.calculate_gain_percent(stop_loss, self.buy.price)

@@ -29,7 +29,6 @@ class IRTest(IRTestCase):
 
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                       '%Y-%m-%dT%H:%M:%S'))[0]), "17263.90")
-
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                        '%Y-%m-%dT%H:%M:%S'))[1]), "15976.60")
 
@@ -41,9 +40,9 @@ class IRTest(IRTestCase):
         create_ir_operations(self, self.stock2)
         create_day_trades(self, self.stock2)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[0]), "2589.58")
+                                                                                          '%Y-%m-%dT%H:%M:%S'))[0]), "2589.58")
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
-                                                                                      '%Y-%m-%dT%H:%M:%S'))[1]), "3195.32")
+                                                                                       '%Y-%m-%dT%H:%M:%S'))[1]), "3195.32")
 
 
 
