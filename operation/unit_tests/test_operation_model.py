@@ -70,7 +70,7 @@ class SellDataModelTest(OperationModelTestCase):
 
         self.assertEqual("{0:.2f}".format(self.sell1.result()), "148.94")
         self.assertEqual("{0:.2f}".format(self.sell1.profit()), "185.98")
-        self.assertEqual("{0:.2f}".format(self.sell1.profit_percent()), "-1.27")
+        self.assertEqual("{0:.2f}".format(self.sell1.profit_percent()), "20.51")
         self.assertEqual("{0:.2f}".format(self.sell1.sell_value()), "1092.64")
         self.assertEqual("{0:.2f}".format(self.sell1.gain_percent()), "14.97")
 

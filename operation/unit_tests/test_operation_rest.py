@@ -114,11 +114,27 @@ class BuyDataTest(OperationTestCase):
 
 class SellDataTest(OperationTestCase):
     def test_validation_amount_before_execution(self):
+        """
+        This should pass ok
+        """
         url = reverse('sell-list')
         response = self.client.post(url, {'stock': self.stock.pk,
                                           'amount': '200000',
                                           'price': '1000',
                                           'target': '40.00'})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_validation_amount_executing(self):
+        """
+        This should pass ok
+        """
+        url = reverse('sell-list')
+        response = self.client.post(url, {'stock': self.stock.pk,
+                                          'amount': '200000',
+                                          'price': '1000',
+                                          'target': '40.00',
+                                          'executed': True})
 
         self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
 

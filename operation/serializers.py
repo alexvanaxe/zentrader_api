@@ -83,15 +83,17 @@ class SellValidator(object):
 
     def __call__(self, value):
         if self.instance and self.instance.pk:
-            amount = self.instance.amount
-            stocks = self.instance.stock.owned()
             if self.instance.executed:
                 raise OperationExecuted()
+            amount = self.instance.amount
+            stocks = self.instance.stock.owned()
+            executed = self.instance.executed
         else:
             amount = value['amount']
             stocks = value['stock'].owned()
+            executed = value['executed']
 
-        if stocks < amount:
+        if (stocks < amount) and executed:
             raise NotEnoughStocks()
 
 
