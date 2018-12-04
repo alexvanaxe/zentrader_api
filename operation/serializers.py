@@ -63,10 +63,10 @@ class BuyDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stock_data', 'operation_gain',
-                  'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'cost', 'operation_gain_percent')
+        fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
+                  'archived', 'nickname', 'favorite', 'stock_data', 'operation_gain',
+                  'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
+                  'operation_gain_percent')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
@@ -110,13 +110,15 @@ class SellDataSerializer(serializers.ModelSerializer):
     """
     stock_data = StockSerializer(read_only=True)
     class Meta:
-        fields = ('pk', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
+        fields = ('pk', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stop_gain', 'stop_loss',
-                  'sell_value', 'result', 'gain_percent', 'stock_data', 'stop_loss_result',
-                  'stop_loss_percent', 'stop_gain_result', 'stop_gain_percent')
-        read_only_fields = ('stock_data', 'sell_value', 'result',
-                            'gain_percent', 'creation_date', 'stop_loss_result',
-                            'stop_loss_percent', 'stop_gain_result', 'stop_gain_percent')
+                  'sell_value', 'result', 'gain_percent', 'profit', 'profit_percent', 'stock_profit',
+                  'stock_profit_percent', 'stock_data', 'stop_loss_result', 'stop_loss_percent',
+                  'stop_gain_result', 'stop_gain_percent')
+        read_only_fields = ('stock_data', 'sell_value', 'result', 'gain_percent',
+                            'profit', 'profit_percent', 'stock_profit', 'stock_profit_percent',
+                            'creation_date', 'stop_loss_result', 'stop_loss_percent',
+                            'stop_gain_result', 'stop_gain_percent')
 
         model = SellData
 

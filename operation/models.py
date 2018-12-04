@@ -202,7 +202,7 @@ class Operation(models.Model):
 
         return Decimal(support_system_formulas.calculate_gain_percent(
             Decimal(sell_price),
-            Decimal(self.price),
+            Decimal(buy_price),
             Decimal(self.amount),
             Decimal(self.operation_cost())))
 
@@ -423,6 +423,24 @@ class SellData(Operation):
             return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=self._getLteDate()), self.amount, self.operation_cost()))
         else:
             return Decimal(support_system_formulas.calculate_gain_percent(self.price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.amount, self.operation_cost()))
+
+    def stock_profit(self):
+        """
+        Return the result of the stock based on the stock price
+        """
+        if self.buy is not None:
+            return self.calculate_gain(self.stock.price, self.buy.price)
+        else:
+            return 0
+
+    def stock_profit_percent(self):
+        """
+        Return the profit percent result based on the stock price
+        """
+        if self.buy is not None:
+            return self.calculate_gain_percent(self.stock.price, self.buy.price)
+        else:
+            return 0
 
     def profit(self):
         """
