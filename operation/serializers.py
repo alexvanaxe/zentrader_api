@@ -83,11 +83,9 @@ class SellValidator(object):
 
     def __call__(self, value):
         if self.instance and self.instance.pk:
-            if self.instance.executed:
-                raise OperationExecuted()
             amount = self.instance.amount
             stocks = self.instance.stock.owned()
-            executed = self.instance.executed
+            executed = value['executed']
         else:
             amount = value['amount']
             stocks = value['stock'].owned()
@@ -96,6 +94,23 @@ class SellValidator(object):
         if (stocks < amount) and executed:
             raise NotEnoughStocks()
 
+    def set_context(self, serializer):
+        """
+        This hook is called by the serializer instance,
+        prior to the validation call being made.
+        """
+        # Determine the existing instance, if this is an update operation.
+        self.instance = getattr(serializer, 'instance', None)
+
+
+class ExecutedValidator(object):
+    def __init__(self):
+        pass
+
+    def __call__(self, value):
+        if self.instance and self.instance.pk:
+            if self.instance.executed:
+                raise OperationExecuted()
 
     def set_context(self, serializer):
         """
@@ -124,7 +139,7 @@ class SellDataSerializer(serializers.ModelSerializer):
 
         model = SellData
 
-        validators = SellValidator(),
+        validators = SellValidator(), ExecutedValidator()
 
 
 class RiskDataSerializer(serializers.Serializer):

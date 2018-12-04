@@ -111,6 +111,9 @@ class Operation(models.Model):
 
         if self.executed and not self.execution_date:
             self.execution_date = datetime.now()
+
+        if self.executed:
+            self.archived = True
         #  self.clean()
 
         super().save(*args, **kwargs)
