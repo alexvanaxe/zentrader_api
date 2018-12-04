@@ -85,7 +85,11 @@ class SellValidator(object):
         if self.instance and self.instance.pk:
             amount = self.instance.amount
             stocks = self.instance.stock.owned()
-            executed = value['executed']
+            try:
+                executed = value['executed']
+            except KeyError:
+                executed = False
+
         else:
             amount = value['amount']
             stocks = value['stock'].owned()
