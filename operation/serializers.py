@@ -148,3 +148,14 @@ class SellDataSerializer(serializers.ModelSerializer):
 
 class RiskDataSerializer(serializers.Serializer):
     shark = serializers.DecimalField(max_digits=22, decimal_places=2)
+
+class ArchiveSerializer(serializers.Serializer):
+    pk = serializers.IntegerField(label='ID', read_only=True)
+    archived = serializers.BooleanField(label='archived')
+
+    def save(self, instance):
+        instance.archived = True
+        instance.save()
+
+        return instance
+

@@ -5,6 +5,7 @@ from rest_framework import status
 
 from django.urls import reverse
 
+from operation.models import Operation
 from account.unit_tests.account_mocks import create_account
 from stock.unit_tests.stock_mocks import create_stocks
 from operation.unit_tests.operation_mocks import create_operations
@@ -46,6 +47,19 @@ class OperationTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data[0]["price"]), "30.00")
+
+    def test_archive(self):
+        """ Verify that the archive functionalitty works fine """
+        self.assertFalse(self.operation.archived)
+        url = reverse('archive', kwargs={'pk': self.operation.pk})
+
+        response = self.client.patch(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['archived'])
+        operation_updated = Operation.objects.get(pk=self.operation.pk)
+        self.assertTrue(operation_updated.archived)
+
 
     def test_delete(self):
         """ Verify that a delete is possible. """
@@ -100,6 +114,7 @@ class ExperienceDataTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data['operation_limit']), '30.8795813')
+
 
 class BuyDataTest(OperationTestCase):
     def test_validation_buy(self):

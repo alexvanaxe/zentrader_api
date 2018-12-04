@@ -112,10 +112,6 @@ class Operation(models.Model):
         if self.executed and not self.execution_date:
             self.execution_date = datetime.now()
 
-        if self.executed:
-            self.archived = True
-        #  self.clean()
-
         super().save(*args, **kwargs)
 
     def operation_average_price(self, price=None):
@@ -373,7 +369,6 @@ class BuyData(Operation):
             raise ValidationError('Not enough money to make this transaction')
 
     def save(self, *args, **kwargs):
-        self.executed = True
         super().save(*args, **kwargs)
 
 

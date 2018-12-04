@@ -32,7 +32,7 @@ class Stock(models.Model):
             date__lte = datetime.now()
 
         sells_q = Operation.executions.filter(stock=self)
-        buys_q = Operation.objects.filter(stock=self)
+        buys_q = Operation.executions.filter(stock=self)
         if date__gte:
             sells_q = sells_q.filter(creation_date__gte=date__gte)
             buys_q = buys_q.filter(creation_date__gte=date__gte)
@@ -65,13 +65,13 @@ class Stock(models.Model):
         if date__lte is None:
             date__lte = datetime.now()
 
-        operations = Operation.objects.filter(stock=self).order_by('creation_date')
+        operations = Operation.executions.filter(stock=self).order_by('creation_date')
 
         if date__gte:
-            operations = operations .filter(creation_date__gte=date__gte)
+            operations = operations.filter(creation_date__gte=date__gte)
 
         if date__lte:
-            operations = operations .filter(creation_date__lte=date__lte)
+            operations = operations.filter(creation_date__lte=date__lte)
 
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')
