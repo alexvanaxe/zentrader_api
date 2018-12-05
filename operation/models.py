@@ -335,7 +335,7 @@ class BuyData(Operation):
     experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
 
     def amount_available(self):
-        return self.amount - self.selldata_set.filter(executed=True).aggregate(models.Sum('amount'))['amount__sum']
+        return self.amount - (self.selldata_set.filter(executed=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
 
     def operation_gain(self):
         """
@@ -412,7 +412,10 @@ class SellData(Operation):
             return None
 
     def amount_available(self):
-        return self.buy.amount_available()
+        if self.buy:
+            return self.buy.amount_available()
+        else:
+            return Decimal(0)
 
     def result(self, sell_price=None):
         if not sell_price:

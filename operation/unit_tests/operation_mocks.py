@@ -79,7 +79,7 @@ def create_ir_operations(cls, stock):
                                       execution_date=datetime.strptime('2017-06-05T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                       amount=1500, price=18, executed=True)
 
-    cls.sell1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
+    cls.sell1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0], buy=cls.buy2,
                                         creation_date=datetime.strptime('2017-06-07T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                         execution_date=datetime.strptime('2017-06-07T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                         amount=1500, price=30, executed=True)
@@ -90,7 +90,7 @@ def create_day_trades(cls, stock):
                                          execution_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                          amount=1000, price=10, executed=True)
 
-    cls.sell_dt1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0],
+    cls.sell_dt1 = SellData.objects.create(stock=stock, account=Account.objects.all()[0], buy=cls.buy_dt1,
                                            creation_date=datetime.strptime('2017-06-10T17:52:30', '%Y-%m-%dT%H:%M:%S'),
                                            execution_date=datetime.strptime('2017-06-10T17:52:30', '%Y-%m-%dT%H:%M:%S'),
                                            amount=800, price=30, executed=True)
@@ -140,3 +140,8 @@ def create_half_sell(cls, stock):
                                creation_date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                execution_date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                amount=50, price=22, executed=True, stop_loss=17)
+
+    cls.buy_hf3 = BuyData.objects.create(stock=stock, account=Account.objects.all()[0],
+                                                           creation_date=datetime.strptime('2017-06-13T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                                           execution_date=datetime.strptime('2017-06-13T15:52:30', '%Y-%m-%dT%H:%M:%S'),
+                                                           amount=150, price=18, executed=True)

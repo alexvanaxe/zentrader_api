@@ -132,6 +132,7 @@ class SellDataTest(OperationTestCase):
         """
         url = reverse('sell-list')
         response = self.client.post(url, {'stock': self.stock.pk,
+                                          'buy': self.buy3.pk,
                                           'amount': '200000',
                                           'price': '1000',
                                           'target': '40.00'})
@@ -144,6 +145,7 @@ class SellDataTest(OperationTestCase):
         """
         url = reverse('sell-list')
         response = self.client.post(url, {'stock': self.stock.pk,
+                                          'buy': self.buy3.pk,
                                           'amount': '200000',
                                           'price': '1000',
                                           'target': '40.00',
@@ -153,8 +155,19 @@ class SellDataTest(OperationTestCase):
 
     def test_sell_data_update_executed(self):
         url = reverse('sell-detail', kwargs={'pk': self.sell2.pk})
-        response = self.client.patch(url, {'amount': 200})
+        response = self.client.patch(url, {'amount': 50})
 
         self.assertEqual(response.status_code, status.HTTP_423_LOCKED)
 
+        url = reverse('sell-detail', kwargs={'pk': self.sell3.pk})
+        response = self.client.patch(url, {'amount': 50, 'executed': False})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url = reverse('sell-detail', kwargs={'pk': self.sell3.pk})
+        response = self.client.patch(url, {'amount': 150, 'executed': True})
+        self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+
+        url = reverse('sell-detail', kwargs={'pk': self.sell3.pk})
+        response = self.client.patch(url, {'amount': 50, 'executed': True})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 

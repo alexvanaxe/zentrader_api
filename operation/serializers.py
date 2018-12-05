@@ -82,20 +82,22 @@ class SellValidator(object):
         pass
 
     def __call__(self, value):
-        if self.instance and self.instance.pk:
-            amount = self.instance.amount
-            stocks = self.instance.stock.owned()
-            try:
-                executed = value['executed']
-            except KeyError:
-                executed = False
-
-        else:
+        try:
             amount = value['amount']
-            stocks = value['stock'].owned()
-            executed = value['executed']
+        except KeyError:
+            return
 
-        if (stocks < amount) and executed:
+        try:
+            amount_available = value['buy'].amount_available()
+        except KeyError:
+            amount_available = self.instance.amount_available()
+
+        try:
+            executed = value['executed']
+        except KeyError:
+            executed = False
+
+        if (amount > amount_available) and executed:
             raise NotEnoughStocks()
 
     def set_context(self, serializer):
@@ -132,18 +134,18 @@ class SellDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
     class Meta:
         fields = ('pk', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stop_gain', 'stop_loss',
+                  'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available',
                   'sell_value', 'result', 'gain_percent', 'profit', 'profit_percent', 'stock_profit',
                   'stock_profit_percent', 'stock_data', 'stop_loss_result', 'stop_loss_percent',
                   'stop_gain_result', 'stop_gain_percent')
         read_only_fields = ('stock_data', 'sell_value', 'result', 'gain_percent',
-                            'profit', 'profit_percent', 'stock_profit', 'stock_profit_percent',
+                            'profit', 'profit_percent', 'amount_available', 'stock_profit', 'stock_profit_percent',
                             'creation_date', 'stop_loss_result', 'stop_loss_percent',
                             'stop_gain_result', 'stop_gain_percent')
 
         model = SellData
 
-        validators = SellValidator(), ExecutedValidator()
+        validators = ExecutedValidator(), SellValidator()
 
 
 class RiskDataSerializer(serializers.Serializer):

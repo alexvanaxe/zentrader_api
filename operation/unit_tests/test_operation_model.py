@@ -86,6 +86,7 @@ class SellDataModelTest(OperationModelTestCase):
         """
         create_half_sell(self, self.stock)
         self.assertEqual(str(self.sell_hf1.amount_available()), '100')
+        self.assertEqual(str(self.buy_hf3.amount_available()), '150')
 
 
 class BuyDataModelTest(OperationModelTestCase):
