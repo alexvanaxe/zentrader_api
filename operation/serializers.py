@@ -64,7 +64,7 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
-                  'archived', 'nickname', 'favorite', 'stock_data', 'operation_gain',
+                  'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
                   'operation_gain_percent')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',

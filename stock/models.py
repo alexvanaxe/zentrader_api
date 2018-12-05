@@ -65,7 +65,7 @@ class Stock(models.Model):
         if date__lte is None:
             date__lte = datetime.now()
 
-        operations = Operation.executions.filter(stock=self).order_by('creation_date')
+        operations = Operation.executions.filter(stock=self).order_by('execution_date')
 
         if date__gte:
             operations = operations.filter(creation_date__gte=date__gte)

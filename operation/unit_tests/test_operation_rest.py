@@ -19,8 +19,6 @@ class OperationTestCase(APITestCase):
         create_operations(cls, cls.stock)
 
 
-#TODO Rever os testes para simplificacao. Como agora nao existe mais operation
-#sozinha temos que rever a organizacao do teste.
 class OperationTest(OperationTestCase):
 
     def test_patch(self):

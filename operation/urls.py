@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^risk/$', views.RiskDataApiView.as_view(), name="risk_data"),
     url(r'^risk\.(?P<format>[a-z0-9]+)/?$', views.RiskDataApiView.as_view(), name="risk_data"),
-    url(r'^operation/(?P<pk>[0-9]+)/archive/?$', views.ArchiveApiView.as_view(), name="archive"),
+    url(r'^operation/(?P<pk>[0-9]+)/archive\.(?P<format>[a-z0-9]+)?/?$', views.ArchiveApiView.as_view(), name="archive"),
     #  url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
     #  url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
 ]
