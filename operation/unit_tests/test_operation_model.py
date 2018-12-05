@@ -8,7 +8,7 @@ from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account, create_third_account
-from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy
+from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy, create_half_sell
 
 
 class OperationModelTestCase(TestCase):
@@ -78,6 +78,14 @@ class SellDataModelTest(OperationModelTestCase):
         create_operations(self, self.stock)
         self.assertEqual('-720.01', str(self.sell3.stop_loss_result()))
         self.assertEqual('1.06', str(SellData.solds.shark().shark))
+
+    def test_amount(self):
+        """
+        Tests the amount available to sell based on the buy. The idea is
+        totally chain the sell with the buy.
+        """
+        create_half_sell(self, self.stock)
+        self.assertEqual(str(self.sell_hf1.amount_available()), '100')
 
 
 class BuyDataModelTest(OperationModelTestCase):
