@@ -69,17 +69,14 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                   'operation_average_price', 'average_cost',
                   'average_stock_cost', 'target_gain_percent',
                   'experience_gain', 'experience_gain_percent', 'favorite',
-                  'get_intent_display', 'stop_loss_result','stop_loss_percent')
+                  'get_intent_display', 'stop_loss_result', 'stop_loss_percent')
         read_only_fields = ('creation_date', 'operation_gain', 'operation_limit', 'cost',
-                            'real_cost', 'operation_average_price',
+                            'real_cost', 'operation_average_price', 'stock_data',
                             'average_cost', 'buydata_set', 'average_stock_cost',
                             'target_gain_percent', 'experience_gain',
                             'experience_gain_percent', 'get_intent_display',
-                            'stop_loss_result','stop_loss_percent')
+                            'stop_loss_result', 'stop_loss_percent')
         model = ExperienceData
-        depth = 1
-
-
 
 
 class SellValidator(object):
