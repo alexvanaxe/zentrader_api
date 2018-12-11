@@ -108,17 +108,17 @@ class BuyDataSerializer(serializers.ModelSerializer):
     Serializer for BuyDataSerializer model.
     """
     stock_data = StockSerializer(read_only=True)
-    selldata_set = SellDataSerializer(read_only=True, many=True)
+    sell_set = SellDataSerializer(read_only=True, many=True)
 
     class Meta:
         fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
                   'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
-                  'operation_gain_percent', 'selldata_set')
+                  'operation_gain_percent', 'sell_set')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
-                            'operation_gain_percent', 'selldata_set')
+                            'operation_gain_percent', 'sell_set')
         model = BuyData
 
         validators = MoneyValidator(queryset=Account.objects.all(),
@@ -131,11 +131,11 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     """
 
     stock_data = StockSerializer(read_only=True)
-    buydata_set = BuyDataSerializer(read_only=True, many=True)
+    buy_set = BuyDataSerializer(read_only=True, many=True)
 
     class Meta:
         fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'buydata_set', 'favorite', 'limit', 'stop_gain', 'stop_loss',
+                  'nickname', 'buy_set', 'favorite', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'stock_data', 'action', 'target_gain',
                   'operation_limit', 'intent', 'cost', 'stock_cost',
                   'operation_average_price', 'average_cost',
@@ -144,7 +144,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                   'get_intent_display', 'stop_loss_result', 'stop_loss_percent')
         read_only_fields = ('creation_date', 'operation_gain', 'operation_limit', 'cost',
                             'real_cost', 'operation_average_price', 'stock_data',
-                            'average_cost', 'buydata_set', 'average_stock_cost',
+                            'average_cost', 'buy_set', 'average_stock_cost',
                             'target_gain_percent', 'experience_gain',
                             'experience_gain_percent', 'get_intent_display',
                             'stop_loss_result', 'stop_loss_percent')

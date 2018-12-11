@@ -28,7 +28,7 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the SellData.
     """
-    queryset = SellData.objects.filter().order_by('archived', 'creation_date')
+    queryset = SellData.objects.filter(archived=False).order_by('archived', 'creation_date')
     serializer_class = SellDataSerializer
 
 

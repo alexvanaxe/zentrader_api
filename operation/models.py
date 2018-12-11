@@ -258,8 +258,8 @@ class ExperienceData(Operation):
     action = models.TextField(_('action'), null=True, blank=True, max_length=140)
     intent = models.CharField(max_length=1, null=True, blank=True, choices=INTENTION, default=BUY)
 
-    def buydata_set(self):
-        return self.buydata_set
+    def buy_set(self):
+        return self.buydata_set.filter(archived=False)
 
     def experience_gain(self):
         """
@@ -337,8 +337,8 @@ class ExperienceData(Operation):
 class BuyData(Operation):
     experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
 
-    def selldata_set(self):
-        return self.selldata_set
+    def sell_set(self):
+        return self.selldata_set.filter(archived=False)
 
     def amount_available(self):
         return self.amount - (self.selldata_set.filter(executed=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
