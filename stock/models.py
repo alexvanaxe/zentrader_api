@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from operation.models import Operation
-from account.models import Account
+from account.models import Account, default_account
 from formulas import support_system_formulas
 
 
@@ -93,6 +93,13 @@ class Stock(models.Model):
 
     def stock_value(self):
         return Decimal(self.owned()) * Decimal(self.average_price())
+
+    def stock_sell_price(self):
+        owned = self.owned()
+        if owned > 0:
+            return Decimal(support_system_formulas.calculate_sell(self.owned(), self.price, default_account().operation_cost_position))
+        else:
+            return 0
 
     def stock_result(self):
         """Returns the result of the stock. It is considered as operation cost

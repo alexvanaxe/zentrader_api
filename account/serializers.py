@@ -15,5 +15,5 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ('pk', 'broker', 'operation_cost_day_trade', 'operation_cost_fraction',
-                  'operation_cost_position', 'equity')
-        #  read_only_fields = ('', )
+                  'operation_cost_position', 'equity', 'total_equity')
+        read_only_fields = ('total_equity', )

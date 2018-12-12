@@ -111,7 +111,7 @@ class ExperienceDataTest(OperationTestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(str(response.data['operation_limit']), '30.8795813')
+        self.assertEqual("{0:.2f}".format(response.data['operation_limit']), '31.00')
 
 
 class BuyDataTest(OperationTestCase):

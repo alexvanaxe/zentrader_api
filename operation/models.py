@@ -328,7 +328,7 @@ class ExperienceData(Operation):
 
         account = (Account.objects.all()[0])
         return Decimal(support_system_formulas.calculate_limit(support_system_formulas.PIRANHA_LIMIT,
-                                                               account.equity,
+                                                               account.total_equity(),
                                                                self.operation_cost(),
                                                                self.stop_loss,
                                                                self.amount))
@@ -398,7 +398,7 @@ class SellDataManager(models.Manager):
                stop_loss = sell.stop_loss
             gain_percent = sell.calculate_gain(stop_loss)
             if gain_percent < 0:
-                shark = (support_system_formulas.calculate_piranha(gain_percent, sell.account.equity) * -1) + shark
+                shark = (support_system_formulas.calculate_piranha(gain_percent, sell.account.total_equity()) * -1) + shark
 
         risk_data = RiskData(round(shark, 2))
         return risk_data

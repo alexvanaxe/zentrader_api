@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+import stock
+
 
 class Account(models.Model):
     """
@@ -34,3 +36,11 @@ class Account(models.Model):
                                                   decimal_places=2, null=False)
     equity = models.DecimalField(_('equity'), max_digits=15, decimal_places=2,
                                  null=False)
+
+
+    def total_equity(self):
+        return (sum(stock.models.Stock.objects.get(pk=i['stock']).stock_sell_price() for i in self.operation_set.filter(buydata__isnull=False).values('stock').annotate(dcount=models.Count('stock')))) + self.equity
+
+
+def default_account():
+    return Account.objects.filter(next_account__isnull=True)[0]
