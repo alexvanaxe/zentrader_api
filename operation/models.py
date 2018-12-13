@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 #     return os.path.join('charts', str(instance.transaction.id), instance.operation_status.name,
 #                         str(time.mktime(instance.creation_date.timetuple())), filename)
 from account.models import Account
+from operation.exceptions import NotEnoughStocks
 from formulas import support_system_formulas
 
 
@@ -205,16 +206,16 @@ class Operation(models.Model):
             Decimal(self.amount),
             Decimal(self.operation_cost())))
 
-    def operation_cost(self):
+    def operation_cost(self, kind=None):
         if self.amount % 100 != 0:
             return self.account.operation_cost_fraction
 
-        if self.is_daytrade():
+        if self.is_daytrade(kind):
             return self.account.operation_cost_day_trade
 
         return self.account.operation_cost_position
 
-    def is_daytrade(self):
+    def is_daytrade(self, kind=None):
         """
         When there is an operation of sell occurring in the same
         day of an operation of buy in the same account, this is a daytrade
@@ -223,12 +224,15 @@ class Operation(models.Model):
         TODO: We are based on the sell because for now we dont work with rent
         trade.
         """
-        if self.kind() is self.Kind.SELL:
+        if kind is None:
+            kind = self.kind()
+
+        if kind is self.Kind.SELL:
             day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
 
             return len(day_buys) > 0
 
-        if self.kind() is self.Kind.BUY:
+        if kind is self.Kind.BUY:
             day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
                                                                                                                                       creation_date__month=self.creation_date.month,
                                                                                                                                       creation_date__year=self.creation_date.year,
@@ -381,6 +385,13 @@ class BuyData(Operation):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
+    def remaining_gain(self):
+        amount_available = self.amount_available()
+        if amount_available > 0:
+            return Decimal(support_system_formulas.calculate_sell(Decimal(amount_available), Decimal(self.stock.price), self.operation_cost(self.Kind.SELL)))
+        else:
+            return Decimal(0)
+
 
 class RiskData(object):
     def __init__(self, shark):
@@ -531,3 +542,7 @@ class SellData(Operation):
             return -99999
 
         return self.calculate_gain_percent(stop_loss, self.buy.price)
+
+    def clean(self):
+        if (self.buy.amount_available < self.amount):
+            raise NotEnoughStocks()

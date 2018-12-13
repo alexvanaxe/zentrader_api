@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-import stock
+import operation
 
 
 class Account(models.Model):
@@ -39,7 +39,8 @@ class Account(models.Model):
 
 
     def total_equity(self):
-        return (sum(stock.models.Stock.objects.get(pk=i['stock']).stock_sell_price() for i in self.operation_set.filter(buydata__isnull=False).values('stock').annotate(dcount=models.Count('stock')))) + self.equity
+        return (sum(i.buydata.remaining_gain() for i in self.operation_set.filter(buydata__isnull=False))) + self.equity
+
 
 
 def default_account():

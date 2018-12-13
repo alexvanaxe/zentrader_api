@@ -40,7 +40,7 @@ class SellValidator(object):
         try:
             amount = value['amount']
         except KeyError:
-            return
+            amount = self.instance.amount
 
         try:
             amount_available = value['buy'].amount_available()
@@ -100,7 +100,7 @@ class SellDataSerializer(serializers.ModelSerializer):
 
         model = SellData
 
-        validators = ExecutedValidator(), SellValidator()
+        validators = [ExecutedValidator(), SellValidator()]
 
 
 class BuyDataSerializer(serializers.ModelSerializer):

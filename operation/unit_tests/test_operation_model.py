@@ -96,6 +96,11 @@ class BuyDataModelTest(OperationModelTestCase):
            create_super_buy(self, self.stock, self.account3)
            self.super_buy.clean()
 
+    def test_remaining_gain(self):
+        create_operations(self, self.stock)
+        self.assertEqual("1994.35", "{0:.2f}".format(self.buy3.remaining_gain()))
+        self.assertEqual("0.00", "{0:.2f}".format(self.buy2.remaining_gain()))
+
 
 class ExperimentDataModelTest(OperationModelTestCase):
     def test_experiment_default(self):
