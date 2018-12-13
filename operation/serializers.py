@@ -151,9 +151,9 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
         model = ExperienceData
 
 
-
 class RiskDataSerializer(serializers.Serializer):
     shark = serializers.DecimalField(max_digits=22, decimal_places=2)
+
 
 class ArchiveSerializer(serializers.Serializer):
     pk = serializers.IntegerField(label='ID', read_only=True)
@@ -164,4 +164,3 @@ class ArchiveSerializer(serializers.Serializer):
         instance.save()
 
         return instance
-
