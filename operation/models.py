@@ -344,8 +344,11 @@ class BuyData(Operation):
     def sell_set(self):
         return self.selldata_set.filter(archived=False)
 
-    def amount_available(self):
-        return self.amount - (self.selldata_set.filter(executed=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+    def amount_available(self, executed_filter=True):
+        if executed_filter is not None:
+            return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+        else:
+            return self.amount - (self.selldata_set.all().aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
 
     def operation_gain(self):
         """
@@ -428,9 +431,9 @@ class SellData(Operation):
         else:
             return None
 
-    def amount_available(self):
+    def amount_available(self, executed_filter=True):
         if self.buy:
-            return self.buy.amount_available()
+            return self.buy.amount_available(executed_filter)
         else:
             return Decimal(0)
 

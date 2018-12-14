@@ -37,22 +37,25 @@ class SellValidator(object):
         pass
 
     def __call__(self, value):
+        amount_edited = 0
         try:
             amount = value['amount']
+            amount_edited = amount
         except KeyError:
             amount = self.instance.amount
 
         try:
-            amount_available = value['buy'].amount_available()
+            amount_available = value['buy'].amount_available(executed_filter=None)
         except KeyError:
-            amount_available = self.instance.amount_available()
+            amount_available = self.instance.amount_available(executed_filter=None)
 
-        try:
-            executed = value['executed']
-        except KeyError:
-            executed = False
 
-        if (amount > amount_available) and executed:
+        if self.instance:
+            amount_available = amount_available + self.instance.amount
+            if amount_edited <= self.instance.amount:  # He wants to reduce the stocks
+                return
+
+        if (amount > amount_available):
             raise NotEnoughStocks()
 
     def set_context(self, serializer):
@@ -92,11 +95,11 @@ class SellDataSerializer(serializers.ModelSerializer):
                   'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available',
                   'sell_value', 'result', 'gain_percent', 'profit', 'profit_percent', 'stock_profit',
                   'stock_profit_percent', 'stock_data', 'stop_loss_result', 'stop_loss_percent',
-                  'stop_gain_result', 'stop_gain_percent')
+                  'stop_gain_result', 'stop_gain_percent', 'amount_available')
         read_only_fields = ('stock_data', 'sell_value', 'result', 'gain_percent',
                             'profit', 'profit_percent', 'amount_available', 'stock_profit', 'stock_profit_percent',
                             'creation_date', 'stop_loss_result', 'stop_loss_percent',
-                            'stop_gain_result', 'stop_gain_percent')
+                            'stop_gain_result', 'stop_gain_percent', 'amount_available')
 
         model = SellData
 
@@ -114,11 +117,11 @@ class BuyDataSerializer(serializers.ModelSerializer):
         fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
                   'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
-                  'operation_gain_percent', 'sell_set')
+                  'operation_gain_percent','amount_available', 'sell_set')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost',
-                            'operation_gain_percent', 'sell_set')
+                            'operation_gain_percent','amount_available', 'sell_set')
         model = BuyData
 
         validators = MoneyValidator(queryset=Account.objects.all(),
@@ -164,3 +167,4 @@ class ArchiveSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+

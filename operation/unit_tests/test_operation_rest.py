@@ -137,7 +137,7 @@ class SellDataTest(OperationTestCase):
                                           'price': '1000',
                                           'target': '40.00'})
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
 
     def test_validation_amount_executing(self):
         """
