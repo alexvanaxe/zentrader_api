@@ -21,3 +21,9 @@ class OperationExecuted(APIException):
     status_code = status.HTTP_423_LOCKED
     default_detail = 'This operation is already executed and can\'t be changed'
     default_code = 'operation_executed'
+
+
+class NegativeStocksError(APIException):
+    status_code = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
+    default_detail = 'The amount of stocks negotiated has to be always greater than zero'
+    default_code = 'negative_stocks'

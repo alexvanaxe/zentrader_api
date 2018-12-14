@@ -9,7 +9,7 @@ from rest_framework import serializers
 from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
 from stock.serializers import StockSerializer
-from operation.exceptions import NotEnoughMoney, NotEnoughStocks, OperationExecuted
+from operation.exceptions import NotEnoughMoney, NotEnoughStocks, OperationExecuted, NegativeStocksError
 
 
 class MoneyValidator(object):
@@ -29,6 +29,25 @@ class MoneyValidator(object):
         prior to the validation call being made.
         """
         # Determine the existing instance, if this is an update operation.
+        self.instance = getattr(serializer, 'instance', None)
+
+
+class NegativeStocksValidator(object):
+    """ Validate if the value is greater than zero """
+    def __init__(self):
+        pass
+
+    def __call__(self, value):
+        amount_requested = 0
+        try:
+            amount_requested = value['amount']
+        except KeyError:
+            return
+
+        if amount_requested <= 0:
+            raise NegativeStocksError()
+
+    def set_context(self, serializer):
         self.instance = getattr(serializer, 'instance', None)
 
 
@@ -103,7 +122,7 @@ class SellDataSerializer(serializers.ModelSerializer):
 
         model = SellData
 
-        validators = [ExecutedValidator(), SellValidator()]
+        validators = [ExecutedValidator(), SellValidator(), NegativeStocksValidator()]
 
 
 class BuyDataSerializer(serializers.ModelSerializer):
@@ -124,8 +143,8 @@ class BuyDataSerializer(serializers.ModelSerializer):
                             'operation_gain_percent','amount_available', 'sell_set')
         model = BuyData
 
-        validators = MoneyValidator(queryset=Account.objects.all(),
-                                    fields=['pk', 'price', 'amount', ]),
+        validators = [MoneyValidator(queryset=Account.objects.all(),
+                                    fields=['pk', 'price', 'amount', ]), NegativeStocksValidator()]
 
 
 class ExperienceDataSerializer(serializers.ModelSerializer):
@@ -152,6 +171,8 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
                             'experience_gain_percent', 'get_intent_display',
                             'stop_loss_result', 'stop_loss_percent')
         model = ExperienceData
+
+        validators = [NegativeStocksValidator(), ]
 
 
 class RiskDataSerializer(serializers.Serializer):

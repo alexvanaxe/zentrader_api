@@ -344,11 +344,15 @@ class BuyData(Operation):
     def sell_set(self):
         return self.selldata_set.filter(archived=False)
 
-    def amount_available(self, executed_filter=True):
+    def amount_available(self, executed_filter=None):
         if executed_filter is not None:
-            return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            if executed_filter is True:
+                return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            else:
+                return self.amount - (self.selldata_set.filter(executed=executed_filter, archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+
         else:
-            return self.amount - (self.selldata_set.all().aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            return self.amount - ((self.selldata_set.filter(archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)) + (self.selldata_set.filter(executed=True, archived=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)))
 
     def operation_gain(self):
         """
@@ -389,7 +393,7 @@ class BuyData(Operation):
         super().save(*args, **kwargs)
 
     def remaining_gain(self):
-        amount_available = self.amount_available()
+        amount_available = self.amount_available(executed_filter=True)
         if amount_available > 0:
             return Decimal(support_system_formulas.calculate_sell(Decimal(amount_available), Decimal(self.stock.price), self.operation_cost(self.Kind.SELL)))
         else:
@@ -431,7 +435,7 @@ class SellData(Operation):
         else:
             return None
 
-    def amount_available(self, executed_filter=True):
+    def amount_available(self, executed_filter=None):
         if self.buy:
             return self.buy.amount_available(executed_filter)
         else:

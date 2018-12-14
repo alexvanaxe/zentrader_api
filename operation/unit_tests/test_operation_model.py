@@ -85,8 +85,8 @@ class SellDataModelTest(OperationModelTestCase):
         totally chain the sell with the buy.
         """
         create_half_sell(self, self.stock)
-        self.assertEqual(str(self.sell_hf1.amount_available()), '100')
-        self.assertEqual(str(self.buy_hf3.amount_available()), '150')
+        self.assertEqual(str(self.sell_hf1.amount_available(executed_filter=True)), '100')
+        self.assertEqual(str(self.buy_hf3.amount_available(executed_filter=True)), '150')
 
 
 class BuyDataModelTest(OperationModelTestCase):
