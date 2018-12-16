@@ -557,6 +557,3 @@ class SellData(Operation):
 
         return self.calculate_gain_percent(stop_loss, self.buy.price)
 
-    def clean(self):
-        if (self.buy.amount_available < self.amount):
-            raise NotEnoughStocks()
