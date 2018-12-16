@@ -254,7 +254,8 @@ class ExperienceData(Operation):
     )
 
     def __str__(self):
-        return str(self.amount)
+        return str(self.stock.code) + " " + str(self.creation_date)
+
     target = models.DecimalField(_('target price'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -340,6 +341,9 @@ class ExperienceData(Operation):
 
 class BuyData(Operation):
     experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.stock.code) + " " + str(self.creation_date)
 
     def sell_set(self):
         return self.selldata_set.filter(archived=False)
@@ -428,6 +432,9 @@ class SellData(Operation):
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
 
     solds = SellDataManager()
+
+    def __str__(self):
+        return str(self.stock.code) + " " + str(self.creation_date)
 
     def _getLteDate(self):
         if self.executed:
