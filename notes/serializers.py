@@ -18,5 +18,6 @@ class NoteSerializer(serializers.ModelSerializer):
         It contains all the fields. And all the fields are writable.
         """
 
-        fields = ('pk', 'operation', 'note')
+        fields = ('pk', 'operation', 'note', 'creation_date')
+        read_only_fields = ('creation_date', )
         model = Note

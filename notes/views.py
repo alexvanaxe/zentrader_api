@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from notes.models import Note
 from notes.serializers import NoteSerializer
 
-# Create your views here.
+
 class NotesModelViewSet(viewsets.ModelViewSet):
     """
     A Model View Set representing the Notes.
