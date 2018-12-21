@@ -16,6 +16,8 @@ IR_DT_PERCENTAGE=Decimal(20)
 PIRANHA_LIMIT=Decimal(3)
 SHARK_LIMIT=Decimal(10)
 
+SIMPLE_PERCENTAGE = "(partial * 100) / total"
+
 GRADE = "((gain * Decimal('100'))/((top - bottom) * Decimal('100')))"
 
 OPERATION_PRICE = "Decimal(amount) * Decimal(value)"
@@ -38,7 +40,6 @@ LIQUIDACAO_FORMULA = "(Decimal(%s) * operation_price) / 100" % LIQUIDACAO
 
 AVERAGE_PRICE = "(( %s ) + Decimal(operation_cost) + %s + %s)/Decimal(amount)" % (OPERATION_PRICE, EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
-
 SELL_TOTAL_COST="((value * amount) - operation_cost - (%s) - (%s))" % (EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
 
 BUY_TOTAL_COST = "(buy_value * amount + operation_cost)"
@@ -48,6 +49,14 @@ GAIN_PERCENT = "((total_gain) * 100)/(buy_value * amount + operation_cost)"
 GAIN = "(((sell_value * amount) - operation_cost) - ((Decimal(%s) * sell_value) / 100) - ((Decimal(%s) * sell_value) / 100)) - (((avg_buy_value * amount + operation_cost)) + ((Decimal(%s) * avg_buy_value) / 100) + ((Decimal(%s) * avg_buy_value) / 100))" % (EMOLUMENTOS, LIQUIDACAO, EMOLUMENTOS, LIQUIDACAO)
 
 AVERAGE_GAIN = "((sell_value * amount) - operation_cost - (%s) - (%s)) - (average_buy_price * amount)" % (EMOLUMENTOS_FORMULA, LIQUIDACAO_FORMULA)
+
+
+def calculate_percentage(partial, total):
+    """
+    A simple generic function to calculate a percentage based on a partial from a total.
+    """
+    return eval(getParsedFormula(SIMPLE_PERCENTAGE))
+
 
 def calculate_price(amount, value):
     """
@@ -74,7 +83,6 @@ def calculate_grade(gain, top, bottom):
         return eval(getParsedFormula(GRADE))
     except TypeError:
         pass
-
 
 
 def calculate_piranha(stop_loss, total_money):
@@ -115,6 +123,7 @@ def calculate_stop_loss_price(value, stop_loss, amount, operation_cost):
         stop_loss = 0
     return eval(getParsedFormula(STOP_LOSS_PRICE))
 
+
 def calculate_sell(amount, value, operation_cost):
     """
     Return the amount of money will be added to our account in a sell discounted the operation cost and taxes.
@@ -122,6 +131,7 @@ def calculate_sell(amount, value, operation_cost):
     operation_price = eval(getParsedFormula(OPERATION_PRICE))
 
     return eval(getParsedFormula(SELL_TOTAL_COST))
+
 
 def calculate_gain(sell_value, avg_buy_value, amount, operation_cost):
     """

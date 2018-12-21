@@ -42,6 +42,5 @@ class Account(models.Model):
         return (sum(i.buydata.remaining_gain() for i in self.operation_set.filter(buydata__isnull=False))) + self.equity
 
 
-
 def default_account():
     return Account.objects.filter(next_account__isnull=True)[0]

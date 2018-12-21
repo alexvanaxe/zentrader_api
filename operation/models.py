@@ -277,6 +277,10 @@ class ExperienceData(Operation):
     def experience_gain_percent(self):
         return self.calculate_gain_percent(self.stock.price)
 
+    def experience_total_gain_percent(self):
+        gain = self.experience_gain()
+        return Decimal(support_system_formulas.calculate_percentage(gain, self.account.total_equity()))
+
     def target_gain(self):
         """
         Calculate the gain based in the stock value.
@@ -290,6 +294,12 @@ class ExperienceData(Operation):
         """
         if self.target:
             return self.calculate_gain(self.target)
+
+    def target_gain_total_percent(self):
+        target_value = self.target_gain()
+
+        if target_value:
+            return Decimal(support_system_formulas.calculate_percentage(target_value, self.account.total_equity()))
 
     def target_gain_percent(self):
         """
@@ -307,6 +317,12 @@ class ExperienceData(Operation):
         """
         if self.stop_loss:
             return self.calculate_gain(self.stop_loss)
+
+    def stop_loss_total_percent(self):
+        stop_loss_result = self.stop_loss_result()
+        if stop_loss_result:
+            return Decimal(support_system_formulas.calculate_percentage(stop_loss_result,
+                           self.account.total_equity()))
 
     def stop_loss_percent(self):
         """
@@ -556,4 +572,3 @@ class SellData(Operation):
             return -99999
 
         return self.calculate_gain_percent(stop_loss, self.buy.price)
-
