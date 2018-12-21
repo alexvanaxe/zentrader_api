@@ -125,3 +125,9 @@ class Stock(models.Model):
 
         return Decimal(support_system_formulas.calculate_gain_percent(
             self.price, self.average_price(), self.owned(), operation_cost.operation_cost_position))
+
+    def stock_result_total_percent(self):
+        stock_result = self.stock_result()
+
+        if stock_result:
+            return Decimal(support_system_formulas.calculate_percentage(stock_result, default_account().total_equity() ))

@@ -488,6 +488,18 @@ class SellData(Operation):
         else:
             return 0
 
+    def stock_profit_total_percent(self):
+        """ Returns the total percent result of the stock, based on the total
+        equity.
+        :returns: Decimal with the total percent
+
+        """
+        stock_profit = self.stock_profit
+
+        if stock_profit:
+            return Decimal(support_system_formulas.calculate_percentage(stock_profit(),
+                                                                        self.account.total_equity()))
+
     def stock_profit_percent(self):
         """
         Return the profit percent result based on the stock price
