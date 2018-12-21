@@ -572,6 +572,19 @@ class SellData(Operation):
 
         return self.calculate_gain(stop_loss, self.buy.price)
 
+    def stop_loss_total_percent(self):
+        """ Returns the percentage of the stop loss based on the total equity
+        (equity + stocks owned)
+
+        :returns: Decimal with total percent
+
+        """
+        stop_loss = self.stop_loss_result()
+
+        if stop_loss:
+            return Decimal(support_system_formulas.calculate_percentage(stop_loss,
+                           self.account.total_equity()))
+
     def stop_loss_percent(self):
         """
         Calculates the percentage result of the stop loss if it is hit.
