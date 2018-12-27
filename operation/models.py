@@ -527,6 +527,18 @@ class SellData(Operation):
         else:
             return 0
 
+    def profit_total_percent(self):
+        """ Returns the percent of the profit of this operation based on the total
+        equity.
+        :returns: Deciamal with the percentage
+
+        """
+        profit = self.profit()
+
+        if profit:
+            return Decimal(support_system_formulas.calculate_percentage(profit,
+                                                                        self.account.total_equity()))
+
     def sell_value(self):
         """
         Returns how much money will be aquired with the sell
