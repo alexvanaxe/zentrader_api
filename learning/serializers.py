@@ -10,7 +10,6 @@ import stock.serializers as StockSerializer
 import learning.models as models
 
 
-
 class PaperBuySerializer(serializers.ModelSerializer):
     """
     Serializer for PaperBuySerializer model.
@@ -21,4 +20,16 @@ class PaperBuySerializer(serializers.ModelSerializer):
                   'archived', 'nickname')
         read_only_fields = ('creation_date', )
         model = models.PaperBuy
+
+
+class PaperSellSerializer(serializers.ModelSerializer):
+    """
+    Serializer for PaperSellSerializer model.
+    """
+
+    class Meta:
+        fields = ('pk', 'paper_buy', 'creation_date', 'stock', 'amount', 'price',
+                  'archived', 'nickname', 'stop_loss', 'stop_gain')
+        read_only_fields = ('creation_date', )
+        model = models.PaperSell
 

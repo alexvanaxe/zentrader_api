@@ -14,7 +14,7 @@ class LearningTestCase(APITestCase):
         stock_mocks.create_stocks(cls)
         learning_mocks.create_paper_buy_sell(cls, cls.stock)
 
-class LearningTest(LearningTestCase):
+class LearningPaperBuyTest(LearningTestCase):
     def test_post(self):
         url = reverse('paper_buy-list')
 
@@ -33,3 +33,23 @@ class LearningTest(LearningTestCase):
          self.assertEqual(response.status_code, status.HTTP_200_OK)
          self.assertEqual(response.data['amount'], "1000")
 
+
+class LearningPaperSellTest(LearningTestCase):
+    def test_post(self):
+        url = reverse('paper_sell-list')
+
+        response = self.client.post(url, {'stock': self.stock.pk,
+                                          'paper_buy': self.paper_buy.pk,
+                                          'amount': '20000',
+                                          'price': '10',
+                                          'target': '15.00'})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get(self):
+         url = reverse('paper_sell-detail', kwargs={'pk': self.paper_sell.pk})
+
+         response = self.client.get(url)
+
+         self.assertEqual(response.status_code, status.HTTP_200_OK)
+         self.assertEqual(response.data['price'], "34.00")
