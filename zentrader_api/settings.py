@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'operation',
     'account',
     'ir_br',
-    'notes'
+    'notes',
+    'learning'
 
 ]
 
