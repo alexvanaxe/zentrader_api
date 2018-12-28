@@ -11,6 +11,7 @@ chardet==3.0.4            # via requests
 dj-database-url==0.5.0
 django-appconf==1.0.2
 django-cors-headers==2.2.0
+django-extensions==2.1.4
 django-filter==1.1.0
 django-request-logging==0.6.5
 django==2.0.6
@@ -25,12 +26,13 @@ markupsafe==1.0           # via jinja2
 packaging==17.1           # via sphinx
 pipenv==2018.5.18
 psycopg2-binary==2.7.4
+pydotplus==2.0.2
 pygments==2.2.0           # via sphinx
 pyjwt==1.6.4              # via djangorestframework-jwt
-pyparsing==2.2.0          # via packaging
+pyparsing==2.2.0          # via packaging, pydotplus
 pytz==2018.4              # via babel, django
 requests==2.18.4          # via sphinx
-six==1.11.0               # via packaging, sphinx
+six==1.11.0               # via django-extensions, packaging, sphinx
 snowballstemmer==1.2.1    # via sphinx
 sphinx==1.7.5
 sphinxcontrib-websupport==1.0.1  # via sphinx

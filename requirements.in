@@ -11,3 +11,5 @@ whitenoise
 psycopg2-binary
 pipenv
 django-request-logging
+django-extensions
+PyDotPlus
