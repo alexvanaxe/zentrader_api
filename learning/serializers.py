@@ -16,9 +16,10 @@ class PaperBuySerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
-                  'archived', 'nickname')
-        read_only_fields = ('creation_date', )
+        """ The meta instructions of the serializer. """
+        fields = ('pk', 'experience', 'creation_date', 'stock', 'amount',
+                  'price', 'archived', 'nickname', 'stock_data')
+        read_only_fields = ('creation_date', 'stock_data')
         model = models.PaperBuy
 
 
@@ -32,4 +33,3 @@ class PaperSellSerializer(serializers.ModelSerializer):
                   'archived', 'nickname', 'stop_loss', 'stop_gain')
         read_only_fields = ('creation_date', )
         model = models.PaperSell
-

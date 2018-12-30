@@ -23,7 +23,7 @@ class PaperOperation(models.Model):
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
-    price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
+    price = models.DecimalField(_('price'), max_digits=22, decimal_places=2, null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
 
@@ -45,17 +45,34 @@ class PaperOperation(models.Model):
 
         super().save(*args, **kwargs)
 
+
 class PaperBuy(PaperOperation):
-    experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
+    """
+    A Paper buy is a fake buy just for learning purposes.
+    """
+    experience = models.ForeignKey('operation.ExperienceData', null=True,
+                                   on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.stock.code) + " " + str(self.creation_date)
 
+    def stock_data(self):
+        """
+        Returns the stock data
+        """
+        return self.stock
+
 
 class PaperSell(PaperOperation):
-    paper_buy = models.ForeignKey('learning.PaperBuy', null=True, on_delete=models.CASCADE)
-    stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
-    stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
+    """
+    A paper sell is just a fake sell for learning purposes.
+    """
+    paper_buy = models.ForeignKey('learning.PaperBuy', null=True,
+                                  on_delete=models.CASCADE)
+    stop_gain = models.DecimalField(_('stop gain'), max_digits=22,
+                                    decimal_places=2, null=True, blank=True)
+    stop_loss = models.DecimalField(_('stop loss'), max_digits=22,
+                                    decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return str(self.stock.code) + " " + str(self.creation_date)
