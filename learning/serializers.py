@@ -5,7 +5,7 @@ Also provide deserialization, allowing parsed data to be converted back into com
 incoming data.
 """
 from rest_framework import serializers
-import stock.serializers as StockSerializer
+import stock.serializers as stockserializers
 
 import learning.models as models
 
@@ -14,6 +14,8 @@ class PaperBuySerializer(serializers.ModelSerializer):
     """
     Serializer for PaperBuySerializer model.
     """
+
+    stock_data = stockserializers.StockSerializer(read_only=True)
 
     class Meta:
         """ The meta instructions of the serializer. """
