@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
 
+from formulas import support_system_formulas
+
 from django.utils.translation import ugettext_lazy as _
 
 import account.models as account
@@ -76,3 +78,19 @@ class PaperSell(PaperOperation):
 
     def __str__(self):
         return str(self.stock.code) + " " + str(self.creation_date)
+
+    def stock_data(self):
+        """
+        Returns the stock data
+        """
+        return self.stock
+
+    def sell_gain(self):
+        value = support_system_formulas.calculate_gain(self.price, self.paper_buy.price,
+                                                       self.amount, 0)
+        return value
+
+    def sell_gain_percent(self):
+        average = support_system_formulas.calculate_gain_percent(self.price, self.paper_buy.price,
+                                                                 self.amount, 0)
+        return average
