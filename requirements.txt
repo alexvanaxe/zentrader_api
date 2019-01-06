@@ -4,39 +4,39 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-alabaster==0.7.10         # via sphinx
+alabaster==0.7.12         # via sphinx
 babel==2.6.0              # via sphinx
-certifi==2018.4.16        # via pipenv, requests
+certifi==2018.11.29       # via pipenv, requests
 chardet==3.0.4            # via requests
 dj-database-url==0.5.0
 django-appconf==1.0.2
-django-cors-headers==2.2.0
+django-cors-headers==2.4.0
 django-extensions==2.1.4
-django-filter==1.1.0
-django-request-logging==0.6.5
-django==2.0.6
+django-filter==2.0.0
+django-request-logging==0.6.6
+django==2.1.5
 djangorestframework-jwt==1.11.0
-djangorestframework==3.8.2
+djangorestframework==3.9.0
 docutils==0.14            # via sphinx
-gunicorn==19.8.1
-idna==2.6                 # via requests
-imagesize==1.0.0          # via sphinx
+gunicorn==19.9.0
+idna==2.8                 # via requests
+imagesize==1.1.0          # via sphinx
 jinja2==2.10              # via sphinx
-markupsafe==1.0           # via jinja2
-packaging==17.1           # via sphinx
-pipenv==2018.5.18
-psycopg2-binary==2.7.4
+markupsafe==1.1.0         # via jinja2
+packaging==18.0           # via sphinx
+pipenv==2018.11.26
+psycopg2-binary==2.7.6.1
 pydotplus==2.0.2
-pygments==2.2.0           # via sphinx
-pyjwt==1.6.4              # via djangorestframework-jwt
-pyparsing==2.2.0          # via packaging, pydotplus
-pytz==2018.4              # via babel, django
-requests==2.18.4          # via sphinx
-six==1.11.0               # via django-extensions, packaging, sphinx
+pygments==2.3.1           # via sphinx
+pyjwt==1.7.1              # via djangorestframework-jwt
+pyparsing==2.3.0          # via packaging, pydotplus
+pytz==2018.7              # via babel, django
+requests==2.21.0          # via sphinx
+six==1.12.0               # via django-extensions, packaging, sphinx
 snowballstemmer==1.2.1    # via sphinx
-sphinx==1.7.5
-sphinxcontrib-websupport==1.0.1  # via sphinx
-urllib3==1.22             # via requests
-virtualenv-clone==0.3.0   # via pipenv
-virtualenv==16.0.0        # via pipenv
-whitenoise==3.3.1
+sphinx==1.8.3
+sphinxcontrib-websupport==1.1.0  # via sphinx
+urllib3==1.24.1           # via requests
+virtualenv-clone==0.4.0   # via pipenv
+virtualenv==16.2.0        # via pipenv
+whitenoise==4.1.2
