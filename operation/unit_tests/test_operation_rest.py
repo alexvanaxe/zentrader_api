@@ -101,14 +101,14 @@ class ExperienceDataTest(OperationTestCase):
 
     def test_gain(self):
         url = reverse('experience-detail', kwargs={'pk': self.experience.pk})
-        response = self.client.get(url)
+        response = self.client.get(url + '?detailed=true')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(response.data['target_gain']), '-10020.01')
 
     def test_gain2(self):
         url = reverse('experience-detail', kwargs={'pk': self.experience.pk})
-        response = self.client.get(url)
+        response = self.client.get(url + '?detailed=true')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual("{0:.2f}".format(response.data['operation_limit']), '31.00')

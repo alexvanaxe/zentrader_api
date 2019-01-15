@@ -1,20 +1,56 @@
-from django.http.response import Http404
-from rest_framework import viewsets, views, response
+from rest_framework import viewsets, views, response, mixins
+from silk.profiling.profiler import silk_profile
 
 
 from operation.models import Operation, ExperienceData, BuyData, SellData
-from operation.serializers import ExperienceDataSerializer, \
+from operation.serializers import ExperienceDataSerializer, ExperienceDataSerializerDetailed, \
     BuyDataSerializer, SellDataSerializer, RiskDataSerializer, \
     ArchiveSerializer
 
 
-class ExperienceDataViewSet(viewsets.ModelViewSet):
+class ExperienceDataViewSet(mixins.CreateModelMixin,
+                            mixins.ListModelMixin,
+                            mixins.RetrieveModelMixin,
+                            mixins.UpdateModelMixin,
+                            mixins.DestroyModelMixin,
+                            viewsets.GenericViewSet):
     """
     A viewset representing the ExperienceData.
     """
     queryset = ExperienceData.objects.filter(archived=False).order_by('-favorite',
                                                                       'creation_date')
     serializer_class = ExperienceDataSerializer
+
+    @silk_profile(name="Experience data list")
+    def list(self, request, *args, **kwargs):
+        """ Override to serialize the full experience when the detailed attribute
+            is sended true
+        """
+        queryset = ExperienceData.objects.filter(archived=False).order_by('-favorite',
+                                                                          'creation_date')
+        try:
+            detailed = request.query_params['detailed'].lower()
+        except KeyError:
+            detailed = 'false'
+
+        if detailed == 'true':
+            return response.Response(ExperienceDataSerializerDetailed(queryset, many=True).data)
+        else:
+            return response.Response(ExperienceDataSerializer(queryset, many=True).data)
+
+    @silk_profile(name="Experience data retrieve")
+    def retrieve(self, request, pk, *args, **kwargs):
+        """ Override to serialize the full experience when the detailed querystring is set to true"""
+
+        try:
+            detailed = request.query_params['detailed'].lower()
+        except KeyError:
+            detailed = 'false'
+
+        if detailed == 'true':
+            return response.Response(ExperienceDataSerializerDetailed(ExperienceData.objects.get(pk=pk)).data)
+        else:
+            return response.Response(ExperienceDataSerializer(ExperienceData.objects.get(pk=pk)).data)
 
 
 class BuyDataViewSet(viewsets.ModelViewSet):

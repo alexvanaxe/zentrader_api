@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-import operation
-
+from decimal import Decimal, ROUND_DOWN
+from django.core.cache import cache
 
 class Account(models.Model):
     """
@@ -37,10 +36,17 @@ class Account(models.Model):
     equity = models.DecimalField(_('equity'), max_digits=15, decimal_places=2,
                                  null=False)
 
+    def update_total_equity(self):
+        operations = self.operation_set.filter(buydata__isnull=False).select_related('buydata')
+        total_equity =  (sum(i.buydata.remaining_gain() for i in operations)) + self.equity
+        cache.set('total_equity', total_equity)
 
     def total_equity(self):
-        return (sum(i.buydata.remaining_gain() for i in self.operation_set.filter(buydata__isnull=False))) + self.equity
+        total_equity = cache.get('total_equity')
+        if total_equity is None:
+            total_equity = self.update_total_equity()
 
+        return total_equity
 
 def default_account():
     return Account.objects.filter(next_account__isnull=True)[0]

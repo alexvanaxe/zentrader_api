@@ -1,0 +1,3 @@
+let l:bm_file_version = 1
+let l:bm_sessions = {'default': {'/home/y21s/Documents/Projects/zentrader/zentrader_api/operation/models.py': [{'sign_idx': 9500, 'line_nr': 226, 'content': '        return False', 'annotation': 'Marcado pois eh um gargalo'},{'sign_idx': 9501, 'line_nr': 413, 'content': '        amount_available = self.amount_available(executed_filter=True)', 'annotation': 'Um grande gargalo'},],'/home/y21s/Documents/Projects/zentrader/zentrader_api/stock/models.py': [{'sign_idx': 9502, 'line_nr': 22, 'content': '    def owned(self, date__gte=None, date__lte=None):', 'annotation': 'Ultimo ponto para melhoria'},],}}
+let l:bm_current_session = 'default'

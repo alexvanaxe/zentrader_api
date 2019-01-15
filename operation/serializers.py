@@ -156,26 +156,47 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     """
 
     stock_data = StockSerializer(read_only=True)
-    buy_set = BuyDataSerializer(read_only=True, many=True)
+    detailed = serializers.BooleanField('detailed', default=False)
 
     class Meta:
         fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'buy_set', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'stock_data', 'action', 'target_gain',
-                  'operation_limit', 'intent', 'cost', 'stock_cost',
-                  'operation_average_price', 'average_cost',
-                  'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
-                  'experience_gain', 'experience_total_gain_percent', 'experience_gain_percent',
-                  'favorite', 'get_intent_display', 'stop_loss_result',
-                  'stop_loss_total_percent', 'stop_loss_percent')
-        read_only_fields = ('creation_date', 'operation_gain', 'operation_limit', 'cost',
-                            'real_cost', 'operation_average_price', 'stock_data',
-                            'average_cost', 'buy_set', 'average_stock_cost',
-                            'target_gain_percent', 'target_gain_total_percent',
-                            'experience_gain', 'experience_total_gain_percent',
-                            'experience_gain_percent', 'get_intent_display',
-                            'stop_loss_result','stop_loss_total_percent',
-                            'stop_loss_percent')
+                  'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
+                  'target', 'favorite', 'get_intent_display', 'stock_data', 'action',
+                  'detailed')
+        read_only_fields = ('creation_date', 'detailed')
+        model = ExperienceData
+
+        validators = [NegativeStocksValidator(), ]
+
+
+class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
+    """
+    Serializer for ExperienceData model.
+    """
+
+    stock_data = StockSerializer(read_only=True)
+    detailed = serializers.BooleanField('detailed', default=True)
+
+    class Meta:
+        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
+                  'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
+                  'target', 'favorite', 'get_intent_display', 'stock_data', 'action', 'target_gain',
+                  'detailed', 'operation_limit')
+                  # 'operation_limit', 'intent', 'cost', 'stock_cost',
+                  # 'operation_average_price', 'average_cost',
+                  # 'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
+                  # 'experience_gain', 'experience_total_gain_percent', 'experience_gain_percent',
+                  # 'favorite', 'get_intent_display', 'stop_loss_result',
+                  # 'stop_loss_total_percent', 'stop_loss_percent', 'detailed')
+        read_only_fields = ('creation_date', 'operation_gain', 'detailed', 'target_gain', 'operation_limit')
+                            # 'operation_limit', 'cost',
+                            # 'real_cost', 'operation_average_price', 'stock_data',
+                            # 'average_cost', 'buy_set', 'average_stock_cost',
+                            # 'target_gain_percent', 'target_gain_total_percent',
+                            # 'experience_gain', 'experience_total_gain_percent',
+                            # 'experience_gain_percent', 'get_intent_display',
+                            # 'stop_loss_result', 'stop_loss_total_percent',
+                            # 'stop_loss_percent', 'detailed')
         model = ExperienceData
 
         validators = [NegativeStocksValidator(), ]
@@ -194,4 +215,3 @@ class ArchiveSerializer(serializers.Serializer):
         instance.save()
 
         return instance
-

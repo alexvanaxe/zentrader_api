@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 #     return os.path.join('charts', str(instance.transaction.id), instance.operation_status.name,
 #                         str(time.mktime(instance.creation_date.timetuple())), filename)
 from account.models import Account
-from operation.exceptions import NotEnoughStocks
 from formulas import support_system_formulas
 
 
@@ -224,13 +223,14 @@ class Operation(models.Model):
         TODO: We are based on the sell because for now we dont work with rent
         trade.
         """
+        return False
         if kind is None:
             kind = self.kind()
 
         if kind is self.Kind.SELL:
             day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
 
-            return len(day_buys) > 0
+            return day_buys.count() > 0
 
         if kind is self.Kind.BUY:
             day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
@@ -238,7 +238,7 @@ class Operation(models.Model):
                                                                                                                                       creation_date__year=self.creation_date.year,
                                                                                                                                       creation_date__lte=self.creation_date)
 
-            return len(day_sells) > 0
+            return day_sells.count() > 0
 
         return False
 
@@ -366,10 +366,7 @@ class BuyData(Operation):
 
     def amount_available(self, executed_filter=None):
         if executed_filter is not None:
-            if executed_filter is True:
-                return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
-            else:
-                return self.amount - (self.selldata_set.filter(executed=executed_filter, archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
 
         else:
             return self.amount - ((self.selldata_set.filter(archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)) + (self.selldata_set.filter(executed=True, archived=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)))

@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
+urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
+
 urlpatterns += (
     url(r"^api/v1/", include('stock.urls')),
     url(r"^api/v1/", include('operation.urls')),
