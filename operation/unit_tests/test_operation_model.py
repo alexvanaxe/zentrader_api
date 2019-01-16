@@ -109,4 +109,5 @@ class ExperimentDataModelTest(OperationModelTestCase):
 
     def test_total_percentage_experiment(self):
         create_operations(self, self.stock)
-        self.assertEqual('-9.64', "{0:.2f}".format(self.operation.experience_total_gain_percent()))
+        experience = ExperienceData.objects.get(pk=self.operation.pk)
+        self.assertEqual('-9.96', "{0:.2f}".format(experience.experience_total_gain_percent()))
