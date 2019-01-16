@@ -5,6 +5,7 @@ from operation.models import ExperienceData
 from account.unit_tests.account_mocks import create_account, create_second_account
 from stock.unit_tests.stock_mocks import create_stocks
 from operation.unit_tests.operation_mocks import create_buys, create_sells
+from account.models import Account
 
 
 class AccountModelTestCase(TestCase):
@@ -46,4 +47,6 @@ class AccountModelTest(AccountModelTestCase):
         create_stocks(self)
         create_buys(self, self.stock)
 
-        self.assertEqual("{0:.2f}".format(self.buy1.account.total_equity()), "103977.40")
+        accountpk = self.buy1.account.pk
+
+        self.assertEqual("{0:.2f}".format(Account.objects.get(pk=accountpk).total_equity()), "103977.40")

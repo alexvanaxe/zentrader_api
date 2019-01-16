@@ -223,7 +223,6 @@ class Operation(models.Model):
         TODO: We are based on the sell because for now we dont work with rent
         trade.
         """
-        return False
         if kind is None:
             kind = self.kind()
 

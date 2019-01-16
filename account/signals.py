@@ -12,7 +12,9 @@ def debit_account(sender, instance, created, **kwargs):
         account = instance.account
         account.equity = account.equity - instance.average_cost()
         account.save()
-        account.update_total_equity()
+        account_list = Account.objects.all()
+        for account in account_list:
+            account.update_total_equity()
 
 
 @receiver(post_save, sender=SellData)
@@ -21,7 +23,9 @@ def credit_account(sender, instance, created, **kwargs):
         account = instance.account
         account.equity = account.equity + instance.sell_value()
         account.save()
-        account.update_total_equity()
+        account_list = Account.objects.all()
+        for account in account_list:
+            account.update_total_equity()
 
 
 @receiver(post_save, sender=Stock)
