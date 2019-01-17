@@ -50,6 +50,8 @@ class Operation(models.Model):
     objects = models.Manager() # The default manager
     executions = OperationManager() # The executed manager
 
+    dt_result = None
+
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
 #    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -223,13 +225,17 @@ class Operation(models.Model):
         TODO: We are based on the sell because for now we dont work with rent
         trade.
         """
+        if self.dt_result is not None:
+            return self.dt_result
+
         if kind is None:
             kind = self.kind()
 
         if kind is self.Kind.SELL:
             day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
 
-            return day_buys.count() > 0
+            self.dt_result = day_buys.count() > 0
+            return self.dt_result
 
         if kind is self.Kind.BUY:
             day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
@@ -237,8 +243,10 @@ class Operation(models.Model):
                                                                                                                                       creation_date__year=self.creation_date.year,
                                                                                                                                       creation_date__lte=self.creation_date)
 
-            return day_sells.count() > 0
+            self.dt_result = day_sells.count() > 0
+            return self.dt_result
 
+        self.dt_result = False
         return False
 
 
@@ -356,6 +364,7 @@ class ExperienceData(Operation):
 
 class BuyData(Operation):
     experience = models.ForeignKey('operation.ExperienceData', null=True, on_delete=models.CASCADE)
+    amount_available_b = None
 
     def __str__(self):
         return str(self.stock.code) + " " + str(self.creation_date)
@@ -364,11 +373,16 @@ class BuyData(Operation):
         return self.selldata_set.filter(archived=False)
 
     def amount_available(self, executed_filter=None):
+        if self.amount_available_b is not None:
+            return self.amount_available_b
+
         if executed_filter is not None:
-            return self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            self.amount_available_b = self.amount - (self.selldata_set.filter(executed=executed_filter).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0))
+            return self.amount_available_b
 
         else:
-            return self.amount - ((self.selldata_set.filter(archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)) + (self.selldata_set.filter(executed=True, archived=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)))
+            self.amount_available_b = self.amount - ((self.selldata_set.filter(archived=False).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)) + (self.selldata_set.filter(executed=True, archived=True).aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)))
+            return self.amount_available_b
 
     def operation_gain(self):
         """
