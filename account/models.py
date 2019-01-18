@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from decimal import Decimal, ROUND_DOWN
 from django.core.cache import cache
 
 class Account(models.Model):
@@ -43,6 +42,7 @@ class Account(models.Model):
         operations = self.operation_set.filter(buydata__isnull=False).select_related('buydata')
         total_equity = (sum(i.buydata.remaining_gain() for i in operations)) + self.equity
         cache.set('total_equity', total_equity)
+        return total_equity
 
     def total_equity(self):
         """

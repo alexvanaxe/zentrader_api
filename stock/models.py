@@ -1,6 +1,7 @@
 from decimal import Decimal
 from datetime import datetime
 from django.db import models
+from django.core.cache import cache
 
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -19,6 +20,22 @@ class Stock(models.Model):
     def __str__(self):
         return self.code
 
+    def update_owned_cache(self):
+        date__lte = datetime.now()
+
+        sells_q = Operation.executions.filter(stock=self).select_related('selldata')
+        buys_q = Operation.executions.filter(stock=self).select_related('buydata')
+
+        if date__lte:
+            sells_q = sells_q.filter(creation_date__lte=date__lte)
+            buys_q = buys_q.filter(creation_date__lte=date__lte)
+
+        sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
+        buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
+        owned_stocks = buys - sells
+        cache.set(self.code, owned_stocks)
+        return owned_stocks
+
     def owned(self, date__gte=None, date__lte=None):
         """
         Quantify the amount of stock that is owned at the moment (it is the
@@ -27,6 +44,12 @@ class Stock(models.Model):
         :returns: The amount owned
         :rtype: Decimal
         """
+        if date__gte is None and date__lte is None:
+            owned_stocks = cache.get(self.code)
+            if owned_stocks is None:
+                owned_stocks = self.update_owned_cache()
+
+            return owned_stocks
 
         if date__lte is None:
             date__lte = datetime.now()
@@ -37,14 +60,13 @@ class Stock(models.Model):
             sells_q = sells_q.filter(creation_date__gte=date__gte)
             buys_q = buys_q.filter(creation_date__gte=date__gte)
         if date__lte:
-           sells_q =  sells_q.filter(creation_date__lte=date__lte)
-           buys_q = buys_q.filter(creation_date__lte=date__lte)
+            sells_q = sells_q.filter(creation_date__lte=date__lte)
+            buys_q = buys_q.filter(creation_date__lte=date__lte)
 
         sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
         buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
 
         return  buys - sells
-
 
     def average_price(self, date__gte=None, date__lte=None):
         """
@@ -52,6 +74,8 @@ class Stock(models.Model):
         The main reason of the existence of this value is the fact that we can't choose the action we will sell. So
         it is difficult to define the result (balance) of the operation. To solve the problem it is used the concept
         of average price. Which is a single mathematical average.
+
+        ATTENTION: It is a very expensive operation
 
         More information can be found in the `Bussola
         <http://blog.bussoladoinvestidor.com.br/calculo-do-preco-medio-de-acoes/>`_.
@@ -65,7 +89,7 @@ class Stock(models.Model):
         if date__lte is None:
             date__lte = datetime.now()
 
-        operations = Operation.executions.filter(stock=self).order_by('execution_date')
+        operations = Operation.executions.filter(stock=self).order_by('execution_date').select_related('buydata', 'selldata')
 
         if date__gte:
             operations = operations.filter(creation_date__gte=date__gte)

@@ -111,17 +111,20 @@ class SellDataSerializer(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
     class Meta:
         fields = ('pk', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available',
-                  'sell_value', 'result', 'gain_percent', 'profit', 'profit_percent',
-                  'profit_total_percent', 'stock_profit', 'stock_profit_total_percent',
-                  'stock_profit_percent', 'stock_data', 'stop_loss_result', 'stop_loss_percent',
-                  'stop_loss_total_percent', 'stop_gain_result', 'stop_gain_percent', 'amount_available')
+                  'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
+                  'sell_value', 'result')
+                  #  'sell_value', 'result', 'gain_percent', 'profit', 'profit_percent',
+                  #  'profit_total_percent', 'stock_profit', 'stock_profit_total_percent',
+                  #  'stock_profit_percent', 'stock_data', 'stop_loss_result', 'stop_loss_percent',
+                  #  'stop_loss_total_percent', 'stop_gain_result', 'stop_gain_percent', 'amount_available')
         read_only_fields = ('stock_data', 'sell_value', 'result', 'gain_percent',
-                            'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_profit',
-                            'stock_profit_total_percent', 'stock_profit_percent',
-                            'creation_date', 'stop_loss_result', 'stop_loss_percent',
-                            'stop_loss_total_percent', 'stop_gain_result',
-                            'stop_gain_percent', 'amount_available')
+                            'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_data',
+                            'sell_value', 'result')
+                            #  'stock_profit',
+                            #  'stock_profit_total_percent', 'stock_profit_percent',
+                            #  'creation_date', 'stop_loss_result', 'stop_loss_percent',
+                            #  'stop_loss_total_percent', 'stop_gain_result',
+                            #  'stop_gain_percent', 'amount_available')
 
         model = SellData
 
@@ -139,10 +142,10 @@ class BuyDataSerializer(serializers.ModelSerializer):
         fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
                   'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
-                  'operation_gain_percent','amount_available')
+                  'operation_gain_percent', 'amount_available')
         read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
-                            'average_stock_cost', 'cost', 'operation_gain_percent','amount_available')
+                            'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available')
         model = BuyData
 
         validators = [MoneyValidator(queryset=Account.objects.all(),

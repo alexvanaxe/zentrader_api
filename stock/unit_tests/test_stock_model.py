@@ -1,5 +1,6 @@
 from django.test.testcases import TestCase
 from datetime import datetime
+from django.core.cache import cache
 
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
@@ -9,6 +10,7 @@ from operation.unit_tests.operation_mocks import create_operations, create_only_
 class StockModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cache.clear()
         create_account(cls)
         create_stocks(cls)
         create_operations(cls, cls.stock)
@@ -33,6 +35,9 @@ class StockEmptyTestCase(TestCase):
     def setUpTestData(cls):
         create_account(cls)
         create_stocks(cls)
+
+    def tearDown(self):
+        cache.clear()
 
     def test_owned_empty(self):
         self.assertEqual(str(self.stock.owned()), "0")

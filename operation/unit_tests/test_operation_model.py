@@ -1,8 +1,8 @@
-from datetime import datetime
 from decimal import Decimal
 
 from django.test.testcases import TestCase
 from django.core.exceptions import ValidationError
+from django.core.cache import cache
 
 from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
@@ -14,6 +14,7 @@ from operation.unit_tests.operation_mocks import create_operations, create_day_t
 class OperationModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cache.clear()
         create_account(cls)
         create_stocks(cls)
 
@@ -98,7 +99,7 @@ class BuyDataModelTest(OperationModelTestCase):
 
     def test_remaining_gain(self):
         create_operations(self, self.stock)
-        self.assertEqual("1994.35", "{0:.2f}".format(self.buy3.remaining_gain()))
+        self.assertEqual("1989.35", "{0:.2f}".format(self.buy3.remaining_gain()))
         self.assertEqual("0.00", "{0:.2f}".format(self.buy2.remaining_gain()))
 
 
