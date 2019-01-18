@@ -31,6 +31,13 @@ class Operation(models.Model):
         ('N', _('No'))
     )
 
+    CATEGORY = (
+        ('DT', _('Daytrade')),
+        ('O', _('Ordinary')),
+        ('F', _('Fraction')),
+        ('NA', _('Not yet Defined'))
+    )
+
     def __str__(self):
         return str(self.pk)
 
@@ -40,6 +47,7 @@ class Operation(models.Model):
     execution_date = models.DateTimeField(_('execution date'), null=True, blank=True)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
+    category = models.CharField(max_length=2, choices=CATEGORY, null=True, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
     executed = models.BooleanField(_('executed'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
@@ -51,6 +59,7 @@ class Operation(models.Model):
     executions = OperationManager() # The executed manager
 
     dt_result = None
+    kind_buffer = None
 
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
 #    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
@@ -61,29 +70,38 @@ class Operation(models.Model):
         SELL = 3
 
     def kind(self):
+        if self.kind_buffer is not None:
+            return self.kind_buffer
+
         if isinstance(self, ExperienceData):
-            return self.Kind.EXPERIMENT
+            self.kind_buffer = self.Kind.EXPERIMENT
+            return self.kind_buffer
 
         if isinstance(self, BuyData):
-            return self.Kind.BUY
+            self.kind_buffer = self.Kind.BUY
+            return self.kind_buffer
 
         if isinstance(self, SellData):
-            return self.Kind.SELL
+            self.kind_buffer = self.Kind.SELL
+            return self.kind_buffer
 
         if isinstance(self, Operation):
             try:
                 self.experiencedata
-                return self.Kind.EXPERIMENT
+                self.kind_buffer = self.Kind.EXPERIMENT
+                return self.kind_buffer
             except self.DoesNotExist:
                 pass
             try:
                 self.buydata
-                return self.Kind.BUY
+                self.kind_buffer = self.Kind.BUY
+                return self.kind_buffer
             except self.DoesNotExist:
                 pass
             try:
                 self.selldata
-                return self.Kind.SELL
+                self.kind_buffer = self.Kind.SELL
+                return self.kind_buffer
             except self.DoesNotExist:
                 pass
 
@@ -113,6 +131,9 @@ class Operation(models.Model):
 
         if self.executed and not self.execution_date:
             self.execution_date = datetime.now()
+
+        if self.executed is True:
+            self.category = self.operation_category()
 
         super().save(*args, **kwargs)
 
@@ -207,11 +228,26 @@ class Operation(models.Model):
             Decimal(self.amount),
             Decimal(self.operation_cost())))
 
-    def operation_cost(self, kind=None):
+    def operation_category(self, kind=None):
+        if self.category is not None:
+            return self.category
+
         if self.amount % 100 != 0:
-            return self.account.operation_cost_fraction
+            return 'F'
 
         if self.is_daytrade(kind):
+            return 'DT'
+
+        if self.executed == True:
+            return 'O'
+
+        return 'NA'
+
+    def operation_cost(self, kind=None):
+        if self.operation_category(kind) == 'F':
+            return self.account.operation_cost_fraction
+
+        if self.operation_category(kind) == 'DT':
             return self.account.operation_cost_day_trade
 
         return self.account.operation_cost_position
@@ -475,6 +511,9 @@ class SellData(Operation):
             return Decimal(0)
 
     def result(self, sell_price=None):
+        """ Return the result to be used in the ir operation. It is a very expensive operation, and is worthless to be cached
+            because it is date dependent, and operation dependent.
+        """
         if not sell_price:
             sell_price = self.price
 

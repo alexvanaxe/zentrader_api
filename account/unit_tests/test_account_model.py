@@ -49,4 +49,4 @@ class AccountModelTest(AccountModelTestCase):
 
         accountpk = self.buy1.account.pk
 
-        self.assertEqual("{0:.2f}".format(Account.objects.get(pk=accountpk).total_equity()), "99966.10")
+        self.assertEqual("{0:.2f}".format(Account.objects.get(pk=accountpk).total_equity()), "99956.10")
