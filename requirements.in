@@ -5,6 +5,7 @@ Sphinx
 djangorestframework-jwt
 django-cors-headers
 django-filter
+django-silk
 gunicorn
 dj-database-url
 whitenoise

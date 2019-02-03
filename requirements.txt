@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 alabaster==0.7.12         # via sphinx
+autopep8==1.4.3           # via django-silk
 babel==2.6.0              # via sphinx
 certifi==2018.11.29       # via pipenv, requests
 chardet==3.0.4            # via requests
@@ -14,28 +15,33 @@ django-cors-headers==2.4.0
 django-extensions==2.1.4
 django-filter==2.0.0
 django-request-logging==0.6.6
+django-silk==3.0.1
 django==2.1.5
 djangorestframework-jwt==1.11.0
 djangorestframework==3.9.0
 docutils==0.14            # via sphinx
+gprof2dot==2016.10.13     # via django-silk
 gunicorn==19.9.0
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
-jinja2==2.10              # via sphinx
+jinja2==2.10              # via django-silk, sphinx
 markupsafe==1.1.0         # via jinja2
 packaging==18.0           # via sphinx
 pipenv==2018.11.26
 psycopg2-binary==2.7.6.1
+pycodestyle==2.5.0        # via autopep8
 pydotplus==2.0.2
-pygments==2.3.1           # via sphinx
+pygments==2.3.1           # via django-silk, sphinx
 pyjwt==1.7.1              # via djangorestframework-jwt
 pyparsing==2.3.0          # via packaging, pydotplus
-pytz==2018.7              # via babel, django
-requests==2.21.0          # via sphinx
-six==1.12.0               # via django-extensions, packaging, sphinx
+python-dateutil==2.7.5    # via django-silk
+pytz==2018.7              # via babel, django, django-silk
+requests==2.21.0          # via django-silk, sphinx
+six==1.12.0               # via django-extensions, packaging, python-dateutil, sphinx
 snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.3
 sphinxcontrib-websupport==1.1.0  # via sphinx
+sqlparse==0.2.4           # via django-silk
 urllib3==1.24.1           # via requests
 virtualenv-clone==0.4.0   # via pipenv
 virtualenv==16.2.0        # via pipenv

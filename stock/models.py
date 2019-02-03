@@ -20,6 +20,10 @@ class Stock(models.Model):
     def __str__(self):
         return self.code
 
+    def clean_cache(self):
+        cache.delete(self.code + 'owned')
+        cache.delete(self.code + 'average_price')
+
     def update_owned_cache(self):
         date__lte = datetime.now()
 
@@ -33,7 +37,7 @@ class Stock(models.Model):
         sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
         buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
         owned_stocks = buys - sells
-        cache.set(self.code, owned_stocks)
+        cache.set(self.code + 'owned', owned_stocks)
         return owned_stocks
 
     def owned(self, date__gte=None, date__lte=None):
@@ -44,12 +48,12 @@ class Stock(models.Model):
         :returns: The amount owned
         :rtype: Decimal
         """
+        use_cache = False
         if date__gte is None and date__lte is None:
-            owned_stocks = cache.get(self.code)
-            if owned_stocks is None:
-                owned_stocks = self.update_owned_cache()
-
-            return owned_stocks
+            use_cache = True
+            owned_stocks = cache.get(self.code + 'owned')
+            if owned_stocks is not None:
+                return owned_stocks
 
         if date__lte is None:
             date__lte = datetime.now()
@@ -66,7 +70,12 @@ class Stock(models.Model):
         sells = sells_q.aggregate(Sum('selldata__amount'))['selldata__amount__sum'] or Decimal(0)
         buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
 
-        return  buys - sells
+        owned_stocks = buys - sells
+
+        if use_cache:
+            cache.set(self.code + 'owned', owned_stocks)
+
+        return owned_stocks
 
     def average_price(self, date__gte=None, date__lte=None):
         """
@@ -75,7 +84,11 @@ class Stock(models.Model):
         it is difficult to define the result (balance) of the operation. To solve the problem it is used the concept
         of average price. Which is a single mathematical average.
 
+        There is no issue here to use the category straight because it uses only the executed operations
+        to perform the calculations.
+
         ATTENTION: It is a very expensive operation
+        This value is being cached when the default value is passed
 
         More information can be found in the `Bussola
         <http://blog.bussoladoinvestidor.com.br/calculo-do-preco-medio-de-acoes/>`_.
@@ -86,6 +99,15 @@ class Stock(models.Model):
         :returns: The average price
         :rtype: Decimal
         """
+        use_cache = False
+        if date__lte is None and date__gte is None:
+            use_cache = True
+
+        if use_cache:
+            average_price = cache.get(self.code + 'average_price')
+            if average_price is not None:
+                return average_price
+
         if date__lte is None:
             date__lte = datetime.now()
 
@@ -100,7 +122,9 @@ class Stock(models.Model):
         actual_average_price = Decimal('0')
         net_amount = Decimal('0')
 
+        operations = operations.filter(experiencedata__isnull=True)
         for operation in operations:
+
             if operation.kind() == Operation.Kind.BUY:
                 operation_average_price = support_system_formulas.calculate_average_price(operation.amount,
                                                                 operation.price,
@@ -112,11 +136,17 @@ class Stock(models.Model):
             if operation.kind() == Operation.Kind.SELL:
                 net_amount = net_amount - operation.amount
 
+        if use_cache:
+            cache.set(self.code + 'average_price', actual_average_price)
 
         return Decimal(actual_average_price)
 
     def stock_value(self):
-        return Decimal(self.owned()) * Decimal(self.average_price())
+        """
+        Returns the Stock value, ie: How much is owned now multipled by the current price.
+        PS: It can be made an improvement to calculate the average price using only the owned.
+        """
+        return Decimal(self.owned()) * Decimal(self.price)
 
     def stock_sell_price(self):
         owned = self.owned()

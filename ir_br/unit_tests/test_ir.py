@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.test.testcases import TestCase
+from django.core.cache import cache
 
 from ir_br.models import calculate_ir_base_value, calculate_results, calculate_impost_to_pay
 from operation.unit_tests.operation_mocks import create_day_trades, create_ir_operations, create_operations
@@ -11,10 +12,13 @@ from operation.models import SellData
 class IRTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cache.clear()
         create_account(cls)
         create_stocks(cls)
         create_operations(cls, cls.stock)
 
+    def tearDown(self):
+        cache.clear()
 
 class IRTest(IRTestCase):
 

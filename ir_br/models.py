@@ -14,12 +14,12 @@ from formulas import support_system_formulas
 
 def _separate_sell(sell, separated_sells, separated_daytrade):
     try:
-        if sell.is_daytrade():
+        if sell.category == 'DT':
             separated_daytrade[(sell.creation_date.month, sell.creation_date.year)].append(sell)
         else:
             separated_sells[(sell.creation_date.month, sell.creation_date.year)].append(sell)
     except KeyError:
-        if sell.is_daytrade():
+        if sell.category == 'DT':
             separated_daytrade[(sell.creation_date.month, sell.creation_date.year)] = [sell]
         else:
             separated_sells[(sell.creation_date.month, sell.creation_date.year)] = [sell]

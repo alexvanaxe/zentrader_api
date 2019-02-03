@@ -73,10 +73,6 @@ class Operation(models.Model):
         if self.kind_buffer is not None:
             return self.kind_buffer
 
-        if isinstance(self, ExperienceData):
-            self.kind_buffer = self.Kind.EXPERIMENT
-            return self.kind_buffer
-
         if isinstance(self, BuyData):
             self.kind_buffer = self.Kind.BUY
             return self.kind_buffer
@@ -85,13 +81,11 @@ class Operation(models.Model):
             self.kind_buffer = self.Kind.SELL
             return self.kind_buffer
 
+        if isinstance(self, ExperienceData):
+            self.kind_buffer = self.Kind.EXPERIMENT
+            return self.kind_buffer
+
         if isinstance(self, Operation):
-            try:
-                self.experiencedata
-                self.kind_buffer = self.Kind.EXPERIMENT
-                return self.kind_buffer
-            except self.DoesNotExist:
-                pass
             try:
                 self.buydata
                 self.kind_buffer = self.Kind.BUY
@@ -101,6 +95,12 @@ class Operation(models.Model):
             try:
                 self.selldata
                 self.kind_buffer = self.Kind.SELL
+                return self.kind_buffer
+            except self.DoesNotExist:
+                pass
+            try:
+                self.experiencedata
+                self.kind_buffer = self.Kind.EXPERIMENT
                 return self.kind_buffer
             except self.DoesNotExist:
                 pass
@@ -238,7 +238,7 @@ class Operation(models.Model):
         if self.is_daytrade(kind):
             return 'DT'
 
-        if self.executed == True:
+        if self.executed:
             return 'O'
 
         return 'NA'
@@ -517,10 +517,10 @@ class SellData(Operation):
         if not sell_price:
             sell_price = self.price
 
-        if not self.is_daytrade():
+        if not self.operation_category() == 'DT':
                 return Decimal(support_system_formulas.calculate_average_gain(sell_price, self.stock.average_price(date__lte=self._getLteDate()), self.operation_cost(), self.amount))
-        else:
-            return Decimal(support_system_formulas.calculate_average_gain(sell_price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
+
+        return Decimal(support_system_formulas.calculate_average_gain(sell_price, self.stock.average_price(date__lte=datetime.strptime('%d-%d-%d:23:59' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d:%H:%M'), date__gte=datetime.strptime('%d-%d-%d' % (self.creation_date.year, self.creation_date.month, self.creation_date.day), '%Y-%m-%d')), self.operation_cost(), self.amount))
 
     def gain_percent(self):
         if not self.is_daytrade():

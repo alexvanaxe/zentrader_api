@@ -44,13 +44,21 @@ class Account(models.Model):
         cache.set('total_equity', total_equity)
         return total_equity
 
+    def clean_cache(self):
+        """
+        Clean the cache when the value need be updated
+        """
+        cache.delete('total_equity')
+
     def total_equity(self):
         """
         Returns the total equity. This is a cached value, set for 1 day long.
         """
         total_equity = cache.get('total_equity')
         if total_equity is None:
-            total_equity = self.update_total_equity()
+            operations = self.operation_set.filter(buydata__isnull=False).select_related('buydata')
+            total_equity = (sum(i.buydata.remaining_gain() for i in operations)) + self.equity
+            cache.set('total_equity', total_equity)
 
         return total_equity
 
