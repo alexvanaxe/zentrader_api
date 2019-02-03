@@ -111,7 +111,7 @@ class Stock(models.Model):
         if date__lte is None:
             date__lte = datetime.now()
 
-        operations = Operation.executions.filter(stock=self).order_by('execution_date').select_related('buydata', 'selldata')
+        operations = Operation.executions.filter(stock=self).order_by('execution_date').select_related('buydata', 'selldata', 'account')
 
         if date__gte:
             operations = operations.filter(creation_date__gte=date__gte)
