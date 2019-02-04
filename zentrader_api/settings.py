@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',  # A tool to alow ctalls from different servers.
     'django_extensions',
-    'silk',
+#    'silk',
 
     # Myapps
     'stock',
@@ -58,7 +58,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'silk.middleware.SilkyMiddleware',
+#    'silk.middleware.SilkyMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',

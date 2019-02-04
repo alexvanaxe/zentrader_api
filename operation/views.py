@@ -1,5 +1,4 @@
 from rest_framework import viewsets, views, response, mixins
-from silk.profiling.profiler import silk_profile
 
 
 from operation.models import Operation, ExperienceData, BuyData, SellData
@@ -21,7 +20,6 @@ class ExperienceDataViewSet(mixins.CreateModelMixin,
                                                                       'creation_date')
     serializer_class = ExperienceDataSerializer
 
-    @silk_profile(name="Experience data list")
     def list(self, request, *args, **kwargs):
         """ Override to serialize the full experience when the detailed attribute
             is sended true
@@ -38,7 +36,6 @@ class ExperienceDataViewSet(mixins.CreateModelMixin,
         else:
             return response.Response(ExperienceDataSerializer(queryset, many=True).data)
 
-    @silk_profile(name="Experience data retrieve")
     def retrieve(self, request, pk, *args, **kwargs):
         """ Override to serialize the full experience when the detailed querystring is set to true"""
 
