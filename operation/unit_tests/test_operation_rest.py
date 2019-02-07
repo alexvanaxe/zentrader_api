@@ -125,6 +125,10 @@ class BuyDataTest(OperationTestCase):
         self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
 
 
+    def test_filter_by_experimence(self):
+        pass
+
+
 class SellDataTest(OperationTestCase):
     def test_validation_amount_before_execution(self):
         """
