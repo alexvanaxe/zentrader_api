@@ -124,9 +124,12 @@ class BuyDataTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
 
-
     def test_filter_by_experimence(self):
-        pass
+        url = reverse('buy-list')
+        response = self.client.get(url + '?experience=' + str(self.experience.pk))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(str(len(response.data)), '1')
 
 
 class SellDataTest(OperationTestCase):
@@ -174,4 +177,3 @@ class SellDataTest(OperationTestCase):
         url = reverse('sell-detail', kwargs={'pk': self.sell3.pk})
         response = self.client.patch(url, {'amount': 50, 'executed': True})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-

@@ -18,7 +18,7 @@ class ExperienceDataViewSet(mixins.CreateModelMixin,
     """
     queryset = ExperienceData.objects.filter(archived=False).order_by('-favorite',
                                                                       'creation_date')
-    serializer_class = ExperienceDataSerializer
+    serializer_class = ExperienceDataSerializerDetailed
 
     def list(self, request, *args, **kwargs):
         """ Override to serialize the full experience when the detailed attribute
@@ -64,12 +64,14 @@ class BuyDataViewSet(viewsets.ModelViewSet):
         passed as in the querystring with the key experience.
         """
         queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
-                                                               'creation_date')
+                                                                   'creation_date')
 
-        experience = self.request.query_params.get('experience', None)
+        experience_pk = self.request.query_params.get('experience', None)
+
+        if experience_pk:
+            queryset = queryset.filter(experience=experience_pk)
 
         return queryset
-
 
 
 class SellDataViewSet(viewsets.ModelViewSet):
@@ -79,6 +81,18 @@ class SellDataViewSet(viewsets.ModelViewSet):
     queryset = SellData.objects.filter(archived=False).order_by('-favorite',
                                                                 'creation_date')
     serializer_class = SellDataSerializer
+
+    def get_queryset(self):
+        queryset = SellData.objects.filter(archived=False).order_by('-favorite',
+                                                                    'creation_date')
+
+        buy_pk = self.request.query_params.get('buy', None)
+
+        if buy_pk:
+            queryset = queryset.filter(buy=buy_pk)
+
+        return queryset
+
 
 
 class RiskDataApiView(views.APIView):
