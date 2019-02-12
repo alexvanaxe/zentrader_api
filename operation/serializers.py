@@ -178,8 +178,8 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'favorite', 'get_intent_display', 'stock_data', 'action', 'target_gain',
+                  'nickname', 'limit', 'stop_gain', 'stop_loss',
+                  'target', 'get_intent_display', 'stock_data', 'action', 'target_gain',
                   'detailed', 'operation_limit', 'cost', 'stock_cost', 'operation_average_price',
                   'average_cost', 'average_stock_cost', 'target_gain_total_percent',
                   'target_gain_percent', 'experience_gain', 'experience_gain_percent',
@@ -189,7 +189,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
                             'cost', 'stock_cost', 'operation_average_price', 'average_cost',
                             'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
                             'experience_gain', 'experience_gain_percent', 'experience_total_gain_percent',
-                            'favorite', 'stop_loss_result', 'stop_loss_percent',
+                            'stop_loss_result', 'stop_loss_percent',
                             'stop_loss_total_percent')
         model = ExperienceData
 

@@ -52,7 +52,7 @@ class Operation(models.Model):
     executed = models.BooleanField(_('executed'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
 
-    favorite = models.BooleanField(_('favorite'), default=False)
+    favorite = models.IntegerField(_('favorite'), default=0)
 
     # DEFINE THE MANAGERS
     objects = models.Manager() # The default manager

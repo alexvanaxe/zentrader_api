@@ -94,7 +94,6 @@ class SellDataViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-
 class RiskDataApiView(views.APIView):
     """
     View to get the risk, it returns the shark for the current buy
