@@ -2,3 +2,4 @@
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
 
 let g:ctrlp_custom_ignore = '__pycache__'
+let g:deoplete#enable_at_startup = 1
