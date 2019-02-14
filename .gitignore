@@ -106,3 +106,6 @@ ENV/
 Session.vim
 *tags
 cscope.files
+
+django_cache
+.vim-bookmarks
