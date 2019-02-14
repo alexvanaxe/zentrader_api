@@ -47,7 +47,7 @@ class Operation(models.Model):
     execution_date = models.DateTimeField(_('execution date'), null=True, blank=True)
     amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
-    category = models.CharField(max_length=2, choices=CATEGORY, null=True, blank=False)
+    category = models.CharField(max_length=2, choices=CATEGORY, default='NA', null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
     executed = models.BooleanField(_('executed'), default=False)
     nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
@@ -132,8 +132,15 @@ class Operation(models.Model):
         if self.executed and not self.execution_date:
             self.execution_date = datetime.now()
 
-        if self.executed is True:
-            self.category = self.operation_category()
+        pre_category = None
+        if self.category == 'NA':
+            pre_category = self.operation_category()
+
+            if pre_category != 'DT':
+                self.category = pre_category
+
+            if self.executed is True:
+                self.category = pre_category
 
         super().save(*args, **kwargs)
 
@@ -229,19 +236,17 @@ class Operation(models.Model):
             Decimal(self.operation_cost())))
 
     def operation_category(self, kind=None):
-        if self.category is not None:
+        if self.category and self.category != 'NA':
             return self.category
-
-        if self.amount % 100 != 0:
-            return 'F'
 
         if self.is_daytrade(kind):
             return 'DT'
 
-        if self.executed:
-            return 'O'
+        if self.amount % 100 != 0:
+            return 'F'
 
-        return 'NA'
+        return 'O'
+
 
     def operation_cost(self, kind=None):
         if self.operation_category(kind) == 'F':
@@ -274,10 +279,7 @@ class Operation(models.Model):
             return self.dt_result
 
         if kind is self.Kind.BUY:
-            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day,
-                                                                                                                                      creation_date__month=self.creation_date.month,
-                                                                                                                                      creation_date__year=self.creation_date.year,
-                                                                                                                                      creation_date__lte=self.creation_date)
+            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
 
             self.dt_result = day_sells.count() > 0
             return self.dt_result

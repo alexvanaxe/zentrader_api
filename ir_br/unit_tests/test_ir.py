@@ -45,9 +45,12 @@ class IRTest(IRTestCase):
         create_day_trades(self, self.stock2)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                           '%Y-%m-%dT%H:%M:%S'))[0]), "2589.58")
+
+    def test_calculate_import_to_pay_dt(self):
+        create_ir_operations(self, self.stock2)
+        create_day_trades(self, self.stock2)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                        '%Y-%m-%dT%H:%M:%S'))[1]), "3195.32")
-
 
 
     def test_calculate_results(self):
