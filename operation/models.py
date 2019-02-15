@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 from enum import Enum
 
 from decimal import Decimal, ROUND_DOWN
@@ -134,13 +135,21 @@ class Operation(models.Model):
 
         pre_category = None
         if self.category == 'NA':
-            pre_category = self.operation_category()
-
-            if pre_category != 'DT':
-                self.category = pre_category
 
             if self.executed is True:
-                self.category = pre_category
+                utc = pytz.UTC
+                today_utc = utc.localize(datetime.today())
+                day_today = utc.localize(datetime(today_utc.year, today_utc.month, today_utc.day))
+
+                try:
+                    past_operation = utc.localize(self.execution_date) < day_today
+                except(ValueError):
+                    past_operation = self.execution_date < day_today
+
+
+                pre_category = self.operation_category()
+                if past_operation:
+                    self.category = pre_category
 
         super().save(*args, **kwargs)
 
