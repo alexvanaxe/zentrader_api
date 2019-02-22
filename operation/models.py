@@ -42,6 +42,7 @@ class Operation(models.Model):
     def __str__(self):
         return str(self.pk)
 
+    owner = models.ForeignKey('auth.User', related_name='operations', on_delete=models.CASCADE)
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
     creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
