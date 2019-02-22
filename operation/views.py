@@ -1,4 +1,5 @@
 from rest_framework import viewsets, views, response, mixins
+from rest_framework import permissions
 
 
 from operation.models import Operation, ExperienceData, BuyData, SellData
@@ -80,6 +81,7 @@ class SellDataViewSet(viewsets.ModelViewSet):
     """
     queryset = SellData.objects.filter(archived=False).order_by('-favorite',
                                                                 'creation_date')
+    permission_classes = (permissions.IsAuthenticated, )
     serializer_class = SellDataSerializer
 
     def get_queryset(self):

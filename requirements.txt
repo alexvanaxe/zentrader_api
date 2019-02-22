@@ -14,6 +14,7 @@ django-appconf==1.0.2
 django-cors-headers==2.4.0
 django-extensions==2.1.4
 django-filter==2.0.0
+django-oauth-toolkit==1.2.0
 django-request-logging==0.6.6
 django-silk==3.0.1
 django==2.1.5
@@ -26,6 +27,7 @@ idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
 jinja2==2.10              # via django-silk, sphinx
 markupsafe==1.1.0         # via jinja2
+oauthlib==3.0.1           # via django-oauth-toolkit
 packaging==18.0           # via sphinx
 pipenv==2018.11.26
 psycopg2-binary==2.7.6.1
@@ -36,7 +38,7 @@ pyjwt==1.7.1              # via djangorestframework-jwt
 pyparsing==2.3.0          # via packaging, pydotplus
 python-dateutil==2.7.5    # via django-silk
 pytz==2018.7              # via babel, django, django-silk
-requests==2.21.0          # via django-silk, sphinx
+requests==2.21.0          # via django-oauth-toolkit, django-silk, sphinx
 six==1.12.0               # via django-extensions, packaging, python-dateutil, sphinx
 snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.3

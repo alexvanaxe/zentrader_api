@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 3rd Party apps
     'rest_framework',
     'django_filters',
+    'oauth2_provider',
     'corsheaders',  # A tool to alow ctalls from different servers.
     'django_extensions',
 #    'silk',
@@ -50,8 +51,8 @@ INSTALLED_APPS = [
     'account',
     'ir_br',
     'notes',
-    'learning'
-
+    'learning',
+    'zen_oauth',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -61,7 +62,8 @@ MIDDLEWARE = [
 #    'silk.middleware.SilkyMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # Middleware for communication between two different hosts.
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -128,6 +130,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    # Uncomment following if you want to access the admin
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

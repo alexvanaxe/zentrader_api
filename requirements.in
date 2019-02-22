@@ -3,6 +3,7 @@ Django>=1.10
 djangorestframework
 Sphinx
 djangorestframework-jwt
+django-oauth-toolkit
 django-cors-headers
 django-filter
 django-silk

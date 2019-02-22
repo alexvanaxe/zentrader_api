@@ -29,4 +29,5 @@ urlpatterns += (
     url(r"^api/v1/", include('account.urls')),
     url(r"^api/v1/", include('notes.urls')),
     url(r"^api/v1/", include('learning.urls')),
+    url(r"^oauth/", include('zen_oauth.urls'))
 )
