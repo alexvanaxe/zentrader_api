@@ -6,6 +6,7 @@ from ir_br.models import calculate_ir_base_value, calculate_results, calculate_i
 from operation.unit_tests.operation_mocks import create_day_trades, create_ir_operations, create_operations
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
+from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
 from operation.models import SellData
 
 
@@ -13,9 +14,11 @@ class IRTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cache.clear()
+        create_test_user(cls)
+        create_auth(cls, cls.user)
         create_account(cls)
         create_stocks(cls)
-        create_operations(cls, cls.stock)
+        create_operations(cls, cls.stock, cls.user)
 
     def tearDown(self):
         cache.clear()
@@ -23,13 +26,13 @@ class IRTestCase(TestCase):
 class IRTest(IRTestCase):
 
     def test_ir_valued(self):
-        create_ir_operations(self, self.stock2)
+        create_ir_operations(self, self.stock2, self.user)
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                       '%Y-%m-%dT%H:%M:%S'))[0]), "17263.90")
 
     def test_day_trade(self):
-        create_ir_operations(self, self.stock2)
-        create_day_trades(self, self.stock2)
+        create_ir_operations(self, self.stock2, self.user)
+        create_day_trades(self, self.stock2, self.user)
 
         self.assertEqual(str(calculate_ir_base_value(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                       '%Y-%m-%dT%H:%M:%S'))[0]), "17263.90")
@@ -41,20 +44,20 @@ class IRTest(IRTestCase):
         The Daytrade is considering only the operations made on the day, of that stock. It is not considering the full portfolio.
         It can make a huge difference in the final impost to pay.
         """
-        create_ir_operations(self, self.stock2)
-        create_day_trades(self, self.stock2)
+        create_ir_operations(self, self.stock2, self.user)
+        create_day_trades(self, self.stock2, self.user)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                           '%Y-%m-%dT%H:%M:%S'))[0]), "2589.58")
 
     def test_calculate_import_to_pay_dt(self):
-        create_ir_operations(self, self.stock2)
-        create_day_trades(self, self.stock2)
+        create_ir_operations(self, self.stock2, self.user)
+        create_day_trades(self, self.stock2, self.user)
         self.assertEqual(str(calculate_impost_to_pay(reference_date=datetime.strptime('2017-06-30T15:52:30',
                                                                                        '%Y-%m-%dT%H:%M:%S'))[1]), "3195.32")
 
 
     def test_calculate_results(self):
-        create_ir_operations(self, self.stock2)
+        create_ir_operations(self, self.stock2, self.user)
         reference_date = datetime.strptime('2017-06-25T15:52:30',
                                            '%Y-%m-%dT%H:%M:%S')
         sell_operation_query = SellData.objects.filter(creation_date__lte=reference_date).exclude(creation_date__lte=datetime.strptime('%d-%d-01' % (reference_date.year, reference_date.month), '%Y-%m-%d'))

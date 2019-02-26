@@ -50,6 +50,9 @@ class ExperienceDataViewSet(mixins.CreateModelMixin,
         else:
             return response.Response(ExperienceDataSerializer(ExperienceData.objects.get(pk=pk)).data)
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class BuyDataViewSet(viewsets.ModelViewSet):
     """
@@ -58,6 +61,9 @@ class BuyDataViewSet(viewsets.ModelViewSet):
     queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
                                                                'creation_date')
     serializer_class = BuyDataSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
         """
@@ -82,6 +88,9 @@ class SellDataViewSet(viewsets.ModelViewSet):
     queryset = SellData.objects.filter(archived=False).order_by('-favorite',
                                                                 'creation_date')
     serializer_class = SellDataSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
         queryset = SellData.objects.filter(archived=False).order_by('-favorite',

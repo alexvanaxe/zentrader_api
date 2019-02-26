@@ -3,8 +3,9 @@ import operation.models
 import account.models
 import datetime
 
-def create_paper_buy_sell(cls, stock):
+def create_paper_buy_sell(cls, stock, user):
     cls.experience = operation.models.ExperienceData.objects.create(stock=stock,
+                                                  owner=user,
                                                   account=account.models.Account.objects.all()[0],
                                                   creation_date=datetime.datetime.strptime('2017-06-30T15:52:30',
                                                                                   '%Y-%m-%dT%H:%M:%S'),

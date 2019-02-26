@@ -5,15 +5,18 @@ from django.core.cache import cache
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
 from operation.unit_tests.operation_mocks import create_operations, create_only_buy
+from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
 
 
 class StockModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cache.clear()
+        create_test_user(cls)
+        create_auth(cls, cls.user)
         create_account(cls)
         create_stocks(cls)
-        create_operations(cls, cls.stock)
+        create_operations(cls, cls.stock, cls.user)
 
 
 class StockTestCase(StockModelTestCase):
@@ -33,6 +36,8 @@ class StockTestCase(StockModelTestCase):
 class StockEmptyTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        create_test_user(cls)
+        create_auth(cls, cls.user)
         create_account(cls)
         create_stocks(cls)
 
@@ -43,5 +48,5 @@ class StockEmptyTestCase(TestCase):
         self.assertEqual(str(self.stock.owned()), "0")
 
     def test_one_buy(self):
-        create_only_buy(self, self.stock)
+        create_only_buy(self, self.stock, self.user)
         self.assertEqual(str(self.stock.owned()), "100")
