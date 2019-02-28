@@ -9,6 +9,7 @@ from rest_framework import serializers
 from operation.models import ExperienceData, BuyData, SellData
 from account.models import Account
 from stock.serializers import StockSerializer
+from zen_oauth.serializers import UserSerializer
 from operation.exceptions import NotEnoughMoney, NotEnoughStocks, OperationExecuted, NegativeStocksError
 
 
@@ -109,15 +110,17 @@ class SellDataSerializer(serializers.ModelSerializer):
     Serializer for SellDataSerializer model.
     """
     stock_data = StockSerializer(read_only=True)
+    owner_data = UserSerializer(read_only=True)
+
     class Meta:
-        fields = ('pk', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'owner_data', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
                   'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                   'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
                   'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
                   'stop_gain_result', 'stop_gain_percent', 'amount_available')
                     # result
-        read_only_fields = ('stock_data', 'sell_value', 'result', 'gain_percent',
+        read_only_fields = ('stock_data', 'owner_data', 'owner', 'sell_value', 'result', 'gain_percent',
                             'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_data',
                             'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                             'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
@@ -136,11 +139,11 @@ class BuyDataSerializer(serializers.ModelSerializer):
     # sell_set = SellDataSerializer(read_only=True, many=True)
 
     class Meta:
-        fields = ('pk', 'experience', 'creation_date', 'stock', 'amount', 'price',
+        fields = ('pk', 'owner', 'experience', 'creation_date', 'stock', 'amount', 'price',
                   'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
                   'operation_gain_percent', 'amount_available')
-        read_only_fields = ('creation_date', 'stock_data', 'operation_gain',
+        read_only_fields = ('creation_date', 'owner', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available')
         model = BuyData
@@ -158,11 +161,11 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     detailed = serializers.BooleanField('detailed', default=False)
 
     class Meta:
-        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'favorite', 'get_intent_display', 'stock_data', 'action',
                   'detailed')
-        read_only_fields = ('creation_date', 'detailed')
+        read_only_fields = ('creation_date', 'detailed', 'owner')
         model = ExperienceData
 
         validators = [NegativeStocksValidator(), ]
@@ -177,7 +180,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
     detailed = serializers.BooleanField('detailed', default=True)
 
     class Meta:
-        fields = ('pk', 'creation_date', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'get_intent_display', 'stock_data', 'action', 'target_gain',
                   'detailed', 'operation_limit', 'cost', 'stock_cost', 'operation_average_price',
@@ -185,7 +188,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
                   'target_gain_percent', 'experience_gain', 'experience_gain_percent',
                   'experience_total_gain_percent', 'favorite', 'stop_loss_result',
                   'stop_loss_percent', 'stop_loss_total_percent')
-        read_only_fields = ('creation_date', 'operation_gain', 'detailed', 'target_gain', 'operation_limit',
+        read_only_fields = ('creation_date', 'owner', 'operation_gain', 'detailed', 'target_gain', 'operation_limit',
                             'cost', 'stock_cost', 'operation_average_price', 'average_cost',
                             'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
                             'experience_gain', 'experience_gain_percent', 'experience_total_gain_percent',

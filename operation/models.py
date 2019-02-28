@@ -110,6 +110,9 @@ class Operation(models.Model):
     def stock_data(self):
         return self.stock
 
+    def owner_data(self):
+        return self.owner
+
     def clean(self, *args, **kwargs):
         super().clean(*args, **kwargs)
 
