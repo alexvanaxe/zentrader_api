@@ -1,7 +1,11 @@
 from django.conf.urls import url, include
 
 import oauth2_provider.views as oauth2_views
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from django.conf import settings
+
+import zen_oauth.views as views
 
 
 # OAuth2 provider endpoints
@@ -29,6 +33,12 @@ if settings.DEBUG:
     ]
 
 urlpatterns = [
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name="user-detail"),
+]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+
+urlpatterns += [
     # OAuth 2 endpoints:
     url(r'^', include((oauth2_endpoint_views, 'oauth2_provider'), namespace='oauth2_provider')),
     # url(r'^api/hello', ApiEndpoint.as_view()),  # an example resource endpoint

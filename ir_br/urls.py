@@ -21,8 +21,7 @@ Examples:
 """
 
 # Create a router for the viewset
-from django.conf.urls import url, include
-from rest_framework.routers import DefaultRouter
+from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from ir_br import views
