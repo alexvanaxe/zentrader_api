@@ -136,14 +136,15 @@ class BuyDataSerializer(serializers.ModelSerializer):
     Serializer for BuyDataSerializer model.
     """
     stock_data = StockSerializer(read_only=True)
+    owner_data = UserSerializer(read_only=True)
     # sell_set = SellDataSerializer(read_only=True, many=True)
 
     class Meta:
-        fields = ('pk', 'owner', 'experience', 'creation_date', 'stock', 'amount', 'price',
+        fields = ('pk', 'owner', 'owner_data', 'experience', 'creation_date', 'stock', 'amount', 'price',
                   'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
                   'operation_gain_percent', 'amount_available')
-        read_only_fields = ('creation_date', 'owner', 'stock_data', 'operation_gain',
+        read_only_fields = ('creation_date', 'owner', 'owner_data', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
                             'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available')
         model = BuyData
@@ -178,9 +179,10 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
 
     stock_data = StockSerializer(read_only=True)
     detailed = serializers.BooleanField('detailed', default=True)
+    owner_data = UserSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'owner', 'creation_date', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'owner_data', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'get_intent_display', 'stock_data', 'action', 'target_gain',
                   'detailed', 'operation_limit', 'cost', 'stock_cost', 'operation_average_price',
@@ -188,7 +190,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
                   'target_gain_percent', 'experience_gain', 'experience_gain_percent',
                   'experience_total_gain_percent', 'favorite', 'stop_loss_result',
                   'stop_loss_percent', 'stop_loss_total_percent')
-        read_only_fields = ('creation_date', 'owner', 'operation_gain', 'detailed', 'target_gain', 'operation_limit',
+        read_only_fields = ('creation_date', 'owner', 'owner_data', 'operation_gain', 'detailed', 'target_gain', 'operation_limit',
                             'cost', 'stock_cost', 'operation_average_price', 'average_cost',
                             'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
                             'experience_gain', 'experience_gain_percent', 'experience_total_gain_percent',
