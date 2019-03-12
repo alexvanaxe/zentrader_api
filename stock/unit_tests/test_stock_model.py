@@ -2,6 +2,8 @@ from django.test.testcases import TestCase
 from datetime import datetime
 from django.core.cache import cache
 
+from stock.models import Stock
+
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
 from operation.unit_tests.operation_mocks import create_operations, create_only_buy
@@ -50,3 +52,13 @@ class StockEmptyTestCase(TestCase):
     def test_one_buy(self):
         create_only_buy(self, self.stock, self.user)
         self.assertEqual(str(self.stock.owned()), "100")
+
+
+class StockResumeTestCase(StockModelTestCase):
+    def test_resume_works(self):
+        resume = Stock.resume.get_resume(self.stock)
+        self.assertEqual(str(resume.owned), "200")
+
+    def test_resume_all(self):
+        resume = Stock.resume.all()
+        self.assertEqual(str(resume[0].owned), "200")

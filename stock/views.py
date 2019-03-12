@@ -18,8 +18,16 @@ class StockViewSet(viewsets.ModelViewSet):
 class OwnedStocksAPIView(APIView):
 
     def get(self, request, format=None):
-        stock = Stock.objects.all()
-        serializer = OwnedStocksSerializer(list(filter(filter_stock, stock)), many=True)
+        stock = Stock.resume.all()
+        serializer = OwnedStocksSerializer((stock), many=True)
 
         return Response(serializer.data)
 
+
+class OwnedByUserStocksAPIView(APIView):
+
+    def get(self, request, format=None):
+        stock = Stock.resume.filter(self.request.user)
+        serializer = OwnedStocksSerializer((stock), many=True)
+
+        return Response(serializer.data)

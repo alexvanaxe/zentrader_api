@@ -10,12 +10,64 @@ from account.models import Account, default_account
 from formulas import support_system_formulas
 
 
+class StockResume():
+    def __init__(self, code, name, sector, subsector, price, owned, average_price,
+                 stock_value, stock_result, stock_result_percent, stock_result_total_percent):
+        self.code = code
+        self.name = name
+        self.sector = sector
+        self.subsector = subsector
+        self.price = price
+        self.owned = owned
+        self.average_price = average_price
+        self.stock_value = stock_value
+        self.stock_result = stock_result
+        self.stock_result_percent = stock_result_percent
+        self.stock_result_total_percent = stock_result_total_percent
+
+
+
+class StockResumeManager(models.Manager):
+    def get_resume(self, stock):
+        stock_resume =  StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, stock.owned(), stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+        return stock_resume
+
+    def all(self):
+        stocks = self.select_related()
+        stocks_resumes = []
+        for stock in stocks:
+            owned = stock.owned()
+            if owned > 0:
+                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+
+                stocks_resumes.append(stock_resume)
+
+        return stocks_resumes
+
+    def filter(self, owner):
+        stocks = self.select_related()
+        stocks_resumes = []
+        for stock in stocks:
+            owned = stock.owned(owner=owner)
+            if owned > 0:
+                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+
+                stocks_resumes.append(stock_resume)
+
+        return stocks_resumes
+
+
+
 class Stock(models.Model):
     code = models.CharField(_('Code'), max_length=10)
     name = models.CharField(_('Name'), max_length=140)
     sector = models.CharField(_('Sector'), null=True, blank=True, max_length=140)
     subsector = models.CharField(_('Subsector'), null=True, blank=True, max_length=140)
     price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
+
+    objects = models.Manager()
+    resume = StockResumeManager()
+
 
     def __str__(self):
         return self.code
@@ -40,7 +92,28 @@ class Stock(models.Model):
         cache.set(self.code + 'owned', owned_stocks)
         return owned_stocks
 
-    def owned(self, date__gte=None, date__lte=None):
+    def owned(self, date__gte=None, date__lte=None, owner=None):
+        use_cache = False
+        if date__gte is None and date__lte is None and owner is None:
+            use_cache = True
+            owned_stocks = cache.get(self.code + 'owned')
+            if owned_stocks is not None:
+                return owned_stocks
+
+        if owner is not None:
+            owned_stocks = self._owned(Operation.executions.filter(owner=owner),
+                                       date__gte=date__gte, date__lte=date__lte)
+        else:
+            owned_stocks = self._owned(Operation.executions.all(),
+                                       date__gte=date__gte, date__lte=date__lte)
+
+        if use_cache:
+            cache.set(self.code + 'owned', owned_stocks)
+
+        return owned_stocks
+
+
+    def _owned(self, queryset, date__gte=None, date__lte=None):
         """
         Quantify the amount of stock that is owned at the moment (it is the
         quantity available to sell).
@@ -48,18 +121,11 @@ class Stock(models.Model):
         :returns: The amount owned
         :rtype: Decimal
         """
-        use_cache = False
-        if date__gte is None and date__lte is None:
-            use_cache = True
-            owned_stocks = cache.get(self.code + 'owned')
-            if owned_stocks is not None:
-                return owned_stocks
-
         if date__lte is None:
             date__lte = datetime.now()
 
-        sells_q = Operation.executions.filter(stock=self).select_related('selldata')
-        buys_q = Operation.executions.filter(stock=self).select_related('buydata')
+        sells_q = queryset.filter(stock=self).select_related('selldata')
+        buys_q = queryset.filter(stock=self).select_related('buydata')
         if date__gte:
             sells_q = sells_q.filter(creation_date__gte=date__gte)
             buys_q = buys_q.filter(creation_date__gte=date__gte)
@@ -71,9 +137,6 @@ class Stock(models.Model):
         buys = buys_q.aggregate(Sum('buydata__amount'))['buydata__amount__sum'] or Decimal(0)
 
         owned_stocks = buys - sells
-
-        if use_cache:
-            cache.set(self.code + 'owned', owned_stocks)
 
         return owned_stocks
 
@@ -184,4 +247,4 @@ class Stock(models.Model):
         stock_result = self.stock_result()
 
         if stock_result:
-            return Decimal(support_system_formulas.calculate_percentage(stock_result, default_account().total_equity() ))
+            return Decimal(support_system_formulas.calculate_percentage(stock_result, default_account().total_equity()))
