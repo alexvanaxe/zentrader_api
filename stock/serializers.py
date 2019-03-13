@@ -33,3 +33,4 @@ class OwnedStocksSerializer(serializers.Serializer):
     stock_result = serializers.DecimalField(decimal_places=2, label='Stock Result', max_digits=22)
     stock_result_percent = serializers.DecimalField(decimal_places=2, label='Stock Result Percent', max_digits=22)
     stock_result_total_percent = serializers.DecimalField(decimal_places=2, label='Stock Result Total Percent', max_digits=22)
+    owner = serializers.CharField(label='username', max_length=140)

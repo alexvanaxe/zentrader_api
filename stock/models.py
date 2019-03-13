@@ -12,7 +12,7 @@ from formulas import support_system_formulas
 
 class StockResume():
     def __init__(self, code, name, sector, subsector, price, owned, average_price,
-                 stock_value, stock_result, stock_result_percent, stock_result_total_percent):
+                 stock_value, stock_result, stock_result_percent, stock_result_total_percent, owner):
         self.code = code
         self.name = name
         self.sector = sector
@@ -24,12 +24,17 @@ class StockResume():
         self.stock_result = stock_result
         self.stock_result_percent = stock_result_percent
         self.stock_result_total_percent = stock_result_total_percent
-
+        self.owner = owner
 
 
 class StockResumeManager(models.Manager):
     def get_resume(self, stock):
-        stock_resume =  StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, stock.owned(), stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+        stock_resume = StockResume(stock.code, stock.name, stock.sector,
+                                    stock.subsector, stock.price, stock.owned(),
+                                    stock.average_price, stock.stock_value,
+                                    stock.stock_result, stock.stock_result_percent,
+                                    stock.stock_result_total_percent,
+                                    owner='')
         return stock_resume
 
     def all(self):
@@ -38,7 +43,10 @@ class StockResumeManager(models.Manager):
         for stock in stocks:
             owned = stock.owned()
             if owned > 0:
-                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector,
+                                           stock.price, owned, stock.average_price,
+                                           stock.stock_value, stock.stock_result,
+                                           stock.stock_result_percent, stock.stock_result_total_percent, owner='')
 
                 stocks_resumes.append(stock_resume)
 
@@ -50,7 +58,14 @@ class StockResumeManager(models.Manager):
         for stock in stocks:
             owned = stock.owned(owner=owner)
             if owned > 0:
-                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price(owner=owner), stock.stock_value(owner=owner), stock.stock_result(owner=owner), stock.stock_result_percent(owner=owner), stock.stock_result_total_percent(owner=owner))
+                stock_resume = StockResume(stock.code, stock.name, stock.sector,
+                                           stock.subsector, stock.price, owned,
+                                           stock.average_price(owner=owner),
+                                           stock.stock_value(owner=owner),
+                                           stock.stock_result(owner=owner),
+                                           stock.stock_result_percent(owner=owner),
+                                           stock.stock_result_total_percent(owner=owner),
+                                           owner=owner.username)
 
                 stocks_resumes.append(stock_resume)
 
@@ -63,7 +78,8 @@ class Stock(models.Model):
     name = models.CharField(_('Name'), max_length=140)
     sector = models.CharField(_('Sector'), null=True, blank=True, max_length=140)
     subsector = models.CharField(_('Subsector'), null=True, blank=True, max_length=140)
-    price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
+    price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2,
+                                null=False, blank=False)
 
     objects = models.Manager()
     resume = StockResumeManager()
@@ -208,7 +224,8 @@ class Stock(models.Model):
                                                                 operation.price,
                                                                 operation.operation_cost())
 
-                actual_average_price = ((actual_average_price * net_amount) + (operation_average_price * operation.amount))/(net_amount + operation.amount)
+                actual_average_price = ((actual_average_price * net_amount) +
+                                        (operation_average_price * operation.amount))/(net_amount + operation.amount)
 
                 net_amount += operation.amount
             if operation.kind() == Operation.Kind.SELL:
@@ -259,10 +276,12 @@ class Stock(models.Model):
         operation_cost = Account.objects.filter(next_account__isnull=True)[0]
 
         return Decimal(support_system_formulas.calculate_gain_percent(
-            self.price, self.average_price(owner=owner), self.owned(owner=owner), operation_cost.operation_cost_position))
+            self.price, self.average_price(owner=owner), self.owned(owner=owner),
+            operation_cost.operation_cost_position))
 
     def stock_result_total_percent(self, owner=None):
         stock_result = self.stock_result(owner=owner)
 
         if stock_result:
-            return Decimal(support_system_formulas.calculate_percentage(stock_result, default_account().total_equity()))
+            return Decimal(support_system_formulas.calculate_percentage(stock_result,
+                                                                        default_account().total_equity()))
