@@ -50,7 +50,7 @@ class StockResumeManager(models.Manager):
         for stock in stocks:
             owned = stock.owned(owner=owner)
             if owned > 0:
-                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price, stock.stock_value, stock.stock_result, stock.stock_result_percent, stock.stock_result_total_percent)
+                stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector, stock.price, owned, stock.average_price(owner=owner), stock.stock_value(owner=owner), stock.stock_result(owner=owner), stock.stock_result_percent(owner=owner), stock.stock_result_total_percent(owner=owner))
 
                 stocks_resumes.append(stock_resume)
 
@@ -140,7 +140,7 @@ class Stock(models.Model):
 
         return owned_stocks
 
-    def average_price(self, date__gte=None, date__lte=None):
+    def average_price(self, date__gte=None, date__lte=None, owner=None):
         """
         The average price of the stock is a concept used in the calculations of the brazilian ir.
         The main reason of the existence of this value is the fact that we can't choose the action we will sell. So
@@ -162,8 +162,23 @@ class Stock(models.Model):
         :returns: The average price
         :rtype: Decimal
         """
+        def _get_operations_queryset(owner):
+            if owner is None:
+                operations = (
+                    Operation.executions.filter(stock=self).order_by('execution_date')
+                    .select_related('buydata', 'selldata', 'account'))
+
+                return operations
+            else:
+                operations = (
+                    Operation.executions.filter(stock=self).filter(owner=owner).
+                    order_by('execution_date').select_related('buydata', 'selldata',
+                                                              'account'))
+
+                return operations
+
         use_cache = False
-        if date__lte is None and date__gte is None:
+        if date__lte is None and date__gte is None and owner is not None:
             use_cache = True
 
         if use_cache:
@@ -174,7 +189,7 @@ class Stock(models.Model):
         if date__lte is None:
             date__lte = datetime.now()
 
-        operations = Operation.executions.filter(stock=self).order_by('execution_date').select_related('buydata', 'selldata', 'account')
+        operations = _get_operations_queryset(owner)
 
         if date__gte:
             operations = operations.filter(creation_date__gte=date__gte)
@@ -204,21 +219,24 @@ class Stock(models.Model):
 
         return Decimal(actual_average_price)
 
-    def stock_value(self):
+    def stock_value(self, owner=None):
         """
         Returns the Stock value, ie: How much is owned now multipled by the current price.
         PS: It can be made an improvement to calculate the average price using only the owned.
         """
-        return Decimal(self.owned()) * Decimal(self.price)
+        return Decimal(self.owned(owner=owner)) * Decimal(self.price)
 
-    def stock_sell_price(self):
-        owned = self.owned()
+    def stock_sell_price(self, owner=None):
+        owned = self.owned(owner=owner)
         if owned > 0:
-            return Decimal(support_system_formulas.calculate_sell(self.owned(), self.price, default_account().operation_cost_position))
+            return Decimal(support_system_formulas.calculate_sell(owned,
+                                                                  self.price,
+                                                                  default_account()
+                                                                  .operation_cost_position))
         else:
             return 0
 
-    def stock_result(self):
+    def stock_result(self, owner=None):
         """Returns the result of the stock. It is considered as operation cost
         the wrost case scenario, that is of the position.
         TODO: The way it is used in the system now it is garanteed that it has
@@ -229,11 +247,11 @@ class Stock(models.Model):
         operation_cost = Account.objects.filter(next_account__isnull=True)[0]
 
         return Decimal(support_system_formulas.calculate_gain(self.price,
-                                                              self.average_price(),
-                                                              self.owned(),
+                                                              self.average_price(owner=owner),
+                                                              self.owned(owner=owner),
                                                               operation_cost.operation_cost_position))
 
-    def stock_result_percent(self):
+    def stock_result_percent(self, owner=None):
         """ This has the same logic that stock_result, and returns the
         variation from the actual stock price.
         :returns: TODO
@@ -241,10 +259,10 @@ class Stock(models.Model):
         operation_cost = Account.objects.filter(next_account__isnull=True)[0]
 
         return Decimal(support_system_formulas.calculate_gain_percent(
-            self.price, self.average_price(), self.owned(), operation_cost.operation_cost_position))
+            self.price, self.average_price(owner=owner), self.owned(owner=owner), operation_cost.operation_cost_position))
 
-    def stock_result_total_percent(self):
-        stock_result = self.stock_result()
+    def stock_result_total_percent(self, owner=None):
+        stock_result = self.stock_result(owner=owner)
 
         if stock_result:
             return Decimal(support_system_formulas.calculate_percentage(stock_result, default_account().total_equity()))

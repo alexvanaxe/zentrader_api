@@ -6,8 +6,8 @@ from stock.models import Stock
 
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import create_operations, create_only_buy
-from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
+from operation.unit_tests.operation_mocks import create_operations, create_only_buy, create_ir_operations
+from zen_oauth.unit_tests.user_mocks import create_test_user, create_second_test_user, create_auth
 
 
 class StockModelTestCase(TestCase):
@@ -15,10 +15,12 @@ class StockModelTestCase(TestCase):
     def setUpTestData(cls):
         cache.clear()
         create_test_user(cls)
+        create_second_test_user(cls)
         create_auth(cls, cls.user)
         create_account(cls)
         create_stocks(cls)
         create_operations(cls, cls.stock, cls.user)
+        create_ir_operations(cls, cls.stock, cls.second_user)
 
 
 class StockTestCase(StockModelTestCase):
@@ -29,10 +31,13 @@ class StockTestCase(StockModelTestCase):
                                                                 '%Y-%m-%dT%H:%M:%S'))), str(300))
 
     def test_owned(self):
-        self.assertEqual(str(self.stock.owned()), str(200))
+        self.assertEqual(str(self.stock.owned()), str(1200))
 
     def test_average_price(self):
-        self.assertEqual('{0:.2f}'.format(self.stock.average_price()), "19.28")
+        self.assertEqual('{0:.2f}'.format(self.stock.average_price()), "18.92")
+
+    def test_average_price_by_user(self):
+        self.assertEqual('{0:.2f}'.format(self.stock.average_price(owner=self.user)), "19.28")
 
 
 class StockEmptyTestCase(TestCase):
@@ -57,8 +62,8 @@ class StockEmptyTestCase(TestCase):
 class StockResumeTestCase(StockModelTestCase):
     def test_resume_works(self):
         resume = Stock.resume.get_resume(self.stock)
-        self.assertEqual(str(resume.owned), "200")
+        self.assertEqual(str(resume.owned), "1200")
 
     def test_resume_all(self):
         resume = Stock.resume.all()
-        self.assertEqual(str(resume[0].owned), "200")
+        self.assertEqual(str(resume[0].owned), "1200")

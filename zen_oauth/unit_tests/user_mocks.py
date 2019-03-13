@@ -8,11 +8,19 @@ Application = get_application_model()
 AccessToken = get_access_token_model()
 UserModel = get_user_model()
 
+
 def create_test_user(cls):
     user = User.objects.create(username='testuser')
     user.set_password('12345')
     user.save()
     cls.user = user
+
+
+def create_second_test_user(cls):
+    user = User.objects.create(username='second_user')
+    user.set_password('12345')
+    user.save()
+    cls.second_user = user
 
 
 def create_auth(cls, user):
