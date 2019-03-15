@@ -25,7 +25,7 @@ SECRET_KEY = 'dgqa^31h2g&7yzqp6m!-)f_7cau*9(w0or((@fak639=oo=o53'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost","elohfree.sytes.net"]
+ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost", "elohfree.sytes.net"]
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',  # A tool to alow ctalls from different servers.
     'django_extensions',
-#    'silk',
+#   'silk',
 
     # Myapps
     'stock',
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'notes',
     'learning',
     'zen_oauth',
+    'zen_fortune',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

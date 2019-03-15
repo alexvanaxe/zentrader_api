@@ -17,6 +17,7 @@ class StockSerializer(serializers.ModelSerializer):
         fields = ('pk', 'code', 'name', 'sector', 'subsector', 'price', 'owned')
         read_only_fields = ('owned', )
 
+
 class OwnedStocksSerializer(serializers.Serializer):
     """
     The aggregation of the owned stocks. It contains the average price, which
