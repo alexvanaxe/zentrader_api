@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.cache import cache
 
+
 class Account(models.Model):
     """
     An account with a broker.
@@ -41,24 +42,24 @@ class Account(models.Model):
         """
         operations = self.operation_set.filter(buydata__isnull=False).select_related('buydata')
         total_equity = (sum(i.buydata.remaining_gain() for i in operations)) + self.equity
-        cache.set('total_equity', total_equity)
+        cache.set('total_equity_%d' % self.pk, total_equity)
         return total_equity
 
     def clean_cache(self):
         """
         Clean the cache when the value need be updated
         """
-        cache.delete('total_equity')
+        cache.delete('total_equity_%d' % self.pk)
 
     def total_equity(self):
         """
         Returns the total equity. This is a cached value, set for 1 day long.
         """
-        total_equity = cache.get('total_equity')
+        total_equity = cache.get('total_equity_%d' % self.pk)
         if total_equity is None:
             operations = self.operation_set.filter(buydata__isnull=False).select_related('buydata')
             total_equity = (sum(i.buydata.remaining_gain() for i in operations)) + self.equity
-            cache.set('total_equity', total_equity)
+            cache.set(('total_equity_%d' % self.pk), total_equity)
 
         return total_equity
 
