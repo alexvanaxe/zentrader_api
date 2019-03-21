@@ -296,7 +296,7 @@ class Stock(models.Model):
         operation_cost = Account.objects.filter(next_account__isnull=True)[0]
 
         return Decimal(support_system_formulas.calculate_gain(self.price,
-                                                              self.average_price(owner=owner),
+                                                              self.average_available_price(owner=owner),
                                                               self.owned(owner=owner),
                                                               operation_cost.operation_cost_position))
 
