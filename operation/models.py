@@ -424,6 +424,12 @@ class BuyData(Operation):
         return self.selldata_set.filter(archived=False)
 
     def amount_available(self, executed_filter=None):
+        """
+        Return the amount available to sell
+        The default returns all even the archived.
+        The executed_filter can be sended, so in the sells we consider accordinly if it is
+        false or true.
+        """
         if self.amount_available_b is not None:
             return self.amount_available_b
 

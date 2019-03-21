@@ -29,7 +29,7 @@ class OwnedStocksSerializer(serializers.Serializer):
     subsector = serializers.CharField(label='Subsector', max_length=140)
     price = serializers.DecimalField(decimal_places=2, label='Stock value', max_digits=22)
     owned = serializers.ReadOnlyField(read_only=True)
-    average_price = serializers.DecimalField(decimal_places=2, label='Average Price', max_digits=22)
+    average_available_price = serializers.DecimalField(decimal_places=2, label='Average Price', max_digits=22)
     stock_value = serializers.DecimalField(decimal_places=2, label='Stock Value', max_digits=22)
     stock_result = serializers.DecimalField(decimal_places=2, label='Stock Result', max_digits=22)
     stock_result_percent = serializers.DecimalField(decimal_places=2, label='Stock Result Percent', max_digits=22)

@@ -3,15 +3,15 @@ from datetime import datetime
 from django.db import models
 from django.core.cache import cache
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils.translation import ugettext_lazy as _
-from operation.models import Operation
+from operation.models import Operation, BuyData
 from account.models import Account, default_account
 from formulas import support_system_formulas
 
 
 class StockResume():
-    def __init__(self, code, name, sector, subsector, price, owned, average_price,
+    def __init__(self, code, name, sector, subsector, price, owned, average_available_price,
                  stock_value, stock_result, stock_result_percent, stock_result_total_percent, owner):
         self.code = code
         self.name = name
@@ -19,7 +19,7 @@ class StockResume():
         self.subsector = subsector
         self.price = price
         self.owned = owned
-        self.average_price = average_price
+        self.average_available_price = average_available_price
         self.stock_value = stock_value
         self.stock_result = stock_result
         self.stock_result_percent = stock_result_percent
@@ -31,7 +31,7 @@ class StockResumeManager(models.Manager):
     def get_resume(self, stock):
         stock_resume = StockResume(stock.code, stock.name, stock.sector,
                                     stock.subsector, stock.price, stock.owned(),
-                                    stock.average_price, stock.stock_value,
+                                    stock.average_available_price, stock.stock_value,
                                     stock.stock_result, stock.stock_result_percent,
                                     stock.stock_result_total_percent,
                                     owner='')
@@ -44,7 +44,7 @@ class StockResumeManager(models.Manager):
             owned = stock.owned()
             if owned > 0:
                 stock_resume = StockResume(stock.code, stock.name, stock.sector, stock.subsector,
-                                           stock.price, owned, stock.average_price,
+                                           stock.price, owned, stock.average_available_price,
                                            stock.stock_value, stock.stock_result,
                                            stock.stock_result_percent, stock.stock_result_total_percent, owner='')
 
@@ -60,7 +60,7 @@ class StockResumeManager(models.Manager):
             if owned > 0:
                 stock_resume = StockResume(stock.code, stock.name, stock.sector,
                                            stock.subsector, stock.price, owned,
-                                           stock.average_price(owner=owner),
+                                           stock.average_available_price(owner=owner),
                                            stock.stock_value(owner=owner),
                                            stock.stock_result(owner=owner),
                                            stock.stock_result_percent(owner=owner),
@@ -70,7 +70,6 @@ class StockResumeManager(models.Manager):
                 stocks_resumes.append(stock_resume)
 
         return stocks_resumes
-
 
 
 class Stock(models.Model):
@@ -233,6 +232,39 @@ class Stock(models.Model):
 
         if use_cache:
             cache.set(self.code + 'average_price', actual_average_price)
+
+        return Decimal(actual_average_price)
+
+    def average_available_price(self, owner=None):
+        """
+        The open price is an average price evolued. It is considered all the open positions we have
+        in the stock to calculate how much the price is for the stock.
+        Unfortunely we aren't able to replace the average stock with this, because the average
+        stock is the current form used in the brazilian ir.
+        """
+        def _get_buys_queryset(owner):
+            if owner is None:
+                buys = BuyData.objects.filter(Q(selldata__executed=False) | Q(selldata__isnull=True), stock=self).order_by('execution_date')
+                return buys
+            else:
+                buys = BuyData.objects.filter(Q(selldata__executed=False) | Q(selldata__isnull=True), stock=self, owner=owner).order_by('execution_date')
+                return buys
+
+        actual_average_price = Decimal('0')
+        net_amount = Decimal('0')
+
+        buys = _get_buys_queryset(owner)
+
+        for buy in buys:
+            amount_available = buy.amount_available(executed_filter=True)
+            operation_average_price = (support_system_formulas.calculate_average_price(amount_available,
+                                       buy.price,
+                                       buy.operation_cost()))
+
+            actual_average_price = ((actual_average_price * net_amount) +
+                                    (operation_average_price * amount_available))/(net_amount + amount_available)
+
+            net_amount += amount_available
 
         return Decimal(actual_average_price)
 

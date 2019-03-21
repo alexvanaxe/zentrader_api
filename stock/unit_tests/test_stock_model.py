@@ -36,6 +36,12 @@ class StockTestCase(StockModelTestCase):
     def test_average_price(self):
         self.assertEqual('{0:.2f}'.format(self.stock.average_price()), "18.92")
 
+    def test_average_available_price(self):
+        self.assertEqual('{0:.2f}'.format(self.stock.average_available_price()), "20.03")
+
+    def test_average_available_price_by_user(self):
+        self.assertEqual('{0:.2f}'.format(self.stock.average_available_price(owner=self.user)), "20.11")
+
     def test_average_price_by_user(self):
         self.assertEqual('{0:.2f}'.format(self.stock.average_price(owner=self.user)), "19.28")
 

@@ -10,4 +10,4 @@ class FortuneGenericTests(TestCase):
     def testAFortune(self):
         """ Instanciate a fortune and check if a message is there. """
         aFortune = Fortune()
-        self.assertEqual('teste', aFortune.cookie)
+        self.assertIsNotNone(aFortune.cookie)
