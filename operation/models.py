@@ -260,6 +260,10 @@ class Operation(models.Model):
 
         return 'O'
 
+    def operation_category_display(self, kind=None):
+        operation_category = self.operation_category(kind)
+        return dict(self.CATEGORY).get(operation_category)
+
     def categories(self):
         return self.CATEGORY
 
@@ -268,7 +272,6 @@ class Operation(models.Model):
         Returns the actual saved category display text.
         """
         return self.get_category_display()
-
 
     def operation_cost(self, kind=None):
         if self.operation_category(kind) == 'F':

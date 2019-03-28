@@ -114,18 +114,20 @@ class SellDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'owner', 'owner_data', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
+                  'nickname', 'favorite', 'category', 'category_display', 'categories',
+                  'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
                   'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                   'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
                   'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
-                  'stop_gain_result', 'stop_gain_percent', 'amount_available')
+                  'stop_gain_result', 'stop_gain_percent', 'amount_available', 'operation_category', 'operation_category_display')
                     # result
         read_only_fields = ('stock_data', 'owner_data', 'owner', 'sell_value', 'result', 'gain_percent',
                             'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_data',
                             'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                             'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
                             'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
-                            'stop_gain_result', 'stop_gain_percent', 'amount_available')
+                            'stop_gain_result', 'stop_gain_percent', 'amount_available',
+                            'categories', 'category_display', 'operation_category', 'operation_category_display')
         model = SellData
 
         validators = [ExecutedValidator(), SellValidator(), NegativeStocksValidator()]
@@ -141,12 +143,13 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('pk', 'owner', 'owner_data', 'experience', 'creation_date', 'stock', 'amount', 'price',
-                  'archived', 'executed', 'nickname', 'favorite', 'stock_data', 'operation_gain',
+                  'archived', 'executed', 'nickname', 'category', 'category_display', 'categories',
+                  'favorite', 'stock_data', 'operation_gain',
                   'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
                   'operation_gain_percent', 'amount_available')
         read_only_fields = ('creation_date', 'owner', 'owner_data', 'stock_data', 'operation_gain',
                             'operation_average_price', 'average_cost',
-                            'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available')
+                            'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available', 'categories', 'category_display')
         model = BuyData
 
         validators = [MoneyValidator(queryset=Account.objects.all(),
