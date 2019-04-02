@@ -249,9 +249,6 @@ class Operation(models.Model):
             Decimal(self.operation_cost())))
 
     def operation_category(self, kind=None):
-        if self.category and self.category != 'NA':
-            return self.category
-
         if self.is_daytrade(kind):
             return 'DT'
 
@@ -298,15 +295,23 @@ class Operation(models.Model):
             kind = self.kind()
 
         if kind is self.Kind.SELL:
-            day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
+            reference_date = datetime.now()
+            if self.execution_date:
+                reference_date = self.execution_date
+
+            day_buys = Operation.objects.filter(buydata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(execution_date__day=reference_date.day, execution_date__month=reference_date.month, execution_date__year=reference_date.year, execution_date__lte=reference_date)
 
             self.dt_result = day_buys.count() > 0
+
             return self.dt_result
 
         if kind is self.Kind.BUY:
-            day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(creation_date__day=self.creation_date.day, creation_date__month=self.creation_date.month, creation_date__year=self.creation_date.year, creation_date__lte=self.creation_date)
+            if self.execution_date:
+                day_sells = Operation.objects.filter(selldata__isnull=False).filter(stock=self.stock).filter(account=self.account).filter(execution_date__day=self.execution_date.day, execution_date__month=self.execution_date.month, execution_date__year=self.execution_date.year, execution_date__lte=self.execution_date)
 
-            self.dt_result = day_sells.count() > 0
+                self.dt_result = day_sells.count() > 0
+            else:
+                self.dt_result = False
             return self.dt_result
 
         self.dt_result = False
