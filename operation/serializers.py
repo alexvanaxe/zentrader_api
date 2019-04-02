@@ -163,9 +163,10 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
 
     stock_data = StockSerializer(read_only=True)
     detailed = serializers.BooleanField('detailed', default=False)
+    category = serializers.CharField(label='category', max_length=2, default='NA')
 
     class Meta:
-        fields = ('pk', 'owner', 'creation_date', 'stock', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'category', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
                   'target', 'favorite', 'get_intent_display', 'stock_data', 'action',
                   'detailed')
@@ -183,6 +184,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
     stock_data = StockSerializer(read_only=True)
     detailed = serializers.BooleanField('detailed', default=True)
     owner_data = UserSerializer(read_only=True)
+    category = serializers.CharField(label='category', max_length=2, default='NA')
 
     class Meta:
         fields = ('pk', 'owner', 'owner_data', 'creation_date', 'stock', 'amount', 'price', 'archived',

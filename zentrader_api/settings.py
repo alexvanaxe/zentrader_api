@@ -69,7 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'request_logging.middleware.LoggingMiddleware',
+    'request_logging.middleware.LoggingMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
