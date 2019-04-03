@@ -248,7 +248,19 @@ class Operation(models.Model):
             Decimal(self.amount),
             Decimal(self.operation_cost())))
 
+    def suggest_category(self, kind=None):
+        if self.is_daytrade(kind):
+            return 'DT'
+
+        if self.amount % 100 != 0:
+            return 'F'
+
+        return 'O'
+
     def operation_category(self, kind=None):
+        if self.category != 'NA':
+            return self.category
+
         if self.is_daytrade(kind):
             return 'DT'
 

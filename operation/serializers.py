@@ -118,7 +118,7 @@ class SellDataSerializer(serializers.ModelSerializer):
                   'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
                   'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                   'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
-                  'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
+                  'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent', 'suggest_category',
                   'stop_gain_result', 'stop_gain_percent', 'amount_available', 'operation_category', 'operation_category_display')
                     # result
         read_only_fields = ('stock_data', 'owner_data', 'owner', 'sell_value', 'result', 'gain_percent',
@@ -126,7 +126,7 @@ class SellDataSerializer(serializers.ModelSerializer):
                             'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                             'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
                             'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
-                            'stop_gain_result', 'stop_gain_percent', 'amount_available',
+                            'stop_gain_result', 'stop_gain_percent', 'amount_available', 'suggest_category',
                             'categories', 'category_display', 'operation_category', 'operation_category_display')
         model = SellData
 
