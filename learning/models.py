@@ -52,7 +52,7 @@ class PaperBuy(PaperOperation):
     """
     A Paper buy is a fake buy just for learning purposes.
     """
-    experience = models.ForeignKey('operation.ExperienceData', null=True,
+    experience = models.ForeignKey('experience.ExperienceData', null=True,
                                    on_delete=models.CASCADE)
 
     def __str__(self):

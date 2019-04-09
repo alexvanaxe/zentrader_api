@@ -6,7 +6,7 @@ incoming data.
 """
 from rest_framework import serializers
 
-from operation.models import ExperienceData, BuyData, SellData
+from operation.models import BuyData, SellData
 from account.models import Account
 from stock.serializers import StockSerializer
 from zen_oauth.serializers import UserSerializer
@@ -154,56 +154,6 @@ class BuyDataSerializer(serializers.ModelSerializer):
 
         validators = [MoneyValidator(queryset=Account.objects.all(),
                                     fields=['pk', 'price', 'amount', ]), NegativeStocksValidator()]
-
-
-class ExperienceDataSerializer(serializers.ModelSerializer):
-    """
-    Serializer for ExperienceData model.
-    """
-
-    stock_data = StockSerializer(read_only=True)
-    detailed = serializers.BooleanField('detailed', default=False)
-    category = serializers.CharField(label='category', max_length=2, default='NA')
-
-    class Meta:
-        fields = ('pk', 'owner', 'category', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'favorite', 'get_intent_display', 'stock_data', 'action',
-                  'detailed')
-        read_only_fields = ('creation_date', 'detailed', 'owner')
-        model = ExperienceData
-
-        validators = [NegativeStocksValidator(), ]
-
-
-class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
-    """
-    Serializer for ExperienceData model.
-    """
-
-    stock_data = StockSerializer(read_only=True)
-    detailed = serializers.BooleanField('detailed', default=True)
-    owner_data = UserSerializer(read_only=True)
-    category = serializers.CharField(label='category', max_length=2, default='NA')
-
-    class Meta:
-        fields = ('pk', 'owner', 'owner_data', 'creation_date', 'stock', 'amount', 'price', 'archived',
-                  'nickname', 'category', 'category_display', 'categories', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'get_intent_display', 'stock_data', 'action', 'target_gain',
-                  'detailed', 'operation_limit', 'cost', 'stock_cost', 'operation_average_price',
-                  'average_cost', 'average_stock_cost', 'target_gain_total_percent',
-                  'target_gain_percent', 'experience_gain', 'experience_gain_percent',
-                  'experience_total_gain_percent', 'favorite', 'stop_loss_result',
-                  'stop_loss_percent', 'stop_loss_total_percent')
-        read_only_fields = ('creation_date', 'owner', 'owner_data', 'operation_gain', 'detailed', 'target_gain', 'operation_limit',
-                            'cost', 'stock_cost', 'operation_average_price', 'average_cost',
-                            'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
-                            'experience_gain', 'experience_gain_percent', 'experience_total_gain_percent',
-                            'stop_loss_result', 'stop_loss_percent',
-                            'stop_loss_total_percent', 'categories', 'category_display')
-        model = ExperienceData
-
-        validators = [NegativeStocksValidator(), ]
 
 
 class RiskDataSerializer(serializers.Serializer):

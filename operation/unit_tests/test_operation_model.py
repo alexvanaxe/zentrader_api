@@ -4,7 +4,8 @@ from django.test.testcases import TestCase
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
 
-from operation.models import ExperienceData, BuyData, SellData
+from operation.models import BuyData, SellData
+from experience.models import ExperienceData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account, create_third_account

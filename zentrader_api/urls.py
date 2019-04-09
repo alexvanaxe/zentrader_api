@@ -25,6 +25,7 @@ urlpatterns = [
 urlpatterns += (
     url(r"^api/v1/", include('stock.urls')),
     url(r"^api/v1/", include('operation.urls')),
+    url(r"^api/v1/", include('experience.urls')),
     url(r"^api/v1/", include('ir_br.urls')),
     url(r"^api/v1/", include('account.urls')),
     url(r"^api/v1/", include('notes.urls')),

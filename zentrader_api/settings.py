@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # Myapps
     'stock',
     'operation',
+    'experience',
     'account',
     'ir_br',
     'notes',
