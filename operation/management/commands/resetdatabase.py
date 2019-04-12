@@ -1,7 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
-from operation.models import Operation, ExperienceData, BuyData, SellData
+from django.core.management.base import BaseCommand
+from operation.models import Operation, BuyData, SellData
+from experience.models import ExperienceData
 from notes.models import Note
-from account.models import Account, default_account
+from account.models import default_account
 from learning.models import PaperBuy, PaperSell, PaperOperation
 
 
