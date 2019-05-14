@@ -9,6 +9,7 @@ from experience.models import ExperienceData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account, create_third_account
+from experience.unit_tests.experience_mocks import create_experiences
 from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy, create_half_sell
 from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
 
@@ -66,12 +67,10 @@ class OperationModelTest(OperationModelTestCase):
         self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())),
                          "15976.60")
 
-
     def test_is_day_trade_false(self):
         create_ir_operations(self, self.stock, self.user)
 
         self.assertFalse(self.sell1.is_daytrade())
-
 
 class SellDataModelTest(OperationModelTestCase):
     def test_sell_fields(self):
@@ -97,7 +96,6 @@ class SellDataModelTest(OperationModelTestCase):
         self.assertEqual(str(self.sell_hf1.amount_available(executed_filter=True)), '100')
         self.assertEqual(str(self.buy_hf3.amount_available(executed_filter=True)), '150')
 
-
 class BuyDataModelTest(OperationModelTestCase):
     def test_buy_not_alowed(self):
        create_third_account(self)
@@ -109,7 +107,6 @@ class BuyDataModelTest(OperationModelTestCase):
         create_operations(self, self.stock, self.user)
         self.assertEqual("1989.35", "{0:.2f}".format(self.buy3.remaining_gain()))
         self.assertEqual("0.00", "{0:.2f}".format(self.buy2.remaining_gain()))
-
 
 class ExperimentDataModelTest(OperationModelTestCase):
     def test_experiment_default(self):

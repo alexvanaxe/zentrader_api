@@ -1,33 +1,12 @@
 from datetime import datetime
 
 from operation.models import BuyData, SellData
-from experience.models import ExperienceData
 from account.models import Account
 
+from experience.unit_tests.experience_mocks import create_experiences
 
 def create_operations(cls, stock, user):
-    cls.operation = ExperienceData.objects.create(stock=stock, owner=user,
-                                                  account=Account.objects.all()[0],
-                                                  creation_date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                  amount=1000, price=30)
-
-    cls.operation_archived = ExperienceData.objects.create(stock=stock, owner=user,
-                                                           account=Account.objects.all()[0],
-                                                           creation_date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                           amount=1000, price=20,
-                                                           archived=True)
-
-    cls.experience = ExperienceData.objects.create(stock=stock, owner=user,
-                                                   account=Account.objects.all()[0],
-                                                   creation_date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                   target=20, stop_loss=28,
-                                                   amount=1000, price=30)
-
-    cls.experience_archived = ExperienceData.objects.create(stock=stock, owner=user,
-                                                            account=Account.objects.all()[0],
-                                                            creation_date=datetime.strptime('2017-06-30T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                            amount=1000, price=20,
-                                                            archived=True)
+    create_experiences(cls, stock, user)
 
     cls.buy1 = BuyData.objects.create(stock=stock, owner=user, experience=cls.experience, account=Account.objects.all()[0],
                                                            creation_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
