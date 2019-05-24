@@ -9,7 +9,6 @@ from experience.models import ExperienceData
 from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account, create_third_account
-from experience.unit_tests.experience_mocks import create_experiences
 from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy, create_half_sell
 from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
 
@@ -25,32 +24,6 @@ class OperationModelTestCase(TestCase):
 
 
 class OperationModelTest(OperationModelTestCase):
-    def test_create(self):
-        operation = ExperienceData.objects.create(stock=self.stock,
-                                                  owner=self.user,
-                                                  account=Account.objects.all()[0],
-                                                  amount=1000, price=30)
-
-        self.assertIsNotNone(operation.creation_date)
-
-    def test_real_cost(self):
-        operation = ExperienceData.objects.create(stock=self.stock,
-                                                  owner=self.user,
-                                                  account=Account.objects.all()[0],
-                                                  amount=1000, price=30)
-
-        self.assertEqual(str(operation.stock_cost()), '20000')
-        self.assertEqual(str("{0:.2f}".format(operation.operation_average_price())), '30.02')
-
-    def test_target_percent(self):
-        operation = ExperienceData.objects.create(stock=self.stock,
-                                                  owner=self.user,
-                                                  account=Account.objects.all()[0],
-                                                  amount=1000, price=30,
-                                                  target=Decimal("35.34"))
-
-        self.assertEqual(str("{0:.2f}".format(operation.target_gain_percent())), '17.73')
-
     def test_gain_percent(self):
         operation = BuyData.objects.create(stock=self.stock,
                                            owner=self.user,
@@ -107,13 +80,3 @@ class BuyDataModelTest(OperationModelTestCase):
         create_operations(self, self.stock, self.user)
         self.assertEqual("1989.35", "{0:.2f}".format(self.buy3.remaining_gain()))
         self.assertEqual("0.00", "{0:.2f}".format(self.buy2.remaining_gain()))
-
-class ExperimentDataModelTest(OperationModelTestCase):
-    def test_experiment_default(self):
-        create_operations(self, self.stock, self.user)
-        self.assertEqual('None', str(self.operation.target_gain_percent()))
-
-    def test_total_percentage_experiment(self):
-        create_operations(self, self.stock, self.user)
-        experience = ExperienceData.objects.get(pk=self.operation.pk)
-        self.assertEqual('-9.96', "{0:.2f}".format(experience.experience_total_gain_percent()))
