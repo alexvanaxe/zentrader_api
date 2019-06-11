@@ -133,29 +133,6 @@ class SellDataSerializer(serializers.ModelSerializer):
         validators = [ExecutedValidator(), SellValidator(), NegativeStocksValidator()]
 
 
-class BuyDataSerializer(serializers.ModelSerializer):
-    """
-    Serializer for BuyDataSerializer model.
-    """
-    stock_data = StockSerializer(read_only=True)
-    owner_data = UserSerializer(read_only=True)
-    # sell_set = SellDataSerializer(read_only=True, many=True)
-
-    class Meta:
-        fields = ('pk', 'owner', 'owner_data', 'experience', 'creation_date', 'stock', 'amount', 'price',
-                  'archived', 'executed', 'nickname', 'category', 'category_display', 'categories',
-                  'favorite', 'stock_data', 'operation_gain',
-                  'operation_average_price', 'average_cost', 'average_stock_cost', 'cost',
-                  'operation_gain_percent', 'amount_available')
-        read_only_fields = ('creation_date', 'owner', 'owner_data', 'stock_data', 'operation_gain',
-                            'operation_average_price', 'average_cost',
-                            'average_stock_cost', 'cost', 'operation_gain_percent', 'amount_available', 'categories', 'category_display')
-        model = BuyData
-
-        validators = [MoneyValidator(queryset=Account.objects.all(),
-                                    fields=['pk', 'price', 'amount', ]), NegativeStocksValidator()]
-
-
 class RiskDataSerializer(serializers.Serializer):
     shark = serializers.DecimalField(max_digits=22, decimal_places=2)
 

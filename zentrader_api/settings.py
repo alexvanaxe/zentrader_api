@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'stock',
     'operation',
     'experience',
+    'buy',
     'account',
     'ir_br',
     'notes',
