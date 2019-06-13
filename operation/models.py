@@ -4,7 +4,6 @@ import pytz
 
 from decimal import Decimal, ROUND_DOWN
 from django.db import models
-from django.core.exceptions import ValidationError
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -73,10 +72,6 @@ class Operation(models.Model):
 
     def kind(self):
         if self.kind_buffer is not None:
-            return self.kind_buffer
-
-        if isinstance(self, BuyData):
-            self.kind_buffer = self.Kind.BUY
             return self.kind_buffer
 
         if isinstance(self, SellData):
@@ -349,7 +344,7 @@ class SellDataManager(models.Manager):
 
 
 class SellData(Operation):
-    buy = models.ForeignKey('operation.BuyData', null=True, on_delete=models.CASCADE)
+    buy = models.ForeignKey('buy.BuyData', null=True, on_delete=models.CASCADE)
     stop_gain = models.DecimalField(_('stop gain'), max_digits=22, decimal_places=2, null=True, blank=True)
     stop_loss = models.DecimalField(_('stop loss'), max_digits=22, decimal_places=2, null=True, blank=True)
 

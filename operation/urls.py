@@ -29,7 +29,6 @@ from operation import views
 router = DefaultRouter()
 
 # Register the viewset
-router.register(r'buy', views.BuyDataViewSet, base_name='buy')
 router.register(r'sell', views.SellDataViewSet, base_name='sell')
 
 # Include the router to the patterns

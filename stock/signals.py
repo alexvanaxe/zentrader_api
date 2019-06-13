@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from operation.models import BuyData, SellData
+from operation.models import SellData
+from buy.models import BuyData
 
 
 @receiver(post_save, sender=BuyData)

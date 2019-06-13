@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from operation.models import BuyData, SellData
+from operation.models import SellData
+from buy.models import BuyData
 from account.models import Account
 
 from experience.unit_tests.experience_mocks import create_experiences

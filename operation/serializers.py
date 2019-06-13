@@ -6,7 +6,7 @@ incoming data.
 """
 from rest_framework import serializers
 
-from operation.models import BuyData, SellData
+from operation.models import SellData
 from account.models import Account
 from stock.serializers import StockSerializer
 from zen_oauth.serializers import UserSerializer

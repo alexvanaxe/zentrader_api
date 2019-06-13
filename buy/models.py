@@ -6,9 +6,14 @@ from django.core.exceptions import ValidationError
 from operation.models import Operation
 from formulas import support_system_formulas
 
+
 class BuyData(Operation):
     experience = models.ForeignKey('experience.ExperienceData', null=True, on_delete=models.CASCADE)
     amount_available_b = None
+
+    def kind(self):
+        self.kind_buffer = self.Kind.BUY
+        return self.kind_buffer
 
     def __str__(self):
         return str(self.stock.code) + " " + str(self.creation_date)

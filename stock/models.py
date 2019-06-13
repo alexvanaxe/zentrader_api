@@ -5,7 +5,8 @@ from django.core.cache import cache
 
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext_lazy as _
-from operation.models import Operation, BuyData
+from operation.models import Operation
+from buy.models import BuyData
 from account.models import Account, default_account
 from formulas import support_system_formulas
 

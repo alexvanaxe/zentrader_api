@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from operation.models import BuyData
-from operation.serializers import BuyDataSerializer
+from buy.models import BuyData
+from buy.serializers import BuyDataSerializer
 
 
 class BuyDataViewSet(viewsets.ModelViewSet):
