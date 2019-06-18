@@ -6,7 +6,8 @@ from stock.models import Stock
 
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
-from operation.unit_tests.operation_mocks import create_operations, create_only_buy, create_ir_operations
+from operation.unit_tests.operation_mocks import create_operations, create_ir_operations
+from buy.unit_tests.buy_mocks import create_only_buy
 from zen_oauth.unit_tests.user_mocks import create_test_user, create_second_test_user, create_auth
 
 

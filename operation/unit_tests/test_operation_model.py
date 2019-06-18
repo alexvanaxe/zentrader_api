@@ -1,15 +1,10 @@
-from decimal import Decimal
-
 from django.test.testcases import TestCase
-from django.core.exceptions import ValidationError
 from django.core.cache import cache
 
 from operation.models import SellData
-from buy.models import BuyData
-from account.models import Account
 from stock.unit_tests.stock_mocks import create_stocks
-from account.unit_tests.account_mocks import create_account, create_third_account
-from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_super_buy, create_half_sell
+from account.unit_tests.account_mocks import create_account
+from operation.unit_tests.operation_mocks import create_operations, create_day_trades, create_ir_operations, create_half_sell
 from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
 
 
@@ -24,19 +19,11 @@ class OperationModelTestCase(TestCase):
 
 
 class OperationModelTest(OperationModelTestCase):
-    def test_gain_percent(self):
-        operation = BuyData.objects.create(stock=self.stock,
-                                           owner=self.user,
-                                           account=Account.objects.all()[0],
-                                           amount=1000, price=30)
-
-        self.assertEqual(str("{0:.2f}".format(operation.operation_gain_percent())), '-33.39')
 
     def test_is_day_trade(self):
         create_day_trades(self, self.stock, self.user)
 
         self.assertTrue(self.sell_dt1.is_daytrade())
-        self.assertFalse(self.buy_dt1.is_daytrade())
         self.assertEqual(str("{0:.2f}".format(self.sell_dt1.result())),
                          "15976.60")
 
@@ -67,16 +54,3 @@ class SellDataModelTest(OperationModelTestCase):
         """
         create_half_sell(self, self.stock, self.user)
         self.assertEqual(str(self.sell_hf1.amount_available(executed_filter=True)), '100')
-        self.assertEqual(str(self.buy_hf3.amount_available(executed_filter=True)), '150')
-
-class BuyDataModelTest(OperationModelTestCase):
-    def test_buy_not_alowed(self):
-       create_third_account(self)
-       with self.assertRaises(ValidationError):
-           create_super_buy(self, self.stock, self.account3, self.user)
-           self.super_buy.clean()
-
-    def test_remaining_gain(self):
-        create_operations(self, self.stock, self.user)
-        self.assertEqual("1989.35", "{0:.2f}".format(self.buy3.remaining_gain()))
-        self.assertEqual("0.00", "{0:.2f}".format(self.buy2.remaining_gain()))

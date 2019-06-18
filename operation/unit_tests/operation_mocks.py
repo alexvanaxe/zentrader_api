@@ -43,11 +43,6 @@ def create_operations(cls, stock, user):
                                         amount=100,
                                         price=23, stop_loss=13)
 
-def create_only_buy(cls, stock, user):
-    cls.buy1 = BuyData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
-                                      creation_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                      execution_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                      amount=100, price=20, executed=True)
 
 def create_ir_operations(cls, stock, user):
     cls.buy1 = BuyData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
@@ -77,16 +72,6 @@ def create_day_trades(cls, stock, user):
                                            execution_date=datetime.strptime('2017-06-10T17:52:31', '%Y-%m-%dT%H:%M:%S'),
                                            amount=800, price=30, executed=True)
 
-def create_buys(cls, stock, user):
-    cls.buy1 = BuyData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
-                                                           creation_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                           execution_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                           amount=100, price=20, executed=True)
-
-    cls.buy2 = BuyData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
-                                                           creation_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                           execution_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                                           amount=200, price=20, executed=True)
 
 def create_sells(cls, stock, user):
     cls.sell1 = SellData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
@@ -94,11 +79,6 @@ def create_sells(cls, stock, user):
                                                            execution_date=datetime.strptime('2017-06-18T15:52:30', '%Y-%m-%dT%H:%M:%S'),
                                                            amount=100, price=22, executed=True)
 
-def create_super_buy(cls, stock, account, user):
-    cls.super_buy = BuyData.objects.create(stock=stock, owner=user, account=account,
-                                      creation_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                      execution_date=datetime.strptime('2017-06-10T15:52:30', '%Y-%m-%dT%H:%M:%S'),
-                                      amount=10000, price=200, executed=True)
 
 def create_half_sell(cls, stock, user):
     cls.buy_hf1 = BuyData.objects.create(stock=stock, owner=user, account=Account.objects.all()[0],
