@@ -7,7 +7,7 @@
 from collections import OrderedDict
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
-from operation.models import SellData
+from sell.models import SellData
 
 from formulas import support_system_formulas
 

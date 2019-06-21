@@ -7,7 +7,7 @@ from operation.unit_tests.operation_mocks import create_day_trades, create_ir_op
 from stock.unit_tests.stock_mocks import create_stocks
 from account.unit_tests.account_mocks import create_account
 from zen_oauth.unit_tests.user_mocks import create_test_user, create_auth
-from operation.models import SellData
+from sell.models import SellData
 
 
 class IRTestCase(TestCase):

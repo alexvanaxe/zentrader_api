@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand
-from operation.models import Operation, SellData
+from operation.models import Operation
 from experience.models import ExperienceData
 from buy.models import BuyData
+from sell.models import SellData
 from notes.models import Note
 from account.models import default_account
 from learning.models import PaperBuy, PaperSell, PaperOperation

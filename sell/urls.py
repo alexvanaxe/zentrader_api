@@ -21,13 +21,21 @@ Examples:
 """
 
 # Create a router for the viewset
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
 
-from operation import views
+from sell import views
+
+router = DefaultRouter()
+
+# Register the viewset
+router.register(r'sell', views.SellDataViewSet, base_name='sell')
 
 # Include the router to the patterns
 urlpatterns = [
-    url(r'^operation/(?P<pk>[0-9]+)/archive\.(?P<format>[a-z0-9]+)?/?$', views.ArchiveApiView.as_view(), name="archive"),
+    url(r'^', include(router.urls)),
+    url(r'^risk/$', views.RiskDataApiView.as_view(), name="risk_data"),
+    url(r'^risk\.(?P<format>[a-z0-9]+)/?$', views.RiskDataApiView.as_view(), name="risk_data"),
     #  url(r'^operation/(?P<pk>[0-9]+)/cost/?$', views.OperationCostView.as_view(), name="operation-cost"),
     #  url(r'^operation/(?P<pk>[0-9]+)/cost\.(?P<format>[a-z0-9]+)/?$', views.OperationCostView.as_view(), name="operation-cost"),
 ]
