@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 from buy.models import BuyData
 from buy.serializers import BuyDataSerializer
@@ -8,25 +9,11 @@ class BuyDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the BuyData.
     """
-    queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
-                                                               'creation_date')
+    queryset = BuyData.objects.all().order_by('archived', '-favorite', 'creation_date')
     serializer_class = BuyDataSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('archived', )
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-    def get_queryset(self):
-        """
-        Optionaly restrict the bought returned from a specific experience
-        passed as in the querystring with the key experience.
-        """
-        queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
-                                                                   'creation_date')
-
-        experience_pk = self.request.query_params.get('experience', None)
-
-        if experience_pk:
-            queryset = queryset.filter(experience=experience_pk)
-
-        return queryset
-
