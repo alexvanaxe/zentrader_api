@@ -31,7 +31,7 @@ class BuyDataTest(SellTestCase):
 
     def test_filter_by_experimence(self):
         url = reverse('buy-list')
-        response = self.client.get(url + '?experience=' + str(self.experience.pk), HTTP_AUTHORIZATION=self.auth)
+        response = self.client.get(url + '?archived=false&experience=' + str(self.experience.pk), HTTP_AUTHORIZATION=self.auth)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(str(len(response.data)), '1')
