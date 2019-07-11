@@ -30,9 +30,9 @@ router = DefaultRouter()
 
 # Register the viewset
 router.register(r'buy', views.BuyDataViewSet, base_name='buy')
+router.register(r'buy_paginate', views.BuyPaginatedDataViewSet, base_name='buy_pagination')
 
 # Include the router to the patterns
 urlpatterns = [
     url(r'^', include(router.urls)),
 ]
-
