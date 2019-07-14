@@ -1,0 +1,398 @@
+[
+{
+ "model": "notes.note",
+ "pk": 1,
+ "fields": {
+  "operation": 14,
+  "note": "MEU PRIMEIRO MILHAO SEM CHEFE PORRAAA",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 2,
+ "fields": {
+  "operation": 17,
+  "note": "Caindo, e provavelmente continuar\u00e1 assim pelos pr\u00f3ximos dias.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 3,
+ "fields": {
+  "operation": 17,
+  "note": "A\u00e7\u00e3o boa no momento pois tenho dinheiro para comprar um lote",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 4,
+ "fields": {
+  "operation": 17,
+  "note": "Apesar de que o shark ja esta elevado",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 5,
+ "fields": {
+  "operation": 8,
+  "note": "Talvez esteja se formando um topo",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 6,
+ "fields": {
+  "operation": 8,
+  "note": "se chegar no que aparenta ser o topo, subir o stop?",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 7,
+ "fields": {
+  "operation": 8,
+  "note": "Se acontecer um topo o problema \u00e9 que ser\u00e1 um topo mais baixo que o ultimo.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 8,
+ "fields": {
+  "operation": 8,
+  "note": "E isso \u00e9 um sinal de queda...",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 9,
+ "fields": {
+  "operation": 18,
+  "note": "A\u00e7\u00e3o pode estar antecipando o movimento da light.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 10,
+ "fields": {
+  "operation": 18,
+  "note": "Aten\u00e7\u00e3o para o seu MACD. Apresenta uma diverg\u00eancia muito grande.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 11,
+ "fields": {
+  "operation": 19,
+  "note": "Pode estar apresentando uma certa calma agora depois da tempoestade.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 12,
+ "fields": {
+  "operation": 19,
+  "note": "Pode ser uma boa hora para comprar esta a\u00e7\u00e3o.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 13,
+ "fields": {
+  "operation": 22,
+  "note": "erica vai pra jerusalem carai",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 14,
+ "fields": {
+  "operation": 19,
+  "note": "A\u00e7\u00e3o deu uma disparada. Se continuar subindo comprar.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 15,
+ "fields": {
+  "operation": 24,
+  "note": "A\u00e7\u00e3o caindo muito r\u00e1pido. Ficar observando at\u00e9 onde vai.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 16,
+ "fields": {
+  "operation": 19,
+  "note": "Subiu bem dois dias, mas come\u00e7ou a cair.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 17,
+ "fields": {
+  "operation": 19,
+  "note": "Se subir amanha comprar!",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 18,
+ "fields": {
+  "operation": 25,
+  "note": "A\u00e7\u00e3o esta caindo. Porem com o governo novo a l\u00f3gica seria subir.",
+  "creation_date": "2018-12-27T22:48:28.211Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 19,
+ "fields": {
+  "operation": 59,
+  "note": "Teoria: A\u00e7\u00e3o esta batendo na terceira resist\u00eancia.  Provavelmente vai bater nos stops de geral e cair muito. Essa sera a hora de atacar.",
+  "creation_date": "2018-12-28T00:37:41.573Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 20,
+ "fields": {
+  "operation": 60,
+  "note": "A\u00e7\u00e3o envolvida na lava jato. \u00c9 a parte de petroleo da empresa, porem provavelmente caiu muito e bateu nos stops de geral j\u00e1. Hora de atacar!",
+  "creation_date": "2018-12-28T00:38:17.242Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 21,
+ "fields": {
+  "operation": 23,
+  "note": "Cielo vinha caindo, como todas, agora apresentou uma melhora.",
+  "creation_date": "2018-12-28T18:59:59.073Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 22,
+ "fields": {
+  "operation": 23,
+  "note": "Com a posse do Bolsonaro, como todas a\u00e7\u00e3o subiu bem. Chegou 10 centavos a mais do que comprei.",
+  "creation_date": "2019-01-02T23:34:06.597Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 23,
+ "fields": {
+  "operation": 23,
+  "note": "Ainda \u00e9 poss\u00edvel bater no 11 (target), aguardar como vai ser a semana. Se cortar a resist\u00eancia aguardar.",
+  "creation_date": "2019-01-02T23:36:11.032Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 24,
+ "fields": {
+  "operation": 23,
+  "note": "Se n\u00e3o cortar espearar ficar no zero a zero e vender.",
+  "creation_date": "2019-01-02T23:36:15.202Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 25,
+ "fields": {
+  "operation": 63,
+  "note": "A\u00e7\u00e3o chegando no target. Ao chegar no target subir o stop loss para o target.",
+  "creation_date": "2019-01-02T23:43:06.112Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 26,
+ "fields": {
+  "operation": 65,
+  "note": "A\u00e7\u00e3o de armas. Subindo muito com a posso do Bolson\u00e1ro.",
+  "creation_date": "2019-01-02T23:46:15.555Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 28,
+ "fields": {
+  "operation": 65,
+  "note": "Foi vendida 100 hoje. Esperar at\u00e9 onde vai a brincadeira com as outras 100.",
+  "creation_date": "2019-01-02T23:46:46.349Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 29,
+ "fields": {
+  "operation": 19,
+  "note": "Com a posse a\u00e7\u00e3o subindo bem. Quando as pessoas realizarem o lucro comprar mais.",
+  "creation_date": "2019-01-02T23:50:55.871Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 30,
+ "fields": {
+  "operation": 24,
+  "note": "A\u00e7\u00e3o muito cara. Tirando do radar por enquanto.",
+  "creation_date": "2019-01-02T23:57:31.066Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 32,
+ "fields": {
+  "operation": 25,
+  "note": "A\u00e7\u00e3o muito cara, e com stop loss muito caro. Retirando do radar por enquanto.",
+  "creation_date": "2019-01-02T23:59:21.057Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 33,
+ "fields": {
+  "operation": 23,
+  "note": "Ao que tudo indica a resist\u00eancia foi quebrada. Vou aguardar chegar no target.",
+  "creation_date": "2019-01-04T15:50:29.167Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 34,
+ "fields": {
+  "operation": 23,
+  "note": "A\u00e7\u00e3o bateu no stop e foi vendida.",
+  "creation_date": "2019-01-08T22:45:40.954Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 35,
+ "fields": {
+  "operation": 103,
+  "note": "A\u00e7\u00e3o caiu muito. Provavelmente batendo nos tops. Feito um paper buy para aprendizado.",
+  "creation_date": "2019-02-21T23:14:07.976Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 36,
+ "fields": {
+  "operation": 104,
+  "note": "A\u00e7\u00e3o em trend para cima. Observar proximo fundo para ver se vale entrar.",
+  "creation_date": "2019-03-17T23:09:44.189Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 37,
+ "fields": {
+  "operation": 103,
+  "note": "A\u00e7\u00e3o subiu, mas pelo paper d\u00e1 pra ver que o lucro n\u00e3o seria t\u00e3o grande.",
+  "creation_date": "2019-03-17T23:15:15.932Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 38,
+ "fields": {
+  "operation": 103,
+  "note": "Caindo, e no macd sinais de trend pra baixo. A situa\u00e7\u00e3o do pais \u00e9 de confian\u00e7a, ent\u00e3o ficar atento, se subir podemos comprar.",
+  "creation_date": "2019-03-21T23:52:20.491Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 39,
+ "fields": {
+  "operation": 105,
+  "note": "No semanal a\u00e7\u00e3o esta patinando, e provavelmente na mais baixa. A n\u00e3o ser que apresente trend para baixo no semanal, mas \u00e9 dificil.",
+  "creation_date": "2019-03-21T23:58:18.976Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 40,
+ "fields": {
+  "operation": 105,
+  "note": "No diario esta aparentemente batendo em stops, mas \u00e9 possivel que ja tenha se acalmado.",
+  "creation_date": "2019-03-21T23:59:01.246Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 41,
+ "fields": {
+  "operation": 106,
+  "note": "Pode ser que esteja em uma base. Se subir comprar.",
+  "creation_date": "2019-03-25T00:25:57.654Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 42,
+ "fields": {
+  "operation": 105,
+  "note": "Chegou no pre\u00e7o desejado dia 28. Por\u00e9m n\u00e3o comprei pois estava desatento. Outra analise dever\u00e1 ser feita a noite para melhor decis\u00e3o.",
+  "creation_date": "2019-04-02T12:48:45.035Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 43,
+ "fields": {
+  "operation": 106,
+  "note": "Caiu muito recentemente, se subir comprar. Mas \u00e9 possivel que ainda caia at\u00e9 8.50.",
+  "creation_date": "2019-04-02T23:26:39.261Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 44,
+ "fields": {
+  "operation": 105,
+  "note": "Ap\u00f3s analise feita, ficou decidido comprar se passar pela resist\u00eancia. Na analise do semanal parece que vai subir.",
+  "creation_date": "2019-04-07T21:23:15.111Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 45,
+ "fields": {
+  "operation": 103,
+  "note": "A A\u00e7\u00e3o esta subindo muito, porem existe uma grande divergencia no macd incicando queda.",
+  "creation_date": "2019-04-07T21:34:51.706Z"
+ }
+},
+{
+ "model": "notes.note",
+ "pk": 46,
+ "fields": {
+  "operation": 104,
+  "note": "Existiu um gap indicando que a a\u00e7\u00e3o ia subir, no entanto ela caiu. Um barkesvile indicando que ela pode cair ainda mais....",
+  "creation_date": "2019-04-07T21:36:19.012Z"
+ }
+}
+]
