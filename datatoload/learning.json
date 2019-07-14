@@ -1,0 +1,86 @@
+[
+{
+ "model": "learning.paperoperation",
+ "pk": 1,
+ "fields": {
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-01-08T23:07:36.473Z",
+  "amount": "200",
+  "price": "9.69",
+  "archived": true,
+  "nickname": "Rebuy"
+ }
+},
+{
+ "model": "learning.paperoperation",
+ "pk": 2,
+ "fields": {
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-01-10T22:43:48.903Z",
+  "amount": "200",
+  "price": "10.90",
+  "archived": true,
+  "nickname": "Rebuy"
+ }
+},
+{
+ "model": "learning.paperoperation",
+ "pk": 3,
+ "fields": {
+  "account": 2,
+  "stock": 9,
+  "creation_date": "2019-02-21T23:10:32.500Z",
+  "amount": "200",
+  "price": "21.94",
+  "archived": false,
+  "nickname": "Coming Back"
+ }
+},
+{
+ "model": "learning.paperoperation",
+ "pk": 4,
+ "fields": {
+  "account": 2,
+  "stock": 9,
+  "creation_date": "2019-03-17T23:06:37.565Z",
+  "amount": "200",
+  "price": "22.22",
+  "archived": false,
+  "nickname": "Coming Back"
+ }
+},
+{
+ "model": "learning.paperbuy",
+ "pk": 1,
+ "fields": {
+  "experience": 102
+ }
+},
+{
+ "model": "learning.paperbuy",
+ "pk": 3,
+ "fields": {
+  "experience": 103
+ }
+},
+{
+ "model": "learning.papersell",
+ "pk": 2,
+ "fields": {
+  "paper_buy": 1,
+  "stop_gain": null,
+  "stop_loss": null
+ }
+},
+{
+ "model": "learning.papersell",
+ "pk": 4,
+ "fields": {
+  "paper_buy": 3,
+  "stop_gain": null,
+  "stop_loss": null
+ }
+}
+]

@@ -1,0 +1,189 @@
+[
+{
+ "model": "stock.stock",
+ "pk": 1,
+ "fields": {
+  "code": "PETR4",
+  "name": "Petrobras",
+  "sector": "Petr\u00f3leo, G\u00e1s e Biocombust\u00edveis",
+  "subsector": "Explora\u00e7\u00e3o e/ou Refino e Distribui\u00e7\u00e3o",
+  "price": "22.00"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 2,
+ "fields": {
+  "code": "CMIG4",
+  "name": "Cemig",
+  "sector": "Energia El\u00e9trica",
+  "subsector": "Energia El\u00e9trica",
+  "price": "12.30"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 3,
+ "fields": {
+  "code": "ITUB4",
+  "name": "Itau Unibanco",
+  "sector": "Financeiros",
+  "subsector": "Bancos",
+  "price": "34.55"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 4,
+ "fields": {
+  "code": "BBAS3",
+  "name": "Banco do Brasil",
+  "sector": "Financeiros",
+  "subsector": "Bancos",
+  "price": "33.00"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 5,
+ "fields": {
+  "code": "BBDC4",
+  "name": "Bradesco",
+  "sector": "Financeiros",
+  "subsector": "Bancos",
+  "price": "30.70"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 6,
+ "fields": {
+  "code": "VALE3",
+  "name": "CVRD",
+  "sector": "Minera\u00e7\u00e3o",
+  "subsector": "Minerais Met\u00e1licos",
+  "price": "48.72"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 7,
+ "fields": {
+  "code": "ABEV3",
+  "name": "Ambev",
+  "sector": "Bebidas",
+  "subsector": "Cervejas e Refrigerantes",
+  "price": "16.00"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 8,
+ "fields": {
+  "code": "CIEL3",
+  "name": "Cielo",
+  "sector": "Servi\u00e7os Financeiros Diversos",
+  "subsector": "Servi\u00e7os Financeiros Diversos",
+  "price": "7.35"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 9,
+ "fields": {
+  "code": "BRFS3",
+  "name": "BRF Foods",
+  "sector": "Alimentos",
+  "subsector": "Carnes e Derivados",
+  "price": "22.20"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 10,
+ "fields": {
+  "code": "BTOW3",
+  "name": "B2W",
+  "sector": "Com\u00e9rcio",
+  "subsector": "Produtos Diversos",
+  "price": "32.14"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 11,
+ "fields": {
+  "code": "LIGT3",
+  "name": "Light",
+  "sector": "Energia El\u00e9trica",
+  "subsector": "Energia El\u00e9trica",
+  "price": "22.60"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 12,
+ "fields": {
+  "code": "FJTA4",
+  "name": "Taurus",
+  "sector": "M\u00e1quinas e Equipamentos",
+  "subsector": "Armas e Muni\u00e7\u00f5es",
+  "price": "7.70"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 13,
+ "fields": {
+  "code": "ELPL3",
+  "name": "Eletropaulo",
+  "sector": "Energia El\u00e9trica",
+  "subsector": "Energia El\u00e9trica",
+  "price": "31.35"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 14,
+ "fields": {
+  "code": "CSNA3",
+  "name": "CSN",
+  "sector": "Siderurgia e Metalurgia",
+  "subsector": "Siderurgia",
+  "price": "9.98"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 15,
+ "fields": {
+  "code": "QGEP3",
+  "name": "Queiroz Galv\u00e3o Petroleo",
+  "sector": "Petr\u00f3leo, G\u00e1s e Biocombust\u00edveis",
+  "subsector": "Explora\u00e7\u00e3o e/ou Refino e Distribui\u00e7\u00e3o",
+  "price": "11.19"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 16,
+ "fields": {
+  "code": "DTEX3",
+  "name": "DURATEX",
+  "sector": "Ambiente",
+  "subsector": null,
+  "price": "12.11"
+ }
+},
+{
+ "model": "stock.stock",
+ "pk": 17,
+ "fields": {
+  "code": "FJTA3",
+  "name": "FORJAS TAURUS",
+  "sector": "Maquinas e Equipamentos",
+  "subsector": "Armas e Muni\u00e7\u00f5es",
+  "price": "7.21"
+ }
+}
+]

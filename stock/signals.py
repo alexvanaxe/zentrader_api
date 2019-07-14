@@ -7,11 +7,13 @@ from buy.models import BuyData
 
 @receiver(post_save, sender=BuyData)
 def update_stocks_on_buy(sender, instance, created, **kwargs):
-    if created:
-        instance.stock.clean_cache()
+    if (kwargs.get('created', True) and not kwargs.get('raw', False)):
+        if created:
+            instance.stock.clean_cache()
 
 
 @receiver(post_save, sender=SellData)
 def update_stocks_on_sell(sender, instance, created, **kwargs):
-    if instance.executed:
-        instance.stock.clean_cache()
+    if (kwargs.get('created', True) and not kwargs.get('raw', False)):
+        if instance.executed:
+            instance.stock.clean_cache()

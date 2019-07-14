@@ -1,0 +1,1127 @@
+[
+{
+ "model": "operation.operation",
+ "pk": 3,
+ "fields": {
+  "owner": 1,
+  "account": 1,
+  "stock": 2,
+  "creation_date": "2018-07-05T17:32:41.148Z",
+  "execution_date": "2018-09-20T12:00:00Z",
+  "amount": "600",
+  "price": "7.60",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 4,
+ "fields": {
+  "owner": 1,
+  "account": 1,
+  "stock": 2,
+  "creation_date": "2018-07-20T17:59:01.851Z",
+  "execution_date": "2018-10-10T12:00:00Z",
+  "amount": "600",
+  "price": "8.20",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 6,
+ "fields": {
+  "owner": 1,
+  "account": 1,
+  "stock": 9,
+  "creation_date": "2018-07-22T21:07:53.515Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "23.63",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "Queda Livre 2",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 7,
+ "fields": {
+  "owner": 1,
+  "account": 1,
+  "stock": 7,
+  "creation_date": "2018-10-21T17:37:35.418Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "16.02",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "next --->",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 8,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 7,
+  "creation_date": "2018-10-30T21:49:16.092Z",
+  "execution_date": "2018-10-22T12:00:00Z",
+  "amount": "300",
+  "price": "16.02",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 9,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 10,
+  "creation_date": "2018-11-05T12:40:23.940Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "32.14",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 10,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 7,
+  "creation_date": "2018-11-07T15:13:33.184Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "16.02",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 1
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 14,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 11,
+  "creation_date": "2018-11-21T01:03:09.945Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "9.52",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "ERICAFIRST",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 16,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 11,
+  "creation_date": "2018-11-21T16:13:18.379Z",
+  "execution_date": "2018-11-21T12:00:00Z",
+  "amount": "100",
+  "price": "16.01",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "ERICAFIRST",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 17,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2018-11-23T00:18:48.763Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "9.53",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 18,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 2,
+  "creation_date": "2018-11-25T23:58:02.319Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "12.30",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 19,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 12,
+  "creation_date": "2018-11-26T00:04:39.881Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "3.87",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 20,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 7,
+  "creation_date": "2018-11-26T18:31:37.514Z",
+  "execution_date": "2018-11-14T12:00:00Z",
+  "amount": "300",
+  "price": "16.00",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 21,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 11,
+  "creation_date": "2018-11-27T13:11:47.566Z",
+  "execution_date": "2018-11-27T17:55:15Z",
+  "amount": "100",
+  "price": "14.90",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "ERICAFIRST",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 22,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2018-12-05T12:44:13.383Z",
+  "execution_date": "2018-11-23T12:00:00Z",
+  "amount": "200",
+  "price": "9.53",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 23,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2018-12-16T18:28:30.146Z",
+  "execution_date": "2019-01-08T22:45:48.704Z",
+  "amount": "200",
+  "price": "9.69",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 24,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 13,
+  "creation_date": "2018-12-16T20:20:44.041Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "32.00",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 25,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 1,
+  "creation_date": "2018-12-19T00:52:19.185Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "24.00",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 26,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 12,
+  "creation_date": "2018-12-19T13:28:29.754Z",
+  "execution_date": "2018-12-19T13:28:29.754Z",
+  "amount": "200",
+  "price": "3.87",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 27,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 12,
+  "creation_date": "2018-12-19T13:28:44.024Z",
+  "execution_date": "2019-01-02T14:25:24.589Z",
+  "amount": "100",
+  "price": "5.03",
+  "category": "DT",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 59,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 14,
+  "creation_date": "2018-12-27T23:48:30.726Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "8.76",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "Rainhas",
+  "favorite": 1
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 60,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 15,
+  "creation_date": "2018-12-28T00:36:25.793Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "9.43",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": null,
+  "favorite": 1
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 61,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 15,
+  "creation_date": "2018-12-28T19:07:08.040Z",
+  "execution_date": "2018-12-28T19:07:08.040Z",
+  "amount": "100",
+  "price": "9.43",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 62,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 14,
+  "creation_date": "2018-12-28T19:12:21.482Z",
+  "execution_date": "2018-12-28T19:12:21.482Z",
+  "amount": "100",
+  "price": "8.76",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "Rainhas",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 63,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 15,
+  "creation_date": "2018-12-28T19:12:32.733Z",
+  "execution_date": "2019-01-07T14:36:17.152Z",
+  "amount": "100",
+  "price": "11.19",
+  "category": "DT",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 64,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 14,
+  "creation_date": "2018-12-28T19:12:33.814Z",
+  "execution_date": "2019-02-14T21:47:16.260Z",
+  "amount": "100",
+  "price": "9.38",
+  "category": "DT",
+  "archived": true,
+  "executed": true,
+  "nickname": "Rainhas",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 65,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 12,
+  "creation_date": "2019-01-02T14:24:50.374Z",
+  "execution_date": "2019-02-14T21:47:18.723Z",
+  "amount": "100",
+  "price": "11.00",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 66,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 16,
+  "creation_date": "2019-01-03T22:28:12.856Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "11.80",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "ERICASEC",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 67,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 17,
+  "creation_date": "2019-01-03T22:44:50.298Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "9.00",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "ERICARICH",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 68,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 17,
+  "creation_date": "2019-01-03T22:44:56.504Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "9.00",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "ERICARICH",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 69,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 17,
+  "creation_date": "2019-01-03T22:44:56.567Z",
+  "execution_date": null,
+  "amount": "100",
+  "price": "9.00",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "ERICARICH",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 100,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 17,
+  "creation_date": "2019-01-06T21:14:52.624Z",
+  "execution_date": "2019-01-06T21:14:52.624Z",
+  "amount": "100",
+  "price": "9.00",
+  "category": "O",
+  "archived": true,
+  "executed": true,
+  "nickname": "ERICARICH",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 101,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 17,
+  "creation_date": "2019-01-06T21:15:35.712Z",
+  "execution_date": "2019-01-08T22:46:56.837Z",
+  "amount": "100",
+  "price": "7.21",
+  "category": "DT",
+  "archived": true,
+  "executed": true,
+  "nickname": "ERICARICH",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 102,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-01-08T23:06:34.791Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "9.69",
+  "category": "O",
+  "archived": true,
+  "executed": false,
+  "nickname": "Rebuy",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 103,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 9,
+  "creation_date": "2019-02-21T23:06:36.921Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "21.94",
+  "category": "NA",
+  "archived": false,
+  "executed": false,
+  "nickname": "Coming Back",
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 104,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 11,
+  "creation_date": "2019-03-17T23:09:00.609Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "20.78",
+  "category": "NA",
+  "archived": false,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 105,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 3,
+  "creation_date": "2019-03-19T23:14:45.304Z",
+  "execution_date": null,
+  "amount": "200",
+  "price": "35.24",
+  "category": "O",
+  "archived": false,
+  "executed": false,
+  "nickname": null,
+  "favorite": 1
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 106,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-03-25T00:23:51.539Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "9.83",
+  "category": "O",
+  "archived": false,
+  "executed": false,
+  "nickname": null,
+  "favorite": 1
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 107,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-04-10T19:11:38.634Z",
+  "execution_date": "2019-04-10T19:11:38.634Z",
+  "amount": "300",
+  "price": "9.83",
+  "category": "O",
+  "archived": false,
+  "executed": true,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "operation.operation",
+ "pk": 108,
+ "fields": {
+  "owner": 1,
+  "account": 2,
+  "stock": 8,
+  "creation_date": "2019-04-10T19:12:09.634Z",
+  "execution_date": null,
+  "amount": "300",
+  "price": "7.35",
+  "category": "O",
+  "archived": false,
+  "executed": false,
+  "nickname": null,
+  "favorite": 0
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 6,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": "N\u00e3o esta caindo tanto...",
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 7,
+ "fields": {
+  "target": "18.13",
+  "stop_gain": null,
+  "stop_loss": "15.42",
+  "limit": null,
+  "action": "Partiu ambev!",
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 9,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": "No money to buy...",
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 10,
+ "fields": {
+  "target": "16.10",
+  "stop_gain": null,
+  "stop_loss": "16.10",
+  "limit": null,
+  "action": null,
+  "intent": "S"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 14,
+ "fields": {
+  "target": "19.95",
+  "stop_gain": null,
+  "stop_loss": "14.02",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 17,
+ "fields": {
+  "target": "10.61",
+  "stop_gain": null,
+  "stop_loss": "8.50",
+  "limit": null,
+  "action": null,
+  "intent": "S"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 18,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": null,
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 19,
+ "fields": {
+  "target": "5.99",
+  "stop_gain": null,
+  "stop_loss": "3.06",
+  "limit": null,
+  "action": null,
+  "intent": "S"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 24,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 25,
+ "fields": {
+  "target": "26.47",
+  "stop_gain": null,
+  "stop_loss": "20.24",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 59,
+ "fields": {
+  "target": "9.38",
+  "stop_gain": null,
+  "stop_loss": "8.32",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 60,
+ "fields": {
+  "target": "11.24",
+  "stop_gain": null,
+  "stop_loss": "8.60",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 66,
+ "fields": {
+  "target": "14.00",
+  "stop_gain": null,
+  "stop_loss": "11.00",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 67,
+ "fields": {
+  "target": "13.00",
+  "stop_gain": null,
+  "stop_loss": "7.21",
+  "limit": null,
+  "action": null,
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 68,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": null,
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 69,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": null,
+  "limit": null,
+  "action": null,
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 102,
+ "fields": {
+  "target": null,
+  "stop_gain": null,
+  "stop_loss": "8.66",
+  "limit": null,
+  "action": null,
+  "intent": null
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 103,
+ "fields": {
+  "target": "23.35",
+  "stop_gain": null,
+  "stop_loss": "20.86",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 104,
+ "fields": {
+  "target": "23.00",
+  "stop_gain": null,
+  "stop_loss": "19.76",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 105,
+ "fields": {
+  "target": "37.45",
+  "stop_gain": null,
+  "stop_loss": "34.64",
+  "limit": null,
+  "action": "Tentar comprar pelo price.",
+  "intent": "B"
+ }
+},
+{
+ "model": "experience.experiencedata",
+ "pk": 106,
+ "fields": {
+  "target": "11.10",
+  "stop_gain": null,
+  "stop_loss": "9.60",
+  "limit": null,
+  "action": null,
+  "intent": "B"
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 3,
+ "fields": {
+  "experience": 18
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 8,
+ "fields": {
+  "experience": 7
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 16,
+ "fields": {
+  "experience": 14
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 22,
+ "fields": {
+  "experience": 17
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 26,
+ "fields": {
+  "experience": 19
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 61,
+ "fields": {
+  "experience": 60
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 62,
+ "fields": {
+  "experience": 59
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 100,
+ "fields": {
+  "experience": 67
+ }
+},
+{
+ "model": "buy.buydata",
+ "pk": 107,
+ "fields": {
+  "experience": 106
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 4,
+ "fields": {
+  "buy": 3,
+  "stop_gain": null,
+  "stop_loss": null
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 20,
+ "fields": {
+  "buy": 8,
+  "stop_gain": null,
+  "stop_loss": null
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 21,
+ "fields": {
+  "buy": 16,
+  "stop_gain": null,
+  "stop_loss": null
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 23,
+ "fields": {
+  "buy": 22,
+  "stop_gain": "11.00",
+  "stop_loss": "9.69"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 27,
+ "fields": {
+  "buy": 26,
+  "stop_gain": "5.90",
+  "stop_loss": "3.06"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 63,
+ "fields": {
+  "buy": 61,
+  "stop_gain": null,
+  "stop_loss": "8.60"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 64,
+ "fields": {
+  "buy": 62,
+  "stop_gain": null,
+  "stop_loss": "8.32"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 65,
+ "fields": {
+  "buy": 26,
+  "stop_gain": "5.90",
+  "stop_loss": "3.06"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 101,
+ "fields": {
+  "buy": 100,
+  "stop_gain": null,
+  "stop_loss": "7.21"
+ }
+},
+{
+ "model": "sell.selldata",
+ "pk": 108,
+ "fields": {
+  "buy": 107,
+  "stop_gain": null,
+  "stop_loss": "9.60"
+ }
+}
+]
