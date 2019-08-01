@@ -3,8 +3,8 @@ from rest_framework.pagination import PageNumberPagination, Response
 from django_filters.rest_framework import DjangoFilterBackend
 from collections import OrderedDict
 
-from sell.serializers import SellDataSerializer, RiskDataSerializer
 from sell.models import SellData
+from sell.serializers import SellDataSerializer, RiskDataSerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -60,7 +60,7 @@ class SellDataViewSet(viewsets.ModelViewSet):
 
 class SellPaginatedDataViewSet(viewsets.ModelViewSet):
     """
-    A viewset representing the BuyData.
+    A viewset representing the SellData.
     """
     queryset = SellData.objects.all().order_by('archived', '-favorite', 'creation_date')
     serializer_class = SellDataSerializer
