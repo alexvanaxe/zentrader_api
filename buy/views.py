@@ -1,32 +1,56 @@
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination, Response
+from django_filters.rest_framework import DjangoFilterBackend
+from collections import OrderedDict
 
 from buy.models import BuyData
 from buy.serializers import BuyDataSerializer
+
+
+class StandardResultsSetPagination(PageNumberPagination):
+    """
+    Class to configure the pagination.
+    """
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 2
+
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+             ('lastPage', self.page.paginator.count),
+             ('countItemsOnPage', self.page_size),
+             ('current', self.page.number),
+             ('next', self.get_next_link()),
+             ('previous', self.get_previous_link()),
+             ('results', data)
+         ]))
 
 
 class BuyDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the BuyData.
     """
-    queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
-                                                               'creation_date')
+    queryset = BuyData.objects.all().order_by('archived', '-favorite', 'creation_date')
     serializer_class = BuyDataSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('archived', 'experience')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    def get_queryset(self):
-        """
-        Optionaly restrict the bought returned from a specific experience
-        passed as in the querystring with the key experience.
-        """
-        queryset = BuyData.objects.filter(archived=False).order_by('-favorite',
-                                                                   'creation_date')
 
-        experience_pk = self.request.query_params.get('experience', None)
+class BuyPaginatedDataViewSet(viewsets.ModelViewSet):
+    """
+    A viewset representing the BuyData.
+    """
+    queryset = BuyData.objects.all().order_by('archived', '-favorite', 'creation_date')
+    serializer_class = BuyDataSerializer
 
-        if experience_pk:
-            queryset = queryset.filter(experience=experience_pk)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('archived', 'experience')
 
-        return queryset
+    pagination_class = StandardResultsSetPagination
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

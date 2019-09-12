@@ -1,7 +1,29 @@
 from rest_framework import viewsets, views, response
-from sell.serializers import SellDataSerializer, RiskDataSerializer
+from rest_framework.pagination import PageNumberPagination, Response
+from django_filters.rest_framework import DjangoFilterBackend
+from collections import OrderedDict
 
 from sell.models import SellData
+from sell.serializers import SellDataSerializer, RiskDataSerializer
+
+
+class StandardResultsSetPagination(PageNumberPagination):
+    """
+    Class to configure the pagination.
+    """
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 2
+
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+             ('lastPage', self.page.paginator.count),
+             ('countItemsOnPage', self.page_size),
+             ('current', self.page.number),
+             ('next', self.get_next_link()),
+             ('previous', self.get_previous_link()),
+             ('results', data)
+         ]))
 
 
 class RiskDataApiView(views.APIView):
@@ -35,3 +57,18 @@ class SellDataViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+
+class SellPaginatedDataViewSet(viewsets.ModelViewSet):
+    """
+    A viewset representing the SellData.
+    """
+    queryset = SellData.objects.all().order_by('archived', '-favorite', 'creation_date')
+    serializer_class = SellDataSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('archived', 'buy')
+
+    pagination_class = StandardResultsSetPagination
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
