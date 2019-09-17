@@ -32,7 +32,7 @@ class SellDataModelTest(OperationModelTestCase):
     def test_shark(self):
         create_operations(self, self.stock, self.user)
         self.assertEqual('-720.01', str(self.sell3.stop_loss_result()))
-        self.assertEqual('1.01', str(SellData.solds.shark().shark))
+        self.assertEqual('0.72', str(SellData.solds.shark().shark))
 
     def test_amount(self):
         """

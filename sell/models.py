@@ -22,9 +22,9 @@ class SellDataManager(models.Manager):
             stop_loss = 0
             if sell.stop_loss:
                stop_loss = sell.stop_loss
-            gain_percent = sell.calculate_gain(stop_loss)
+            gain_percent = sell.calculate_gain(stop_loss, sell.buy.price)
             if gain_percent < 0:
-                shark = (support_system_formulas.calculate_piranha(gain_percent, sell.account.total_equity()) * -1) + shark
+                shark = (support_system_formulas.calculate_percentage(gain_percent, sell.account.total_equity()) * -1) + shark
 
         risk_data = RiskData(round(shark, 2))
         return risk_data
