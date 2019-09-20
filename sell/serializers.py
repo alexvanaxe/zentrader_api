@@ -25,7 +25,11 @@ class SellValidator(object):
             amount = self.instance.amount
 
         try:
-            amount_available = value['buy'].amount_available(executed_filter=None)
+            if value['buy'] is not None:
+                amount_available = value['buy'].amount_available(executed_filter=None)
+            else:
+                amount_available = self.instance.amount_available(executed_filter=None)
+
         except KeyError:
             amount_available = self.instance.amount_available(executed_filter=None)
 
