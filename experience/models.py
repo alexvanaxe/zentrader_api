@@ -116,7 +116,7 @@ class ExperienceData(Operation):
         if not self.stop_loss:
             return None
 
-        account = (Account.objects.all()[0])
+        account = self.account
         return Decimal(support_system_formulas.calculate_limit(support_system_formulas.PIRANHA_LIMIT,
                                                                account.total_equity(),
                                                                self.operation_cost(),
