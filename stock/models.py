@@ -258,14 +258,15 @@ class Stock(models.Model):
 
         for buy in buys:
             amount_available = buy.amount_available(executed_filter=True)
-            operation_average_price = (support_system_formulas.calculate_average_price(amount_available,
-                                       buy.price,
-                                       buy.operation_cost()))
+            if amount_available:
+                operation_average_price = (support_system_formulas.calculate_average_price(amount_available,
+                                           buy.price,
+                                           buy.operation_cost()))
 
-            actual_average_price = ((actual_average_price * net_amount) +
-                                    (operation_average_price * amount_available))/(net_amount + amount_available)
+                actual_average_price = ((actual_average_price * net_amount) +
+                                        (operation_average_price * amount_available))/(net_amount + amount_available)
 
-            net_amount += amount_available
+                net_amount += amount_available
 
         return Decimal(actual_average_price)
 
