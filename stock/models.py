@@ -7,11 +7,15 @@ from django.db.models import Sum, Q
 from django.utils.translation import ugettext_lazy as _
 from operation.models import Operation
 from buy.models import BuyData
+from sell.models import SellData
 from account.models import Account, default_account
 from formulas import support_system_formulas
 
 
 class StockResume():
+    """
+    Has information for a resume of the stocks. It is a 'wallet'
+    """
     def __init__(self, code, name, sector, subsector, price, owned, average_available_price,
                  stock_value, stock_result, stock_result_percent, stock_result_total_percent, owner):
         self.code = code
@@ -26,6 +30,15 @@ class StockResume():
         self.stock_result_percent = stock_result_percent
         self.stock_result_total_percent = stock_result_total_percent
         self.owner = owner
+
+
+class Historical():
+    """
+    Has some historical information
+    """
+    def __init__(self, profit, profit_percent):
+        self.profit = profit
+        self.profit_percent = profit_percent
 
 
 class StockResumeManager(models.Manager):
@@ -319,3 +332,15 @@ class Stock(models.Model):
         if stock_result:
             return Decimal(support_system_formulas.calculate_percentage(stock_result,
                                                                         default_account().total_equity()))
+
+    def historical(self):
+        sells = SellData.executions.filter(stock=self)
+        profit = Decimal()
+        profit_percent = Decimal()
+
+        for sell in sells:
+            profit += sell.profit()
+            profit_percent += sell.profit_percent()
+
+        historical = Historical(profit, profit_percent)
+        return historical

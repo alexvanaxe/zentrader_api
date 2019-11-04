@@ -46,6 +46,10 @@ class StockTestCase(StockModelTestCase):
     def test_average_price_by_user(self):
         self.assertEqual('{0:.2f}'.format(self.stock.average_price(owner=self.user)), "19.28")
 
+    def test_historical_profit(self):
+        self.assertEqual('{0:.2f}'.format(self.stock.historical().profit), "18645.94")
+        self.assertEqual('{0:.2f}'.format(self.stock.historical().profit_percent), "113.59")
+
 
 class StockEmptyTestCase(TestCase):
     @classmethod
