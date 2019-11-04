@@ -7,15 +7,22 @@ incoming data.
 from rest_framework import serializers
 from stock.models import Stock
 
+class Historical(serializers.Serializer):
+    """
+    """
+    profit = serializers.DecimalField(decimal_places=2, label="historical", max_digits=22)
+    profit_percent = serializers.DecimalField(decimal_places=2, label="historical", max_digits=22)
+
 
 class StockSerializer(serializers.ModelSerializer):
     """
     Serializer for Stock model.
     """
+    historical = Historical()
     class Meta:
         model = Stock
-        fields = ('pk', 'code', 'name', 'sector', 'subsector', 'price', 'owned')
-        read_only_fields = ('owned', )
+        fields = ('pk', 'code', 'name', 'sector', 'subsector', 'price', 'owned', 'historical')
+        read_only_fields = ('owned', 'historical')
 
 
 class OwnedStocksSerializer(serializers.Serializer):
