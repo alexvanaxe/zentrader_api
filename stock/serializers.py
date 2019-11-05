@@ -18,7 +18,7 @@ class StockSerializer(serializers.ModelSerializer):
     """
     Serializer for Stock model.
     """
-    historical = Historical()
+    historical = Historical(read_only=True)
     class Meta:
         model = Stock
         fields = ('pk', 'code', 'name', 'sector', 'subsector', 'price', 'owned', 'historical')
