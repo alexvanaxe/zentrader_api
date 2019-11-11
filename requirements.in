@@ -16,3 +16,4 @@ django-request-logging
 django-extensions
 PyDotPlus
 fortune
+sphinx
