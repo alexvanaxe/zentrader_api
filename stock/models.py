@@ -2,6 +2,8 @@ from decimal import Decimal
 from datetime import datetime
 from django.db import models
 from django.core.cache import cache
+import requests
+import json
 
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext_lazy as _
@@ -344,3 +346,13 @@ class Stock(models.Model):
 
         historical = Historical(profit, profit_percent)
         return historical
+
+    def update_stock(self):
+        """ Update the stock for the day """
+        response = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s.SA&apikey=9T9BMQDF8D955BYH" % self.code)
+        jData = json.loads(response.content)
+        close = jData['Time Series (Daily)'][str(datetime.date(datetime.now()))]['4. close']
+        self.price = close
+        self.save()
+
+        return self.price

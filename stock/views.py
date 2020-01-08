@@ -31,3 +31,21 @@ class OwnedByUserStocksAPIView(APIView):
         serializer = OwnedStocksSerializer((stock), many=True)
 
         return Response(serializer.data)
+
+
+class StockApiView(APIView):
+    """
+    APIView created for not generated (CRUD) functionalities of the stock.
+    """
+    def post(self, request, format=None):
+        """ Updates automatically the stock """
+        serializer = StockSerializer(data=request.data)
+
+        if serializer.is_valid():
+            stock_tmp = Stock(**serializer.validated_data)
+            stock = Stock.objects.get(pk=request.data['pk'])
+            stock.update_stock()
+
+            serializer_updated = StockSerializer(stock)
+
+            return Response(serializer_updated.data)

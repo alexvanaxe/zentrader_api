@@ -35,7 +35,8 @@ router.register(r'stock', views.StockViewSet)
 #TODO: Maybe create a new app "Portfolio" for this resume?
 urlpatterns = [
     url(r'^stock/resume/$', views.OwnedStocksAPIView.as_view(), name="resume"),
-    url(r'^stock/user_resume/$', views.OwnedByUserStocksAPIView.as_view(), name="user_resume")
+    url(r'^stock/user_resume/$', views.OwnedByUserStocksAPIView.as_view(), name="user_resume"),
+    url(r'^stock/updated_stock/$', views.StockApiView.as_view(), name="updated_stock")
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
