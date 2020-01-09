@@ -36,7 +36,7 @@ router.register(r'stock', views.StockViewSet)
 urlpatterns = [
     url(r'^stock/resume/$', views.OwnedStocksAPIView.as_view(), name="resume"),
     url(r'^stock/user_resume/$', views.OwnedByUserStocksAPIView.as_view(), name="user_resume"),
-    url(r'^stock/updated_stock/$', views.StockApiView.as_view(), name="updated_stock")
+    url(r'^stock/updated_stock/(?P<pk>[^/.]+)/$', views.StockApiView.as_view(), name="updated_stock")
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

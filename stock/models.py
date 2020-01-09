@@ -12,6 +12,7 @@ from buy.models import BuyData
 from sell.models import SellData
 from account.models import Account, default_account
 from formulas import support_system_formulas
+from stock.exceptions import AutoUpdateStockError
 
 
 class StockResume():
@@ -349,10 +350,13 @@ class Stock(models.Model):
 
     def update_stock(self):
         """ Update the stock for the day """
-        response = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s.SA&apikey=9T9BMQDF8D955BYH" % self.code)
-        jData = json.loads(response.content)
-        close = jData['Time Series (Daily)'][str(datetime.date(datetime.now()))]['4. close']
-        self.price = close
-        self.save()
+        try:
+            response = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s.SA&apikey=9T9BMQDF8D955BYH" % self.code)
+            jData = json.loads(response.content)
+            close = jData['Time Series (Daily)'][str(datetime.date(datetime.now()))]['4. close']
+            self.price = close
+            self.save()
 
-        return self.price
+            return self.price
+        except(KeyError):
+            raise AutoUpdateStockError()
