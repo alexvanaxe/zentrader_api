@@ -4,6 +4,7 @@ from experience.models import ExperienceData
 from buy.models import BuyData
 from sell.models import SellData
 from notes.models import Note
+from stock.models import Stock
 from account.models import default_account
 from learning.models import PaperBuy, PaperSell, PaperOperation
 
@@ -45,3 +46,10 @@ class Command(BaseCommand):
         account.equity = 10000
         account.save()
         self.stdout.write(self.style.NOTICE("Equity updated to 10000"))
+
+        stocks = Stock.objects.all().delete()
+        result = str(stocks)
+        self.stdout.write(self.style.NOTICE("deleted %s stocks" % (result)))
+        Stock.objects.create(code="TST1", name="Teste 1", sector="Setor teste",
+                             subsector="Subsetor teste", price=10.5)
+        self.stdout.write(self.style.NOTICE("Created a test stock"))
