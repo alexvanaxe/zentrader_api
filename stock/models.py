@@ -353,10 +353,12 @@ class Stock(models.Model):
         try:
             response = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s.SA&apikey=9T9BMQDF8D955BYH" % self.code)
             jData = json.loads(response.content)
-            close = jData['Time Series (Daily)'][str(datetime.date(datetime.now()))]['4. close']
-            self.price = close
+
+            values = jData[list(jData)[1]]
+
+            self.price = values[list(values)[0]]['4. close']
             self.save()
 
             return self.price
-        except(KeyError):
+        except(IndexError):
             raise AutoUpdateStockError()
