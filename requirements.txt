@@ -46,7 +46,7 @@ snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.3
 sphinxcontrib-websupport==1.1.0  # via sphinx
 sqlparse==0.2.4           # via django-silk
-urllib3==1.24.1           # via requests
+urllib3==1.24.2           # via requests
 virtualenv-clone==0.4.0   # via pipenv
 virtualenv==16.2.0        # via pipenv
 whitenoise==4.1.2
