@@ -1,4 +1,5 @@
 from django.db.models import Sum, F, Q
+from django.db.models.functions import Coalesce
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,15 +11,19 @@ def filter_stock(stock):
     return stock.owned() > 0
 
 def get_stock_queryset():
-    return Stock.objects.filter(Q(operation__executed=True) | Q(operation__experiencedata__isnull=False) | Q(operation__isnull=True)).annotate(operations_s=Sum(F('operation__selldata__amount'))).annotate(operations_b=Sum(F('operation__buydata__amount'))).annotate(operations_t=F('operations_b') - F('operations_s'))
+    """
+    Return a queryset with owned information for ordanation purpose in the moment
+    """
+    return Stock.objects.filter(Q(operation__executed=True) | Q(operation__experiencedata__isnull=False) | Q(operation__isnull=True)).annotate(operations_s=Coalesce(Sum(F('operation__selldata__amount')), 0)).annotate(operations_b=Sum(F('operation__buydata__amount'))).annotate(operations_t=F('operations_b') - F('operations_s'))
 
 
 class StockViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the stock.
     """
-    queryset = get_stock_queryset().order_by('code')
+    queryset = get_stock_queryset().order_by('operations_t' ,'code')
     serializer_class = StockSerializer
+
 
 class OwnedStocksAPIView(APIView):
 
