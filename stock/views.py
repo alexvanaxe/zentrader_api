@@ -7,8 +7,10 @@ from rest_framework.response import Response
 from stock.models import Stock
 from stock.serializers import StockSerializer, OwnedStocksSerializer
 
+
 def filter_stock(stock):
     return stock.owned() > 0
+
 
 def get_stock_queryset():
     """
