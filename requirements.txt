@@ -17,7 +17,7 @@ django-filter==2.0.0
 django-oauth-toolkit==1.2.0
 django-request-logging==0.6.6
 django-silk==3.0.1
-django==2.1.5
+django==2.2.10
 djangorestframework-jwt==1.11.0
 djangorestframework==3.9.0
 docutils==0.14            # via sphinx
@@ -45,7 +45,7 @@ six==1.12.0               # via django-extensions, packaging, python-dateutil, s
 snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.3
 sphinxcontrib-websupport==1.1.0  # via sphinx
-sqlparse==0.2.4           # via django-silk
+sqlparse==0.2.4           # via django, django-silk
 urllib3==1.24.1           # via requests
 virtualenv-clone==0.4.0   # via pipenv
 virtualenv==16.2.0        # via pipenv
