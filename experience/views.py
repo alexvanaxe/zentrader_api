@@ -54,7 +54,7 @@ class ExperienceListByStock(generics.ListAPIView):
     """
     Return the list of all experience operations filtered by a stock.
     """
-    serializer_class = ExperienceDataSerializer
+    serializer_class = ExperienceDataSerializerDetailed
 
     def get_queryset(self):
         """
