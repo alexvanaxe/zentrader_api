@@ -93,3 +93,13 @@ class ExperienceDataTest(OperationTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual("{0:.2f}".format(response.data['operation_limit']), '31.00')
+
+
+class ExperienceListByStock(OperationTestCase):
+
+    def test_stock_by_id(self):
+        url = reverse('experience_by_stock', kwargs={'stock_pk': self.stock.pk})
+        response = self.client.get(url, HTTP_AUTHORIZATION=self.auth)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(str(len(response.data)), '2')

@@ -22,6 +22,7 @@ Examples:
 
 # Create a router for the viewset
 from django.conf.urls import url, include
+from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.routers import DefaultRouter
 
 from experience import views
@@ -31,7 +32,13 @@ router = DefaultRouter()
 # Register the viewset
 router.register(r'experience', views.ExperienceDataViewSet, base_name='experience')
 
-# Include the router to the patterns
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^experience_by_stock/(?P<stock_pk>.+)/$', views.ExperienceListByStock.as_view(), name='experience_by_stock'),
+]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+
+# Include the router to the patterns
+urlpatterns += [
+    url(r'^', include(router.urls))
 ]

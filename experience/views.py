@@ -1,4 +1,4 @@
-from rest_framework import viewsets, response, mixins
+from rest_framework import viewsets, response, mixins, generics
 
 from experience.models import ExperienceData
 from experience.serializers import ExperienceDataSerializer, ExperienceDataSerializerDetailed
@@ -48,3 +48,17 @@ class ExperienceDataViewSet(mixins.CreateModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class ExperienceListByStock(generics.ListAPIView):
+    """
+    Return the list of all experience operations filtered by a stock.
+    """
+    serializer_class = ExperienceDataSerializerDetailed
+
+    def get_queryset(self):
+        """
+        Return a queryset containg all non archived experience of the stock.
+        """
+        stock_pk = self.kwargs['stock_pk']
+        return ExperienceData.objects.filter(archived=False, stock=stock_pk)
