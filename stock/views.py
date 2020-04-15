@@ -23,7 +23,7 @@ class StockViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the stock.
     """
-    queryset = get_stock_queryset().order_by('-operations_t' ,'code')
+    queryset = get_stock_queryset().order_by('operations_t_null')
     serializer_class = StockSerializer
 
 
