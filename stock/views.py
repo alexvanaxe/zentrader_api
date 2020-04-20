@@ -1,3 +1,6 @@
+"""
+Views from the stocks.
+"""
 from django.db.models import Sum, F, Q
 from django.db.models.functions import Coalesce
 from rest_framework import viewsets
@@ -23,7 +26,7 @@ class StockViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the stock.
     """
-    queryset = get_stock_queryset().order_by('operations_t')
+    queryset = get_stock_queryset().order_by(F('operations_t').desc(nulls_last=True))
     serializer_class = StockSerializer
 
 
