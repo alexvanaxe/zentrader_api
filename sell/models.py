@@ -205,3 +205,9 @@ class SellData(Operation):
             return -99999
 
         return self.calculate_gain_percent(stop_loss, self.buy.price)
+
+    def buy_price(self):
+        """
+        Return the price of the buy associated with this sell
+        """
+        return self.buy.price

@@ -115,7 +115,7 @@ class SellDataSerializer(serializers.ModelSerializer):
     owner_data = UserSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'owner', 'owner_data', 'buy', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
+        fields = ('pk', 'owner', 'owner_data', 'buy', 'buy_price', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'category', 'category_display', 'categories',
                   'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
                   'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
@@ -123,7 +123,7 @@ class SellDataSerializer(serializers.ModelSerializer):
                   'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent', 'suggest_category',
                   'stop_gain_result', 'stop_gain_percent', 'amount_available', 'operation_category', 'operation_category_display')
 
-        read_only_fields = ('stock_data', 'owner_data', 'owner', 'sell_value', 'result', 'gain_percent',
+        read_only_fields = ('stock_data', 'owner_data', 'owner', 'buy_price', 'sell_value', 'result', 'gain_percent',
                             'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_data',
                             'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
                             'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
