@@ -122,3 +122,6 @@ class ExperienceData(Operation):
                                                                self.operation_cost(),
                                                                self.stop_loss,
                                                                self.amount))
+
+    def intents(self):
+        return self.INTENTION

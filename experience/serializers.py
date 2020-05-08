@@ -43,7 +43,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('pk', 'owner', 'category', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'favorite', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'favorite', 'get_intent_display', 'stock_data', 'action',
+                  'target', 'favorite', 'get_intent_display', 'intent', 'stock_data', 'action',
                   'detailed')
         read_only_fields = ('creation_date', 'detailed', 'owner')
         model = ExperienceData
@@ -64,7 +64,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
     class Meta:
         fields = ('pk', 'owner', 'owner_data', 'creation_date', 'stock', 'amount', 'price', 'archived',
                   'nickname', 'category', 'category_display', 'categories', 'limit', 'stop_gain', 'stop_loss',
-                  'target', 'get_intent_display', 'stock_data', 'action', 'target_gain',
+                  'target', 'get_intent_display', 'intent', 'intents', 'stock_data', 'action', 'target_gain',
                   'detailed', 'operation_limit', 'cost', 'stock_cost', 'operation_average_price',
                   'average_cost', 'average_stock_cost', 'target_gain_total_percent',
                   'target_gain_percent', 'experience_gain', 'experience_gain_percent',
@@ -74,7 +74,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
                             'cost', 'stock_cost', 'operation_average_price', 'average_cost',
                             'average_stock_cost', 'target_gain_total_percent', 'target_gain_percent',
                             'experience_gain', 'experience_gain_percent', 'experience_total_gain_percent',
-                            'stop_loss_result', 'stop_loss_percent',
+                            'stop_loss_result', 'stop_loss_percent', 'intents',
                             'stop_loss_total_percent', 'categories', 'category_display')
         model = ExperienceData
 
