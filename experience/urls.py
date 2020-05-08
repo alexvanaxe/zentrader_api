@@ -30,7 +30,7 @@ from experience import views
 router = DefaultRouter()
 
 # Register the viewset
-router.register(r'experience', views.ExperienceDataViewSet, base_name='experience')
+router.register(r'experience', views.ExperienceDataViewSet, basename='experience')
 
 urlpatterns = [
     url(r'^experience_by_stock/(?P<stock_pk>.+)/$', views.ExperienceListByStock.as_view(), name='experience_by_stock'),

@@ -29,8 +29,8 @@ from sell import views
 router = DefaultRouter()
 
 # Register the viewset
-router.register(r'sell', views.SellDataViewSet, base_name='sell')
-router.register(r'sell_paginate', views.SellPaginatedDataViewSet, base_name='sell_pagination')
+router.register(r'sell', views.SellDataViewSet, basename='sell')
+router.register(r'sell_paginate', views.SellPaginatedDataViewSet, basename='sell_pagination')
 
 # Include the router to the patterns
 urlpatterns = [

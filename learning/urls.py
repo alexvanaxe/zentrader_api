@@ -28,8 +28,8 @@ import learning.views as views
 
 router = DefaultRouter()
 
-router.register(r'paper_buy', views.PaperBuyViewSet, base_name='paper_buy')
-router.register(r'paper_sell', views.PaperSellViewSet, base_name='paper_sell')
+router.register(r'paper_buy', views.PaperBuyViewSet, basename='paper_buy')
+router.register(r'paper_sell', views.PaperSellViewSet, basename='paper_sell')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
