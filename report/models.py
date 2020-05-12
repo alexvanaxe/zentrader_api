@@ -8,7 +8,7 @@ class Report():
     """
     Class containing some reports.
     """
-    def totalProfit(self):
+    def total_profit(self):
         """
         Returns the profit of all completed operations.
         """

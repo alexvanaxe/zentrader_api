@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from ir_br.models import IrBrManager, IrBr
 from ir_br.serializers import IrBrSerializer
 
+
 class IrBrApiView(APIView):
     """
     View that retrieves the ir to pay

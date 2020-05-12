@@ -6,6 +6,11 @@ incoming data.
 """
 from rest_framework import serializers
 
+
 class IrBrSerializer(serializers.Serializer):
+    """
+    Serializer of the principal ir information: how much we have to pay.
+    Has both, the ir and the day trade impost to pay.
+    """
     ir = serializers.DecimalField(max_digits=22, decimal_places=2)
     ir_daytrade = serializers.DecimalField(max_digits=22, decimal_places=2)

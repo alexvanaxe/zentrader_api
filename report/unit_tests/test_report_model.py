@@ -30,7 +30,8 @@ class ReportProfit(ReportModelTestCase):
         report = Report()
         create_operations(self, self.stock, self.user)
 
-        self.assertEqual("{0:.2f}".format(report.totalProfit()), "665.96")
+        self.assertEqual("{0:.2f}".format(report.total_profit()), "665.96")
+
 
 
 
