@@ -34,5 +34,6 @@ urlpatterns += (
     url(r"^api/v1/", include('learning.urls')),
     url(r"^api/v1/", include('report.urls')),
     url(r"^api/v1/", include('zen_fortune.urls')),
+    url(r"^api/v1/", include('trade_system.urls')),
     url(r"^oauth/", include('zen_oauth.urls'))
 )

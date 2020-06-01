@@ -30,7 +30,8 @@ class BuyDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the BuyData.
     """
-    queryset = BuyData.objects.all().order_by('archived', '-favorite', 'creation_date')
+    queryset = BuyData.objects.all().order_by('archived', '-favorite',
+                                              'creation_date')
     serializer_class = BuyDataSerializer
 
     filter_backends = (DjangoFilterBackend,)
@@ -44,7 +45,8 @@ class BuyPaginatedDataViewSet(viewsets.ModelViewSet):
     """
     A viewset representing the BuyData.
     """
-    queryset = BuyData.objects.all().order_by('archived', '-favorite', 'creation_date')
+    queryset = BuyData.objects.all().order_by('archived', '-favorite',
+                                              'creation_date')
     serializer_class = BuyDataSerializer
 
     filter_backends = (DjangoFilterBackend,)

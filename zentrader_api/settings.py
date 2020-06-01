@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'learning',
     'zen_oauth',
     'zen_fortune',
+    'trade_system',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

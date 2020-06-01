@@ -1,5 +1,1 @@
-" don;t show these file types
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
-
-let g:ctrlp_custom_ignore = '__pycache__'
-let g:deoplete#enable_at_startup = 1
+let $FZF_DEFAULT_COMMAND="fd --type f -E '*migration*'"
