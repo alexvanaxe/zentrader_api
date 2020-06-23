@@ -8,6 +8,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from account.models import Account
+from trade_system.models import Analysis
 from formulas import support_system_formulas
 
 # def get_image_path(instance, filename):
@@ -41,30 +42,37 @@ class Operation(models.Model):
     def __str__(self):
         return str(self.pk)
 
-    owner = models.ForeignKey('auth.User', related_name='operations', on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', related_name='operations',
+                              on_delete=models.CASCADE)
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     stock = models.ForeignKey('stock.Stock', on_delete=models.CASCADE)
-    creation_date = models.DateTimeField(_('creation date'), null=False, editable=False)
-    execution_date = models.DateTimeField(_('execution date'), null=True, blank=True)
-    amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0, null=False, blank=False)
-    price = models.DecimalField(_('stock value'), max_digits=22, decimal_places=2, null=False, blank=False)
-    category = models.CharField(max_length=2, choices=CATEGORY, default='NA', null=False, blank=False)
+    analysis = models.OneToOneField('trade_system.Analysis', null=True,
+                                    on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(_('creation date'), null=False,
+                                         editable=False)
+    execution_date = models.DateTimeField(_('execution date'), null=True,
+                                          blank=True)
+    amount = models.DecimalField(_('amount'), max_digits=22, decimal_places=0,
+                                 null=False, blank=False)
+    price = models.DecimalField(_('stock value'), max_digits=22,
+                                decimal_places=2, null=False, blank=False)
+    category = models.CharField(max_length=2, choices=CATEGORY, default='NA',
+                                null=False, blank=False)
     archived = models.BooleanField(_('archived'), default=False)
     executed = models.BooleanField(_('executed'), default=False)
-    nickname = models.TextField(_('nickname'), null=True, blank=True, max_length=100)
+    nickname = models.TextField(_('nickname'), null=True, blank=True,
+                                max_length=100)
 
     favorite = models.IntegerField(_('favorite'), default=0)
 
     # DEFINE THE MANAGERS
-    objects = models.Manager() # The default manager
-    executions = OperationManager() # The executed manager
+    objects = models.Manager()  # The default manager
+    executions = OperationManager()  # The executed manager
 
     dt_result = None
     kind_buffer = None
 
 #    chart = models.ImageField(_('chart graph'), null=True, blank=True, upload_to=get_image_path)
-#    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
-#    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22, decimal_places=2, null=True, blank=True)
     class Kind(Enum):
         EXPERIMENT = 1
         BUY = 2
@@ -118,6 +126,11 @@ class Operation(models.Model):
             self.account
         except Account.DoesNotExist:
             self.account = Account.objects.all().order_by('-pk')[0]
+
+        if self.analysis is None:
+            analysis = Analysis()
+            analysis.save()
+            self.analysis = analysis
 
         if not self.creation_date:
             self.creation_date = datetime.now()

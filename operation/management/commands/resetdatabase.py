@@ -7,6 +7,7 @@ from notes.models import Note
 from stock.models import Stock
 from account.models import default_account
 from learning.models import PaperBuy, PaperSell, PaperOperation
+from trade_system.models import Analysis
 
 
 class Command(BaseCommand):
@@ -41,6 +42,9 @@ class Command(BaseCommand):
         result = Operation.objects.all().delete()
         result = str(result)
         self.stdout.write(self.style.NOTICE("Deleted %s operations" % (result)))
+        result = Analysis.objects.all().delete()
+        result = str(result)
+        self.stdout.write(self.style.NOTICE("Deleted %s analysis" % (result)))
 
         account = default_account()
         account.equity = 10000

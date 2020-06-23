@@ -40,7 +40,7 @@ class AnalysisSerializer(serializers.ModelSerializer):
                                                         many=True)
 
     class Meta:
-        fields = ('pk', 'indicators', 'technical_analyze_data', "beginning",
-                  "end")
+        fields = ('pk', 'indicators', 'technical_analyze_data', "tunnel_top",
+                  "tunnel_bottom")
         read_only_fields = ('technical_analyze_data',)
         model = Analysis

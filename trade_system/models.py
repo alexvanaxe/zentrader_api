@@ -41,13 +41,11 @@ class Analysis(models.Model):
     indicators = models.ManyToManyField('trade_system.Indicator',
                                         through='TechnicalAnalyze')
 
-    beginning = models.DecimalField(_('beginning'), max_digits=22,
-                                    decimal_places=2,
-                                    null=True, blank=True)
-
-    end = models.DecimalField(_('end'), max_digits=22, decimal_places=2,
-                              null=True, blank=True)
+    tunnel_bottom = models.DecimalField(_('Bottom tunnel'), max_digits=22,
+                                        decimal_places=2, null=True,
+                                        blank=True)
+    tunnel_top = models.DecimalField(_('Top tunnel'), max_digits=22,
+                                     decimal_places=2, null=True, blank=True)
 
     def technical_analyze_data(self):
-        return self.indicators.all()[0].technicalanalyze_set.\
-                                        filter(analysis=self)
+        return self.technicalanalyze_set.all()

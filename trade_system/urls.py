@@ -28,9 +28,9 @@ from trade_system.views import AnalysisViewSet,\
 
 router = DefaultRouter()
 
-router.register(r'analysis', AnalysisViewSet, basename='analysis')
-router.register(r'indicator', IndicatorViewSet, basename='indicator')
-router.register(r'technical_analyze', TechnicalAnalyzeViewSet,
+router.register(r'trade-system/analysis', AnalysisViewSet, basename='analysis')
+router.register(r'trade-system/indicator', IndicatorViewSet, basename='indicator')
+router.register(r'trade-system/technical_analyze', TechnicalAnalyzeViewSet,
                 basename='technical_analyze')
 
 urlpatterns = [
