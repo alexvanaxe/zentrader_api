@@ -1,15 +1,17 @@
 """
-Allow the complex data from the model instance of the account to be converted to native Python datatypes,
+Allow the complex data from the model instance of the account to be converted
+to native Python datatypes,
 that can then be easily rendered into JSON, XML or other content types.
-Also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the
-incoming data.
+Also provide deserialization, allowing parsed data to be converted back into
+complex types, after first validating the incoming data.
 """
 from rest_framework import serializers
 
 from sell.models import SellData
 from stock.serializers import StockSerializer
 from zen_oauth.serializers import UserSerializer
-from operation.exceptions import NotEnoughMoney, NotEnoughStocks, OperationExecuted, NegativeStocksError
+from operation.exceptions import NotEnoughMoney, NotEnoughStocks,\
+    OperationExecuted, NegativeStocksError
 
 
 class SellValidator(object):
@@ -26,12 +28,15 @@ class SellValidator(object):
 
         try:
             if value['buy'] is not None:
-                amount_available = value['buy'].amount_available(executed_filter=None)
+                amount_available = value['buy'].amount_available(
+                    executed_filter=None)
             else:
-                amount_available = self.instance.amount_available(executed_filter=None)
+                amount_available = self.instance.amount_available(
+                    executed_filter=None)
 
         except KeyError:
-            amount_available = self.instance.amount_available(executed_filter=None)
+            amount_available = self.instance.amount_available(
+                executed_filter=None)
 
         if self.instance:
             amount_available = amount_available + self.instance.amount
@@ -115,24 +120,35 @@ class SellDataSerializer(serializers.ModelSerializer):
     owner_data = UserSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'owner', 'owner_data', 'buy', 'buy_price', 'executed', 'stock', 'creation_date', 'amount', 'price', 'archived',
-                  'nickname', 'favorite', 'category', 'category_display', 'categories',
-                  'stop_gain', 'stop_loss', 'amount_available', 'stock_data',
-                  'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
-                  'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
-                  'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent', 'suggest_category',
-                  'stop_gain_result', 'stop_gain_percent', 'amount_available', 'operation_category', 'operation_category_display')
+        fields = ('pk', 'owner', 'owner_data', 'buy', 'analysis', 'buy_price',
+                  'executed', 'stock', 'creation_date', 'amount', 'price',
+                  'archived', 'nickname', 'favorite', 'category',
+                  'category_display', 'categories', 'stop_gain', 'stop_loss',
+                  'amount_available', 'stock_data', 'sell_value', 'profit',
+                  'profit_percent', 'profit_total_percent', 'stock_profit',
+                  'stock_profit_total_percent', 'stock_profit_percent',
+                  'stock_data', 'stop_loss_result', 'stop_loss_percent',
+                  'stop_loss_total_percent', 'suggest_category',
+                  'stop_gain_result', 'stop_gain_percent', 'amount_available',
+                  'operation_category', 'operation_category_display')
 
-        read_only_fields = ('stock_data', 'owner_data', 'owner', 'buy_price', 'sell_value', 'result', 'gain_percent',
-                            'profit', 'profit_percent', 'profit_total_percent', 'amount_available', 'stock_data',
-                            'sell_value', 'profit', 'profit_percent', 'profit_total_percent',
-                            'stock_profit', 'stock_profit_total_percent', 'stock_profit_percent',
-                            'stock_data', 'stop_loss_result', 'stop_loss_percent', 'stop_loss_total_percent',
-                            'stop_gain_result', 'stop_gain_percent', 'amount_available', 'suggest_category',
-                            'categories', 'category_display', 'operation_category', 'operation_category_display')
+        read_only_fields = ('stock_data', 'owner_data', 'owner', 'buy_price',
+                            'sell_value', 'result', 'gain_percent', 'profit',
+                            'profit_percent', 'profit_total_percent',
+                            'amount_available', 'stock_data', 'sell_value',
+                            'profit', 'profit_percent', 'profit_total_percent',
+                            'stock_profit', 'stock_profit_total_percent',
+                            'stock_profit_percent', 'stock_data',
+                            'stop_loss_result', 'stop_loss_percent',
+                            'stop_loss_total_percent', 'stop_gain_result',
+                            'stop_gain_percent', 'amount_available',
+                            'suggest_category', 'categories',
+                            'category_display', 'operation_category',
+                            'operation_category_display')
         model = SellData
 
-        validators = [ExecutedValidator(), SellValidator(), NegativeStocksValidator()]
+        validators = [ExecutedValidator(), SellValidator(),
+                      NegativeStocksValidator()]
 
 
 class RiskDataSerializer(serializers.Serializer):

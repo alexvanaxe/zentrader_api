@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,6 +26,15 @@ class TechnicalAnalyze(models.Model):
     analysis = models.ForeignKey('trade_system.Analysis', null=True,
                                  on_delete=models.CASCADE)
     comment = models.TextField(_('comment'))
+
+    creation_date = models.DateTimeField(_('creation date'), null=False,
+                                         editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.creation_date:
+            self.creation_date = datetime.now()
+
+        super().save(*args, **kwargs)
 
     def indicator_data(self):
         """

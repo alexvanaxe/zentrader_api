@@ -27,8 +27,9 @@ class TechnicalAnalyzeSerializer(serializers.ModelSerializer):
     indicator_data = IndicatorSerializer(read_only=True)
 
     class Meta:
-        fields = ('pk', 'indicator', 'analysis', 'comment', 'indicator_data')
-        read_only_fields = ('indicator_data',)
+        fields = ('pk', 'indicator', 'analysis', 'comment', 'indicator_data',
+                  'creation_date')
+        read_only_fields = ('indicator_data', 'creation_date')
         model = TechnicalAnalyze
 
 
