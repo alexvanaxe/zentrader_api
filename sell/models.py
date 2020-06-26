@@ -141,6 +141,12 @@ class SellData(Operation):
         """
         return Decimal(support_system_formulas.calculate_sell(self.amount, self.price, self.operation_cost()))
 
+    def gain_per_stock(self):
+        """
+        Returns the gain per stock.
+        """
+        return self.price - self.buy_price() 
+
     def stop_gain_result(self):
         """
         Calculate the operation result case the stop is hit.

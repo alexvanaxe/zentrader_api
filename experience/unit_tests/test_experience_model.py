@@ -1,4 +1,3 @@
-
 from django.test.testcases import TestCase
 from django.core.cache import cache
 

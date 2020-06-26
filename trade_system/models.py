@@ -1,6 +1,9 @@
+from decimal import Decimal, ROUND_DOWN
 from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+from formulas import support_system_formulas
 
 
 class Indicator(models.Model):
@@ -59,3 +62,15 @@ class Analysis(models.Model):
 
     def technical_analyze_data(self):
         return self.technicalanalyze_set.all()
+
+    def grade(self):
+        gain = self.operation.gain_per_stock()
+        try:
+            return Decimal(support_system_formulas.calculate_grade(gain,
+                                                                   self.tunnel_top,
+                                                                   self.tunnel_bottom))
+        except(TypeError):
+            return None
+
+    def grade_symbol(self):
+        return support_system_formulas.calculate_grade_symbol(self.grade())

@@ -236,6 +236,15 @@ class Operation(models.Model):
         except TypeError:
             return None
 
+    def gain_per_stock(self):
+        if self.kind() is self.Kind.EXPERIMENT:
+            return self.experiencedata.gain_per_stock()
+
+        if self.kind() is self.Kind.SELL:
+            return self.selldata.gain_per_stock()
+
+        return self.price - self.stock.price
+
     def calculate_gain_percent(self, sell_price=None, buy_price=None):
         if sell_price is None:
             return None

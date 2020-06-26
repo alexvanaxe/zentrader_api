@@ -80,7 +80,7 @@ def calculate_grade(gain, top, bottom):
 
     """
     try:
-        return eval(getParsedFormula(GRADE))
+        return eval(getParsedFormula(GRADE)) * 100
     except TypeError:
         pass
 
