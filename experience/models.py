@@ -66,7 +66,10 @@ class ExperienceData(Operation):
             return self.calculate_gain(self.target)
 
     def gain_per_stock(self):
-        return self.target - self.price
+        try:
+            return self.target - self.price
+        except(TypeError):
+            return None
 
     def target_gain_total_percent(self):
         target_value = self.target_gain()
