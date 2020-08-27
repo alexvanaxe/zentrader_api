@@ -61,7 +61,7 @@ class Analysis(models.Model):
                                      decimal_places=2, null=True, blank=True)
 
     def technical_analyze_data(self):
-        return self.technicalanalyze_set.all()
+        return self.technicalanalyze_set.all().order_by('-pk')
 
     def grade(self):
         gain = self.operation.gain_per_stock()
