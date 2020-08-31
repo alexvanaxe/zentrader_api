@@ -11,7 +11,7 @@ class NotesModelViewSet(viewsets.ModelViewSet):
     """
     A Model View Set representing the Notes.
     """
-    queryset = Note.objects.all()
+    queryset = Note.objects.all().order_by('-pk')
     serializer_class = NoteSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('operation', )
