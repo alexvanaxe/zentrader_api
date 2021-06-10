@@ -4,61 +4,144 @@
 #
 #    pip-compile
 #
-alabaster==0.7.12         # via sphinx
-appdirs==1.4.3            # via virtualenv
-asgiref==3.2.7            # via django
-autopep8==1.5.2           # via django-silk
-babel==2.8.0              # via sphinx
-certifi==2020.4.5.1       # via pipenv, requests
-chardet==3.0.4            # via requests
-distlib==0.3.0            # via virtualenv
-dj-database-url==0.5.0    # via -r requirements.in
-django-appconf==1.0.4     # via -r requirements.in
-django-cors-headers==3.2.1  # via -r requirements.in
-django-extensions==2.2.9  # via -r requirements.in
-django-filter==2.2.0      # via -r requirements.in
-django-oauth-toolkit==1.3.2  # via -r requirements.in
-django-request-logging==0.7.1  # via -r requirements.in
-django-silk==4.0.1        # via -r requirements.in
-django==3.0.6             # via -r requirements.in, django-appconf, django-cors-headers, django-filter, django-oauth-toolkit, django-request-logging, django-silk, djangorestframework
-djangorestframework-jwt==1.11.0  # via -r requirements.in
-djangorestframework==3.11.0  # via -r requirements.in
-docutils==0.16            # via sphinx
-filelock==3.0.12          # via virtualenv
-fortune==1.1.0            # via -r requirements.in
-gprof2dot==2019.11.30     # via django-silk
-grizzled-python==2.2.0    # via fortune
-gunicorn==20.0.4          # via -r requirements.in
-idna==2.9                 # via requests
-imagesize==1.2.0          # via sphinx
-jinja2==2.11.2            # via django-silk, sphinx
-markupsafe==1.1.1         # via jinja2
-oauthlib==3.1.0           # via django-oauth-toolkit
-packaging==20.3           # via sphinx
-pipenv==2018.11.26        # via -r requirements.in
-psycopg2-binary==2.8.5    # via -r requirements.in
-pycodestyle==2.5.0        # via autopep8
-pydotplus==2.0.2          # via -r requirements.in
-pygments==2.6.1           # via django-silk, sphinx
-pyjwt==1.7.1              # via djangorestframework-jwt
-pyparsing==2.4.7          # via packaging, pydotplus
-python-dateutil==2.8.1    # via django-silk
-pytz==2020.1              # via babel, django, django-silk
-requests==2.23.0          # via django-oauth-toolkit, django-silk, sphinx
-six==1.14.0               # via django-extensions, packaging, python-dateutil, virtualenv
-snowballstemmer==2.0.0    # via sphinx
-sphinx==3.0.3             # via -r requirements.in
-sphinxcontrib-applehelp==1.0.2  # via sphinx
-sphinxcontrib-devhelp==1.0.2  # via sphinx
-sphinxcontrib-htmlhelp==1.0.3  # via sphinx
-sphinxcontrib-jsmath==1.0.1  # via sphinx
-sphinxcontrib-qthelp==1.0.3  # via sphinx
-sphinxcontrib-serializinghtml==1.1.4  # via sphinx
-sqlparse==0.3.1           # via django, django-silk
-urllib3==1.25.9           # via requests
-virtualenv-clone==0.5.4   # via pipenv
-virtualenv==20.0.20       # via pipenv
-whitenoise==5.0.1         # via -r requirements.in
+alabaster==0.7.12
+    # via sphinx
+appdirs==1.4.3
+    # via virtualenv
+asgiref==3.3.4
+    # via django
+autopep8==1.5.2
+    # via django-silk
+babel==2.8.0
+    # via sphinx
+certifi==2020.4.5.1
+    # via
+    #   pipenv
+    #   requests
+chardet==3.0.4
+    # via requests
+distlib==0.3.0
+    # via virtualenv
+dj-database-url==0.5.0
+    # via -r requirements.in
+django-appconf==1.0.4
+    # via -r requirements.in
+django-cors-headers==3.2.1
+    # via -r requirements.in
+django-extensions==2.2.9
+    # via -r requirements.in
+django-filter==2.2.0
+    # via -r requirements.in
+django-oauth-toolkit==1.3.2
+    # via -r requirements.in
+django-request-logging==0.7.1
+    # via -r requirements.in
+django-silk==4.0.1
+    # via -r requirements.in
+django==3.1.12
+    # via
+    #   -r requirements.in
+    #   django-appconf
+    #   django-cors-headers
+    #   django-filter
+    #   django-oauth-toolkit
+    #   django-request-logging
+    #   django-silk
+    #   djangorestframework
+djangorestframework-jwt==1.11.0
+    # via -r requirements.in
+djangorestframework==3.11.0
+    # via -r requirements.in
+docutils==0.16
+    # via sphinx
+filelock==3.0.12
+    # via virtualenv
+fortune==1.1.0
+    # via -r requirements.in
+gprof2dot==2019.11.30
+    # via django-silk
+grizzled-python==2.2.0
+    # via fortune
+gunicorn==20.0.4
+    # via -r requirements.in
+idna==2.9
+    # via requests
+imagesize==1.2.0
+    # via sphinx
+jinja2==2.11.2
+    # via
+    #   django-silk
+    #   sphinx
+markupsafe==1.1.1
+    # via jinja2
+oauthlib==3.1.0
+    # via django-oauth-toolkit
+packaging==20.3
+    # via sphinx
+pipenv==2018.11.26
+    # via -r requirements.in
+psycopg2-binary==2.8.5
+    # via -r requirements.in
+pycodestyle==2.5.0
+    # via autopep8
+pydotplus==2.0.2
+    # via -r requirements.in
+pygments==2.6.1
+    # via
+    #   django-silk
+    #   sphinx
+pyjwt==1.7.1
+    # via djangorestframework-jwt
+pyparsing==2.4.7
+    # via
+    #   packaging
+    #   pydotplus
+python-dateutil==2.8.1
+    # via django-silk
+pytz==2020.1
+    # via
+    #   babel
+    #   django
+    #   django-silk
+requests==2.23.0
+    # via
+    #   django-oauth-toolkit
+    #   django-silk
+    #   sphinx
+six==1.14.0
+    # via
+    #   django-extensions
+    #   packaging
+    #   python-dateutil
+    #   virtualenv
+snowballstemmer==2.0.0
+    # via sphinx
+sphinx==3.0.3
+    # via -r requirements.in
+sphinxcontrib-applehelp==1.0.2
+    # via sphinx
+sphinxcontrib-devhelp==1.0.2
+    # via sphinx
+sphinxcontrib-htmlhelp==1.0.3
+    # via sphinx
+sphinxcontrib-jsmath==1.0.1
+    # via sphinx
+sphinxcontrib-qthelp==1.0.3
+    # via sphinx
+sphinxcontrib-serializinghtml==1.1.4
+    # via sphinx
+sqlparse==0.3.1
+    # via
+    #   django
+    #   django-silk
+urllib3==1.25.9
+    # via requests
+virtualenv-clone==0.5.4
+    # via pipenv
+virtualenv==20.0.20
+    # via pipenv
+whitenoise==5.0.1
+    # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
