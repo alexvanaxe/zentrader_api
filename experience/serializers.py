@@ -38,7 +38,7 @@ class ExperienceDataSerializer(serializers.ModelSerializer):
     """
 
     stock_data = StockSerializer(read_only=True)
-    detailed = serializers.BooleanField('detailed', default=False)
+    detailed = serializers.ReadOnlyField()
     category = serializers.CharField(label='category',
                                      max_length=2, default='NA')
 
@@ -61,7 +61,7 @@ class ExperienceDataSerializerDetailed(serializers.ModelSerializer):
     """
 
     stock_data = StockSerializer(read_only=True)
-    detailed = serializers.BooleanField('detailed', default=True)
+    detailed = serializers.ReadOnlyField()
     owner_data = UserSerializer(read_only=True)
     category = serializers.CharField(label='category',
                                      max_length=2, default='NA')

@@ -36,6 +36,7 @@ class NegativeStocksValidator(object):
 class MoneyValidator(object):
     def __init__(self, queryset, fields):
         self.account = queryset
+        self.instance = None
 
     def __call__(self, value):
         if self.instance is None or not self.instance.pk:

@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from django.db import models
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from operation.models import Operation
 from formulas import support_system_formulas

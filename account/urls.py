@@ -21,7 +21,7 @@ Examples:
     1. snippet_list = SnippetViewSet.as_view({'get': 'list','post': 'create'})
 """
 
-from django.conf.urls import url, include
+from django.urls import path, re_path, include
 from account import views
 from rest_framework.routers import DefaultRouter
 
@@ -32,9 +32,9 @@ router = DefaultRouter()
 router.register(r'account', views.AccountViewSet)
 
 urlpatterns = [
-    url(r'^account/default\.(?P<format>[a-z0-9]+)/?$',
+    re_path(r'^account/default\.(?P<format>[a-z0-9]+)/?$',
         views.AccountDefault.as_view(), name="account_default"),
-    url(r'^account/default/$',
+    path('account/default/',
         views.AccountDefault.as_view(), name="account_default"),
-    url(r'^', include(router.urls))
+    path('', include(router.urls))
 ]

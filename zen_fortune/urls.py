@@ -20,13 +20,13 @@ Examples:
     1. snippet_list = SnippetViewSet.as_view({'get': 'list','post': 'create'})
 """
 
-from django.conf.urls import url, include
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from zen_fortune import views
 
 urlpatterns = [
-    url(r'^fortune/$', views.ZenFortuneAPIView.as_view(), name="zen_fortune"),
+    path('fortune/', views.ZenFortuneAPIView.as_view(), name="zen_fortune"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

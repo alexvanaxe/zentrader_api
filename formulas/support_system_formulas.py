@@ -5,7 +5,7 @@ To be adherent to the DRY principle, all the mathematical formulas are to be con
  methods that performs the calculations itself.
 """
 
-import parser
+import ast
 from decimal import Decimal, ROUND_DOWN
 
 # Imposts and taxes constants
@@ -279,8 +279,8 @@ def getParsedFormula(formula):
     :return: Returns a code to be processed
 
     """
-    code = parser.expr(formula).compile()
-    return code
+    # code = parser.expr(formula).compile()
+    return formula
 
 
 def calculate_grade_symbol(grade):

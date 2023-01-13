@@ -21,15 +21,15 @@ Examples:
 """
 
 # Create a router for the viewset
-from django.conf.urls import url
+from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from ir_br import views
 
 # Include the router to the patterns
 urlpatterns = [
-    url(r'^ir_br/$', views.IrBrApiView.as_view(), name="ir_br"),
-    url(r'^ir_br/(?P<date>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/$', views.IrBrApiGetView.as_view(), name="ir_br_date"),
+    path('ir_br', views.IrBrApiView.as_view(), name="ir_br"),
+    re_path(r'^ir_br/(?P<date>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/$', views.IrBrApiGetView.as_view(), name="ir_br_date"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

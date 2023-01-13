@@ -19,7 +19,7 @@ For the django rest used here please see:
 Examples:
     1. snippet_list = SnippetViewSet.as_view({'get': 'list','post': 'create'})
 """
-from django.conf.urls import url, include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from trade_system.views import AnalysisViewSet,\
@@ -34,5 +34,5 @@ router.register(r'trade-system/technical_analyze', TechnicalAnalyzeViewSet,
                 basename='technical_analyze')
 
 urlpatterns = [
-        url(r'^', include(router.urls)),
+        path('', include(router.urls)),
 ]

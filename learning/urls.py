@@ -21,7 +21,7 @@ Examples:
 """
 
 # Create a router for the viewset
-from django.conf.urls import url, include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 import learning.views as views
@@ -32,5 +32,5 @@ router.register(r'paper_buy', views.PaperBuyViewSet, basename='paper_buy')
 router.register(r'paper_sell', views.PaperSellViewSet, basename='paper_sell')
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]

@@ -1,6 +1,6 @@
 from django.db import models
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
 
 from operation.models import Operation
@@ -28,6 +28,9 @@ class ExperienceData(Operation):
     action = models.TextField(_('action'), null=True, blank=True, max_length=140)
     estimated_date = models.DateTimeField(_('estimated_date'), null=True, blank=True)
     intent = models.CharField(max_length=1, null=True, blank=True, choices=INTENTION, default=BUY)
+
+    def detailed(self):
+        return True
 
     def kind(self):
         self.kind_buffer = self.Kind.EXPERIMENT

@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_DOWN
 
 from formulas import support_system_formulas
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 import account.models as account
 

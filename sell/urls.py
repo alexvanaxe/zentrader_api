@@ -21,7 +21,7 @@ Examples:
 """
 
 # Create a router for the viewset
-from django.conf.urls import url, include
+from django.urls import path, re_path, include
 from rest_framework.routers import DefaultRouter
 
 from sell import views
@@ -34,7 +34,7 @@ router.register(r'sell_paginate', views.SellPaginatedDataViewSet, basename='sell
 
 # Include the router to the patterns
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^risk/$', views.RiskDataApiView.as_view(), name="risk_data"),
-    url(r'^risk\.(?P<format>[a-z0-9]+)/?$', views.RiskDataApiView.as_view(), name="risk_data"),
+    path('', include(router.urls)),
+    path('risk', views.RiskDataApiView.as_view(), name="risk_data"),
+    re_path(r'^risk\.(?P<format>[a-z0-9]+)/?$', views.RiskDataApiView.as_view(), name="risk_data"),
 ]

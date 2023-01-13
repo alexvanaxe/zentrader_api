@@ -21,7 +21,7 @@ Examples:
 """
 
 
-from django.conf.urls import url, include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from notes import views
@@ -31,5 +31,5 @@ router = DefaultRouter()
 router.register(r'note', views.NotesModelViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]

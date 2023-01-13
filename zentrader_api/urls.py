@@ -13,27 +13,28 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import path
+from django.conf.urls import include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]
 
 #urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
 
 urlpatterns += (
-    url(r"^api/v1/", include('stock.urls')),
-    url(r"^api/v1/", include('operation.urls')),
-    url(r"^api/v1/", include('experience.urls')),
-    url(r"^api/v1/", include('buy.urls')),
-    url(r"^api/v1/", include('sell.urls')),
-    url(r"^api/v1/", include('ir_br.urls')),
-    url(r"^api/v1/", include('account.urls')),
-    url(r"^api/v1/", include('notes.urls')),
-    url(r"^api/v1/", include('learning.urls')),
-    url(r"^api/v1/", include('report.urls')),
-    url(r"^api/v1/", include('zen_fortune.urls')),
-    url(r"^api/v1/", include('trade_system.urls')),
-    url(r"^oauth/", include('zen_oauth.urls'))
+    path("api/v1/", include('stock.urls')),
+    path("api/v1/", include('operation.urls')),
+    path("api/v1/", include('experience.urls')),
+    path("api/v1/", include('buy.urls')),
+    path("api/v1/", include('sell.urls')),
+    path("api/v1/", include('ir_br.urls')),
+    path("api/v1/", include('account.urls')),
+    path("api/v1/", include('notes.urls')),
+    path("api/v1/", include('learning.urls')),
+    path("api/v1/", include('report.urls')),
+    path("api/v1/", include('zen_fortune.urls')),
+    path("api/v1/", include('trade_system.urls')),
+    path("oauth/", include('zen_oauth.urls'))
 )

@@ -6,7 +6,7 @@ import requests
 import json
 
 from django.db.models import Sum, Q
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from operation.models import Operation
 from buy.models import BuyData
 from sell.models import SellData

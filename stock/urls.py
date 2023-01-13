@@ -20,7 +20,7 @@ Examples:
     1. snippet_list = SnippetViewSet.as_view({'get': 'list','post': 'create'})
 """
 
-from django.conf.urls import url, include
+from django.urls import path, re_path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -34,13 +34,13 @@ router.register(r'stock', views.StockViewSet)
 
 #TODO: Maybe create a new app "Portfolio" for this resume?
 urlpatterns = [
-    url(r'^stock/resume/$', views.OwnedStocksAPIView.as_view(), name="resume"),
-    url(r'^stock/user_resume/$', views.OwnedByUserStocksAPIView.as_view(), name="user_resume"),
-    url(r'^stock/updated_stock/(?P<pk>[^/.]+)/$', views.StockApiView.as_view(), name="updated_stock")
+    path('stock/resume/', views.OwnedStocksAPIView.as_view(), name="resume"),
+    path('stock/user_resume/', views.OwnedByUserStocksAPIView.as_view(), name="user_resume"),
+    re_path(r'^stock/updated_stock/(?P<pk>[^/.]+)/$', views.StockApiView.as_view(), name="updated_stock")
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
 
 urlpatterns += [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]
