@@ -15,10 +15,12 @@ from operation.exceptions import NotEnoughMoney, NotEnoughStocks,\
 
 
 class SellValidator(object):
+    requires_context = True
     def __init__(self):
         pass
 
-    def __call__(self, value):
+    def __call__(self, value, serializer_field):
+        self.set_context(serializer_field)
         amount_edited = 0
         try:
             amount = value['amount']
@@ -33,7 +35,6 @@ class SellValidator(object):
             else:
                 amount_available = self.instance.amount_available(
                     executed_filter=None)
-
         except KeyError:
             amount_available = self.instance.amount_available(
                 executed_filter=None)
@@ -56,10 +57,13 @@ class SellValidator(object):
 
 
 class MoneyValidator(object):
+    requires_context = True
     def __init__(self, queryset, fields):
         self.account = queryset
+        self.instance = None
 
-    def __call__(self, value):
+    def __call__(self, value, serializer_field):
+        self.set_context(serializer_field)
         if self.instance is None or not self.instance.pk:
             cost = value['amount'] * value['price']
             account_selected = self.account.order_by('-pk')[0]
@@ -77,10 +81,12 @@ class MoneyValidator(object):
 
 class NegativeStocksValidator(object):
     """ Validate if the value is greater than zero """
+    requires_context = True
     def __init__(self):
-        pass
+        self.instance = None
 
-    def __call__(self, value):
+    def __call__(self, value, serializer_field):
+        self.set_context(serializer_field)
         amount_requested = 0
         try:
             amount_requested = value['amount']
@@ -95,10 +101,12 @@ class NegativeStocksValidator(object):
 
 
 class ExecutedValidator(object):
+    requires_context = True
     def __init__(self):
-        pass
+        self.instance = None
 
-    def __call__(self, value):
+    def __call__(self, value, serializer_field):
+        self.set_context(serializer_field)
         if self.instance and self.instance.pk:
             if self.instance.executed:
                 raise OperationExecuted()
@@ -147,8 +155,7 @@ class SellDataSerializer(serializers.ModelSerializer):
                             'operation_category_display')
         model = SellData
 
-        validators = [ExecutedValidator(), SellValidator(),
-                      NegativeStocksValidator()]
+        validators = [ExecutedValidator(), SellValidator(), NegativeStocksValidator()]
 
 
 class RiskDataSerializer(serializers.Serializer):
