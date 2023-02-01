@@ -240,8 +240,10 @@ class Stock(models.Model):
                                                                 operation.price,
                                                                 operation.operation_cost())
 
-                actual_average_price = ((actual_average_price * net_amount) +
-                                        (operation_average_price * operation.amount))/(net_amount + operation.amount)
+                acc_amount = (net_amount + operation.amount)
+
+                if acc_amount > 0:
+                    actual_average_price = ((actual_average_price * net_amount) + (operation_average_price * operation.amount))/acc_amount
 
                 net_amount += operation.amount
             if operation.kind() == Operation.Kind.SELL:
