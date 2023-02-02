@@ -25,7 +25,7 @@ SECRET_KEY = 'dgqa^31h2g&7yzqp6m!-)f_7cau*9(w0or((@fak639=oo=o53'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["zentraderapi.herokuapp.com", "localhost", "elohfree.sytes.net"]
+ALLOWED_HOSTS = ["localhost", "192.168.0.101"]
 
 
 # Application definition
@@ -61,6 +61,8 @@ INSTALLED_APPS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CSRF_TRUSTED_ORIGINS = ['http://192.168.0.101:8001', 'http://localhost:8001']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,6 +115,7 @@ DATABASES = {
 }
 
 # Update database configuration with $DATABASE_URL.
+# set it to postgres://zentrader_prod:zentrader_prod@localhost/zentrader_prod
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 

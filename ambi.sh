@@ -1,4 +1,3 @@
 #!/bin/bash
 
-#pyenv activate zentrader
-python manage.py runserver 192.168.15.8:8000
+export DATABASE_URL='postgres://zentrader_prod:zentrader_prod@localhost/zentrader_prod'
