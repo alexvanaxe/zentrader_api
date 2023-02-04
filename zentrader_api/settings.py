@@ -25,7 +25,7 @@ SECRET_KEY = 'dgqa^31h2g&7yzqp6m!-)f_7cau*9(w0or((@fak639=oo=o53'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "192.168.0.101"]
+ALLOWED_HOSTS = ["localhost", "192.168.0.101", "54.160.92.36"]
 
 
 # Application definition
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ['http://192.168.0.101:8001', 'http://localhost:8001']
+CSRF_TRUSTED_ORIGINS = ['http://192.168.0.101:8001', 'http://localhost:8001', '54.160.92.36']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
