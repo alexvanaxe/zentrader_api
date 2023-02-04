@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ['http://192.168.0.101:8001', 'http://localhost:8001', 'http://54.160.92.36']
+CSRF_TRUSTED_ORIGINS = ['http://192.168.0.101:8001', 'http://localhost:8001', 'http://54.160.92.36:8001']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
