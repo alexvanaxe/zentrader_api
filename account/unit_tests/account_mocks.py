@@ -7,6 +7,12 @@ def create_account(cls):
                                          operation_cost_position=10,
                                          equity=100000)
 
+def create_zero_account(cls):
+    cls.account_zero = Account.objects.create(broker="test", operation_cost_day_trade=0,
+                                         operation_cost_fraction=0,
+                                         operation_cost_position=0,
+                                         equity=100000)
+
 
 def create_second_account(cls):
     if not cls.account:
