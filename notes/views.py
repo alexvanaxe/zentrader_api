@@ -13,5 +13,5 @@ class NotesModelViewSet(viewsets.ModelViewSet):
     """
     queryset = Note.objects.all().order_by('-pk')
     serializer_class = NoteSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('operation', )
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['operation']
